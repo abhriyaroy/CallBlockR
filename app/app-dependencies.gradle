@@ -1,0 +1,27 @@
+apply from: '../dependencies.gradle'
+
+ext.app_module_dependencies = {
+    dependencies {
+        implementation deps.kotlin
+        implementation deps.androidx_appcompat
+        implementation deps.core_ktx
+        implementation deps.constraint_layout
+        // Coroutine
+        implementation deps.coroutine.core
+        implementation deps.coroutine.android
+        // Koin for Android
+        implementation deps.koin.android
+        implementation deps.koin.viewmodel
+        implementation deps.koin.fragment
+        implementation deps.koin.ext
+        // Lifecycle components
+        implementation deps.lifecycle_component.extension
+        kapt deps.lifecycle_component.compiler
+        // Viewmodel
+        implementation deps.viewmodel
+        // Recyclerview
+        implementation deps.recyclerview
+        // Glide
+        implementation deps.glide
+    }
+}

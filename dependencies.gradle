@@ -1,0 +1,40 @@
+apply from: '../versions.gradle'
+
+ext.deps = [:]
+
+def deps = [:]
+
+deps.kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION"
+
+deps.androidx_appcompat = "androidx.appcompat:appcompat:$APP_COMPAT_VERSION"
+
+deps.core_ktx = "androidx.core:core-ktx:$KTX_VERSION"
+
+deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION"
+
+def coroutine = [:]
+coroutine.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE_VERSION"
+coroutine.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINE_VERSION"
+deps.coroutine = coroutine
+
+def koin = [:]
+koin.android = "org.koin:koin-android:$KOIN_VERSION"
+koin.viewmodel = "org.koin:koin-androidx-viewmodel:$KOIN_VERSION"
+koin.fragment = "org.koin:koin-androidx-fragment:$KOIN_VERSION"
+koin.ext = "org.koin:koin-androidx-ext:$KOIN_VERSION"
+deps.koin = koin
+
+deps.lottie = "com.airbnb.android:lottie:$LOTTIE_VERSION"
+
+def lifecycle_component = [:]
+lifecycle_component.extension = "android.arch.lifecycle:extensions:$LIFECYCLE_VERSION"
+lifecycle_component.compiler = "android.arch.lifecycle:compiler:$LIFECYCLE_VERSION"
+deps.lifecycle_component = lifecycle_component
+
+deps.viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$VIEWMODEL_VERSION"
+
+deps.recyclerview = "androidx.recyclerview:recyclerview:$RECYCLER_VIEW_VERSION"
+
+deps.glide = "com.github.bumptech.glide:glide:$GLIDE_VERSION"
+
+ext.deps = deps
