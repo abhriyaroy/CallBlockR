@@ -1,8 +1,8 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply from: './app-dependencies.gradle'
+apply from: './database-dependencies.gradle'
 apply from: '../config.gradle'
 
 android {
@@ -10,11 +10,12 @@ android {
     buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
-        applicationId APPLICATION_ID
         minSdkVersion MIN_SDK_VERSION
         targetSdkVersion TARGET_SDK_VERSION
         versionCode APP_VERSION
         versionName APP_VERSION_CODE
+
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -25,4 +26,4 @@ android {
     }
 }
 
-app_module_dependencies()
+database_dependencies()

@@ -1,3 +1,5 @@
+include ':commons'
+include ':database'
 include ':systempermissions'
 include ':app'
 rootProject.name = "CallBlocker"

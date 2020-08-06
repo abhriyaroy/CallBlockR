@@ -1,0 +1,16 @@
+apply from: '../dependencies.gradle'
+
+ext.database_dependencies = {
+    dependencies{
+        // Core
+        implementation deps.kotlin
+        implementation deps.androidx_appcompat
+        implementation deps.core_ktx
+        implementation deps.constraint_layout
+        // Dagger
+        implementation deps.dagger.core
+        implementation deps.dagger.android
+        implementation deps.dagger.compiler_annotation
+        implementation deps.dagger.processor_annotation
+    }
+}

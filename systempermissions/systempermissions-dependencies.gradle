@@ -1,0 +1,11 @@
+apply from: '../dependencies.gradle'
+
+ext.system_permission_dependencies = {
+    dependencies{
+        // Core
+        implementation deps.kotlin
+        implementation deps.androidx_appcompat
+        implementation deps.core_ktx
+        implementation deps.constraint_layout
+    }
+}

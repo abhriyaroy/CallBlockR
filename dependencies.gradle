@@ -37,4 +37,15 @@ deps.recyclerview = "androidx.recyclerview:recyclerview:$RECYCLER_VIEW_VERSION"
 
 deps.glide = "com.github.bumptech.glide:glide:$GLIDE_VERSION"
 
+def dagger = [:]
+dagger.core = "com.google.dagger:dagger:$DAGGER_VERSION"
+dagger.android = "com.google.dagger:dagger-android-support:$DAGGER_VERSION"
+dagger.compiler_annotation = "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+dagger.processor_annotation =  "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
+deps.dagger = dagger
+
+deps.database = project(':database')
+
+deps.system_permissions = project(':systempermissions')
+
 ext.deps = deps

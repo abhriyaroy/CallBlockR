@@ -23,5 +23,14 @@ ext.app_module_dependencies = {
         implementation deps.recyclerview
         // Glide
         implementation deps.glide
+        // Dagger
+        implementation deps.dagger.core
+        implementation deps.dagger.android
+        implementation deps.dagger.compiler_annotation
+        implementation deps.dagger.processor_annotation
+
+        // Module dependencies
+        implementation deps.database
+        implementation deps.system_permissions
     }
 }
