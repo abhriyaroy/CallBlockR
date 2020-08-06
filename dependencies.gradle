@@ -44,6 +44,8 @@ dagger.compiler_annotation = "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
 dagger.processor_annotation =  "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
 deps.dagger = dagger
 
+deps.multidex = "androidx.multidex:multidex:$MULTIDEX_VERSION"
+
 deps.database = project(':database')
 
 deps.system_permissions = project(':systempermissions')

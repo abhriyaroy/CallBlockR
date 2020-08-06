@@ -6,14 +6,11 @@ ext.app_module_dependencies = {
         implementation deps.androidx_appcompat
         implementation deps.core_ktx
         implementation deps.constraint_layout
+        // Multidex
+        implementation deps.multidex
         // Coroutine
         implementation deps.coroutine.core
         implementation deps.coroutine.android
-        // Koin for Android
-        implementation deps.koin.android
-        implementation deps.koin.viewmodel
-        implementation deps.koin.fragment
-        implementation deps.koin.ext
         // Lifecycle components
         implementation deps.lifecycle_component.extension
         kapt deps.lifecycle_component.compiler
@@ -26,8 +23,8 @@ ext.app_module_dependencies = {
         // Dagger
         implementation deps.dagger.core
         implementation deps.dagger.android
-        implementation deps.dagger.compiler_annotation
-        implementation deps.dagger.processor_annotation
+        kapt deps.dagger.compiler_annotation
+        kapt deps.dagger.processor_annotation
 
         // Module dependencies
         implementation deps.database

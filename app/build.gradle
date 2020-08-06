@@ -15,6 +15,7 @@ android {
         targetSdkVersion TARGET_SDK_VERSION
         versionCode APP_VERSION
         versionName APP_VERSION_CODE
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -22,6 +23,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
