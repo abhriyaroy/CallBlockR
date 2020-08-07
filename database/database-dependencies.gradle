@@ -1,7 +1,7 @@
 apply from: '../dependencies.gradle'
 
 ext.database_dependencies = {
-    dependencies{
+    dependencies {
         // Core
         implementation deps.kotlin
         implementation deps.androidx_appcompat
@@ -12,5 +12,9 @@ ext.database_dependencies = {
         implementation deps.dagger.android
         kapt deps.dagger.compiler_annotation
         kapt deps.dagger.processor_annotation
+        // Room
+        implementation deps.room.core
+        kapt deps.room.annotation_compiler
+        implementation deps.room.coroutines_ext
     }
 }
