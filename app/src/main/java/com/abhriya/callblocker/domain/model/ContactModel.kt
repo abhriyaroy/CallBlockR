@@ -1,6 +1,6 @@
 package com.abhriya.callblocker.domain.model
 
-data class ContactsModel(
-    val name: String?,
+data class ContactModel(
+    val name: String? = null,
     val phoneNumber: String
 )

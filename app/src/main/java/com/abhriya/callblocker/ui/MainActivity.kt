@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.abhriya.callblocker.R
 import com.abhriya.callblocker.databinding.ActivityMainBinding
+import com.abhriya.callblocker.ui.blockedcontact.BlockedContactsFragment
+import com.abhriya.callblocker.ui.unblockedcontact.UnBlockedContactsFragment
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import dagger.android.AndroidInjection

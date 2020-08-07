@@ -1,5 +1,6 @@
 package com.abhriya.callblocker.di
 
+import com.abhriya.callblocker.data.ContactsRepository
 import com.abhriya.callblocker.domain.ContactsInteractor
 import com.abhriya.callblocker.domain.ContactsUseCase
 import dagger.Module
@@ -11,5 +12,6 @@ class DomainModule {
 
     @Provides
     @Singleton
-    fun providesContactsUseCase() : ContactsUseCase = ContactsInteractor()
+    fun providesContactsUseCase(contactsRepository: ContactsRepository): ContactsUseCase =
+        ContactsInteractor(contactsRepository)
 }

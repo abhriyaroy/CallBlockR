@@ -29,6 +29,8 @@ ext.app_module_dependencies = {
         // Smart tab layout
         implementation deps.smart_tab_layout.core
         implementation deps.smart_tab_layout.utils
+        // Lottie
+        implementation deps.lottie
 
         // Module dependencies
         implementation deps.commons

@@ -1,15 +1,12 @@
-package com.abhriya.callblocker.ui
+package com.abhriya.callblocker.ui.unblockedcontact
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.abhriya.callblocker.R
-import com.abhriya.callblocker.databinding.FragmentBlockedContactsBinding
 import com.abhriya.callblocker.databinding.FragmentUnBlockedContactsBinding
 import com.abhriya.callblocker.viewmodel.ContactsViewModel
 import dagger.android.support.AndroidSupportInjection

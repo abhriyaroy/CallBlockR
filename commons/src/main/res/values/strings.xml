@@ -4,4 +4,6 @@
     <string name="blocked_contacts_fragment_name">Blocked Contacts</string>
     <string name="input_number_to_block">Input number you want to block</string>
     <string name="block_number">Block Number</string>
+    <string name="block">Block</string>
+    <string name="unblock">Unblock</string>
 </resources>

@@ -57,6 +57,8 @@ room.annotation_compiler = "androidx.room:room-compiler:$ROOM_VERSION"
 room.coroutines_ext = "androidx.room:room-ktx:$ROOM_VERSION"
 deps.room = room
 
+deps.lottie = "com.airbnb.android:lottie:$LOTTIE_VERSION"
+
 deps.database = project(':database')
 
 deps.system_permissions = project(':systempermissions')
