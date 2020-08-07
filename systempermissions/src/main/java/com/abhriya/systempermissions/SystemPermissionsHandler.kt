@@ -6,9 +6,18 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-object SystemPermissionsHandler {
-
+interface SystemPermissionsHandler{
     fun getMissingPermissionListIfAnyOutOfSuppliedPermissionList(
+        context: Context,
+        permissionList: List<String>
+    ): Pair<Boolean, List<String>>
+
+    fun requestPermission(activity: Activity, permissionList: List<String>)
+}
+
+class SystemPermissionsHandlerImpl : SystemPermissionsHandler {
+
+    override fun getMissingPermissionListIfAnyOutOfSuppliedPermissionList(
         context: Context,
         permissionList: List<String>
     ): Pair<Boolean, List<String>> {
@@ -25,7 +34,7 @@ object SystemPermissionsHandler {
         return missingPermissionsList.isNotEmpty() to missingPermissionsList
     }
 
-    fun requestPermission(activity: Activity, permissionList: List<String>) {
+    override fun requestPermission(activity: Activity, permissionList: List<String>) {
         if (permissionList.isNotEmpty()) {
             ActivityCompat.requestPermissions(
                 activity,

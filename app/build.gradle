@@ -25,6 +25,10 @@ android {
         }
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -32,3 +36,7 @@ android {
 }
 
 app_module_dependencies()
+
+dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+}

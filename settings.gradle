@@ -1,3 +1,4 @@
+include ':contactsprovider'
 include ':commons'
 include ':database'
 include ':systempermissions'

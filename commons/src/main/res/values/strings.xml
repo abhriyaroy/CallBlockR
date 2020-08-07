@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="unblocked_contacts_fragment_name">Unblocked Contacts</string>
+    <string name="blocked_contacts_fragment_name">Blocked Contacts</string>
+</resources>

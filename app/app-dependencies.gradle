@@ -25,9 +25,14 @@ ext.app_module_dependencies = {
         implementation deps.dagger.android
         kapt deps.dagger.compiler_annotation
         kapt deps.dagger.processor_annotation
+        // Smart tab layout
+        implementation deps.smart_tab_layout.core
+        implementation deps.smart_tab_layout.utils
 
         // Module dependencies
+        implementation deps.commons
         implementation deps.database
         implementation deps.system_permissions
+        implementation deps.contacts_provider
     }
 }

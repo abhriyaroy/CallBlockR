@@ -6,10 +6,11 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import com.abhriya.callblocker.di.scopes.PerApplication
+import com.abhriya.contactsprovider.di.ContactsProviderModule
 
 @PerApplication
 @Component(
-    modules = [(AndroidInjectionModule::class), (AppModule::class)]
+    modules = [(AndroidInjectionModule::class), (AppModule::class), (ContactsProviderModule::class)]
 )
 interface AppComponent {
 

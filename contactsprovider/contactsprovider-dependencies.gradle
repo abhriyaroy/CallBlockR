@@ -1,6 +1,6 @@
 apply from: '../dependencies.gradle'
 
-ext.system_permission_dependencies = {
+ext.contacts_provider_dependencies = {
     dependencies{
         // Core
         implementation deps.kotlin
@@ -12,5 +12,7 @@ ext.system_permission_dependencies = {
         implementation deps.dagger.android
         kapt deps.dagger.compiler_annotation
         kapt deps.dagger.processor_annotation
+        // System permission
+        implementation deps.system_permissions
     }
 }

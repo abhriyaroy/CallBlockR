@@ -41,13 +41,22 @@ def dagger = [:]
 dagger.core = "com.google.dagger:dagger:$DAGGER_VERSION"
 dagger.android = "com.google.dagger:dagger-android-support:$DAGGER_VERSION"
 dagger.compiler_annotation = "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
-dagger.processor_annotation =  "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
+dagger.processor_annotation = "com.google.dagger:dagger-android-processor:$DAGGER_VERSION"
 deps.dagger = dagger
+
+def smart_tab_layout = [:]
+smart_tab_layout.core = "com.ogaclejapan.smarttablayout:library:$SMART_TAB_LAYOUT_VERSION"
+smart_tab_layout.utils = "com.ogaclejapan.smarttablayout:utils-v4:$SMART_TAB_LAYOUT_VERSION"
+deps.smart_tab_layout = smart_tab_layout
 
 deps.multidex = "androidx.multidex:multidex:$MULTIDEX_VERSION"
 
 deps.database = project(':database')
 
 deps.system_permissions = project(':systempermissions')
+
+deps.commons = project(':commons')
+
+deps.contacts_provider = project(':contactsprovider')
 
 ext.deps = deps

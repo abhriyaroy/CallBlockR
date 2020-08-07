@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply from: './systempermissions-dependencies.gradle'
+apply from: './contactsprovider-dependencies.gradle'
 apply from: '../config.gradle'
 
 android {
@@ -14,8 +14,6 @@ android {
         targetSdkVersion TARGET_SDK_VERSION
         versionCode APP_VERSION
         versionName APP_VERSION_CODE
-
-        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -26,4 +24,4 @@ android {
     }
 }
 
-system_permission_dependencies()
+contacts_provider_dependencies()
