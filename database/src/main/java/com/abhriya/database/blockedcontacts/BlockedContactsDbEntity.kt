@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class BlockedContactsDbEntity(
+internal data class BlockedContactsDbEntity(
     @PrimaryKey(autoGenerate = true) val uid: Int,
     @ColumnInfo(name = "name") val name: String?,
     @ColumnInfo(name = "phone_number") val phoneNumber: String

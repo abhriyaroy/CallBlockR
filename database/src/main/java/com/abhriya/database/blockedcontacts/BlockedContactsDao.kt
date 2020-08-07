@@ -3,7 +3,7 @@ package com.abhriya.database.blockedcontacts
 import androidx.room.*
 
 @Dao
-interface BlockedContactsDao {
+internal interface BlockedContactsDao {
     @Query("SELECT * FROM BlockedContactsDbEntity")
     suspend fun getAll(): List<BlockedContactsDbEntity>
 
