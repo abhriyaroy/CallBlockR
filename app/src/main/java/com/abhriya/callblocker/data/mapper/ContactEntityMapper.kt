@@ -1,19 +1,18 @@
 package com.abhriya.callblocker.data.mapper
 
-import com.abhriya.callblocker.data.entity.BlockedContactEntity
-import com.abhriya.database.UID_AUTO_INCREMENT
-import com.abhriya.database.entity.ContactEntity
+import com.abhriya.callblocker.data.entity.ContactEntity
+import com.abhriya.database.entity.ContactDbEntity
 
 internal object ContactEntityMapper {
 
-    internal fun mapToBlockedContactEntityFromContactEntity(dbEntity: ContactEntity): BlockedContactEntity =
-        dbEntity.let {
-            BlockedContactEntity(it.name, it.phoneNumber)
+    internal fun mapToBlockedContactEntityFromContactEntity(dbDbEntity: ContactDbEntity): ContactEntity =
+        dbDbEntity.let {
+            ContactEntity(it.name, it.phoneNumber)
         }
 
-    internal fun mapToBlockedContactEntityFromContactEntity(blockedContactEntity: BlockedContactEntity): ContactEntity =
-        blockedContactEntity.let {
-            ContactEntity(
+    internal fun mapToContactEntityFromBlockedContactEntity(contactEntity: ContactEntity): ContactDbEntity =
+        contactEntity.let {
+            ContactDbEntity(
                 name = it.name,
                 phoneNumber = it.number
             )

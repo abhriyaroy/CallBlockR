@@ -1,6 +1,6 @@
 package com.abhriya.callblocker.data.entity
 
-data class BlockedContactEntity(
+data class ContactEntity(
     val name : String?,
     val number : String
 )

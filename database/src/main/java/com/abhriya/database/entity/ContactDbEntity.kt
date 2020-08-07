@@ -1,6 +1,6 @@
 package com.abhriya.database.entity
 
-data class ContactEntity(
+data class ContactDbEntity(
     val name : String?,
     val phoneNumber : String
 )
