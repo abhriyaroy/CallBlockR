@@ -12,17 +12,13 @@ deps.core_ktx = "androidx.core:core-ktx:$KTX_VERSION"
 
 deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT_VERSION"
 
+deps.material_design = "com.google.android.material:material:$MATERIAL_DESIGN_VERSION"
+
+
 def coroutine = [:]
 coroutine.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE_VERSION"
 coroutine.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINE_VERSION"
 deps.coroutine = coroutine
-
-def koin = [:]
-koin.android = "org.koin:koin-android:$KOIN_VERSION"
-koin.viewmodel = "org.koin:koin-androidx-viewmodel:$KOIN_VERSION"
-koin.fragment = "org.koin:koin-androidx-fragment:$KOIN_VERSION"
-koin.ext = "org.koin:koin-androidx-ext:$KOIN_VERSION"
-deps.koin = koin
 
 deps.lottie = "com.airbnb.android:lottie:$LOTTIE_VERSION"
 
@@ -48,6 +44,8 @@ def smart_tab_layout = [:]
 smart_tab_layout.core = "com.ogaclejapan.smarttablayout:library:$SMART_TAB_LAYOUT_VERSION"
 smart_tab_layout.utils = "com.ogaclejapan.smarttablayout:utils-v4:$SMART_TAB_LAYOUT_VERSION"
 deps.smart_tab_layout = smart_tab_layout
+
+deps.material_dialogs = "com.afollestad.material-dialogs:core:$MATERIAL_DIALOG_VERSION"
 
 deps.multidex = "androidx.multidex:multidex:$MULTIDEX_VERSION"
 

@@ -6,6 +6,7 @@ ext.app_module_dependencies = {
         implementation deps.androidx_appcompat
         implementation deps.core_ktx
         implementation deps.constraint_layout
+        implementation deps.material_design
         // Multidex
         implementation deps.multidex
         // Coroutine
@@ -28,6 +29,8 @@ ext.app_module_dependencies = {
         // Smart tab layout
         implementation deps.smart_tab_layout.core
         implementation deps.smart_tab_layout.utils
+        // MAterial dialogs
+        implementation deps.material_dialogs
 
         // Module dependencies
         implementation deps.commons
