@@ -1,3 +1,4 @@
+include ':phonereceiver'
 include ':contactsprovider'
 include ':commons'
 include ':database'

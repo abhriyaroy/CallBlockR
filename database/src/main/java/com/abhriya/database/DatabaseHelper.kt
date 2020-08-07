@@ -37,4 +37,11 @@ class DatabaseHelper(applicationContext: Context) {
                 ContactEntityMapper.mapToContactEntityFromBlockedContactsDbEntity(it)
             }
     }
+
+    suspend fun getBlockedContactByNumber(phoneNumber: String): ContactDbEntity? {
+        return blockedContactsDb.contactsDao().findByNumber(phoneNumber)
+            ?.let {
+                ContactEntityMapper.mapToContactEntityFromBlockedContactsDbEntity(it)
+            }
+    }
 }

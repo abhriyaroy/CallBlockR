@@ -37,5 +37,6 @@ ext.app_module_dependencies = {
         implementation deps.database
         implementation deps.system_permissions
         implementation deps.contacts_provider
+        implementation deps.phone_receiver
     }
 }

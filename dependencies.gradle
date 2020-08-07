@@ -67,4 +67,6 @@ deps.commons = project(':commons')
 
 deps.contacts_provider = project(':contactsprovider')
 
+deps.phone_receiver = project(':phonereceiver')
+
 ext.deps = deps

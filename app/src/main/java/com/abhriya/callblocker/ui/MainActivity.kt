@@ -35,14 +35,13 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private fun decorateViewPager() {
         val adapter = FragmentPagerItemAdapter(
             supportFragmentManager, FragmentPagerItems.with(this)
+                .add(R.string.blocked_contacts_fragment_name, BlockedContactsFragment::class.java)
                 .add(
                     R.string.unblocked_contacts_fragment_name,
                     UnBlockedContactsFragment::class.java
                 )
-                .add(R.string.blocked_contacts_fragment_name, BlockedContactsFragment::class.java)
                 .create()
         )
-
         binding.viewPager.adapter = adapter
         binding.viewPagerTab.setViewPager(binding.viewPager)
     }

@@ -1,0 +1,23 @@
+apply from: '../dependencies.gradle'
+
+ext.phonereceiver_dependencies = {
+    dependencies {
+        // Core
+        implementation deps.kotlin
+        implementation deps.androidx_appcompat
+        implementation deps.core_ktx
+        implementation deps.constraint_layout
+        // Coroutine
+        implementation deps.coroutine.core
+        implementation deps.coroutine.android
+        // Dagger
+        implementation deps.dagger.core
+        implementation deps.dagger.android
+        kapt deps.dagger.compiler_annotation
+        kapt deps.dagger.processor_annotation
+        // Database module
+        implementation deps.database
+        // Commons module
+        implementation deps.commons
+    }
+}
