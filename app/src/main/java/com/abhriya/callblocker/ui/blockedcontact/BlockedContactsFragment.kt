@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.abhriya.callblocker.R
 import com.abhriya.callblocker.databinding.FragmentBlockedContactsBinding
 import com.abhriya.callblocker.domain.model.ContactModel
+import com.abhriya.callblocker.domain.model.ContactModelType
+import com.abhriya.callblocker.domain.model.ContactModelType.BLOCKED_CONTACT
 import com.abhriya.callblocker.ui.adapter.ContactListAdapter
+import com.abhriya.callblocker.ui.adapter.HandleItemClick
 import com.abhriya.callblocker.util.*
 import com.abhriya.callblocker.viewmodel.ContactsViewModel
 import com.abhriya.callblocker.viewmodel.ResourceResult
@@ -27,7 +30,7 @@ import com.abhriya.commons.RecyclerViewSwipeDecorator
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-class BlockedContactsFragment : Fragment() {
+class BlockedContactsFragment : Fragment(), HandleItemClick {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -64,6 +67,11 @@ class BlockedContactsFragment : Fragment() {
         _binding = null
     }
 
+    override fun handleActionImageClick(position: Int, contactModel: ContactModel) {
+        viewModel.unblockContact(contactModel)
+        recyclerViewAdapter.removeItem(position)
+    }
+
     private fun attachClickListeners() {
         binding.fab.setOnClickListener {
             dialogHelper.showInputDialog(
@@ -73,7 +81,12 @@ class BlockedContactsFragment : Fragment() {
                 InputType.TYPE_CLASS_PHONE,
                 object : InputValueListener {
                     override fun onInputSubmitted(inputText: String) {
-                        viewModel.blockContact(ContactModel(phoneNumber = inputText))
+                        viewModel.blockContact(
+                            ContactModel(
+                                phoneNumber = inputText,
+                                contactModelType = BLOCKED_CONTACT
+                            )
+                        )
                     }
                 }
             )
@@ -83,11 +96,9 @@ class BlockedContactsFragment : Fragment() {
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(activity!!, RecyclerView.VERTICAL, false)
-        recyclerViewAdapter = ContactListAdapter()
+        recyclerViewAdapter = ContactListAdapter(this)
         binding.recyclerView.adapter = recyclerViewAdapter
         binding.recyclerView.setHasFixedSize(true)
-        ItemTouchHelper(getItemTouchHelperCallbackObject())
-            .attachToRecyclerView(binding.recyclerView)
     }
 
     private fun initViewModel() {
@@ -119,56 +130,4 @@ class BlockedContactsFragment : Fragment() {
             }
         }
     }
-
-    private fun getItemTouchHelperCallbackObject(): ItemTouchHelper.SimpleCallback {
-        return object :
-            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                when (direction) {
-                    ItemTouchHelper.RIGHT -> {
-                    }
-                    ItemTouchHelper.LEFT -> {
-                    }
-                }
-            }
-
-            override fun onChildDraw(
-                canvas: Canvas,
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                dX: Float,
-                dY: Float,
-                actionState: Int,
-                isCurrentlyActive: Boolean
-            ) {
-                super.onChildDraw(
-                    canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive
-                )
-                getSendSwiper(
-                    canvas, recyclerView, viewHolder, dX, dY,
-                    actionState, isCurrentlyActive
-                )
-            }
-        }
-    }
-
-    private fun getSendSwiper(
-        canvas: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float,
-        dY: Float, actionState: Int, isCurrentlyActive: Boolean
-    ) = RecyclerViewSwipeDecorator.Builder(
-        canvas, recyclerView, viewHolder, dX, dY,
-        actionState, isCurrentlyActive
-    ).addSwipeLeftBackgroundColor(colorRes(R.color.green))
-        .addSwipeLeftLabel(stringRes(R.string.unblock))
-        .setSwipeLeftLabelColor(colorRes(R.color.white))
-        .create()
-        .decorate()
 }

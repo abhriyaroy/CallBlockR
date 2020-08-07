@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Build
 import android.telecom.TelecomManager
 import android.telephony.TelephonyManager
-import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.NonNull

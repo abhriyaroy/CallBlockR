@@ -6,4 +6,5 @@
     <string name="block_number">Block Number</string>
     <string name="block">Block</string>
     <string name="unblock">Unblock</string>
+    <string name="unknown">Unknown</string>
 </resources>

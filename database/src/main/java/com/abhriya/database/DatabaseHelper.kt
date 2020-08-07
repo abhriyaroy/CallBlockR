@@ -6,8 +6,6 @@ import com.abhriya.database.blockedcontacts.BlockedContactsDatabase
 import com.abhriya.database.entity.ContactDbEntity
 import com.abhriya.database.mapper.ContactEntityMapper
 
-const val UID_AUTO_INCREMENT = 0
-
 class DatabaseHelper(applicationContext: Context) {
 
     private val blockedContactsDb: BlockedContactsDatabase = Room.databaseBuilder(
@@ -23,11 +21,11 @@ class DatabaseHelper(applicationContext: Context) {
         }
     }
 
-    suspend fun removeBlockedContacts(vararg contactDbToUnblock: ContactDbEntity) {
+    suspend fun removeBlockedContactsFromDb(vararg contactDbToUnblock: ContactDbEntity) {
         contactDbToUnblock.map {
             ContactEntityMapper.mapToBlockedContactsDbEntityFromContactEntity(it)
         }.forEach {
-            blockedContactsDb.contactsDao().delete(it)
+            blockedContactsDb.contactsDao().delete(it.phoneNumber)
         }
     }
 

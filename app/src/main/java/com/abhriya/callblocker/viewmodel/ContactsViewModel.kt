@@ -36,4 +36,10 @@ class ContactsViewModel @Inject constructor(private val contactsUseCase: Contact
         }
     }
 
+    fun unblockContact(contactModel: ContactModel){
+        viewModelScope.launch(Dispatchers.IO) {
+            contactsUseCase.unBlockContact(contactModel)
+        }
+    }
+
 }

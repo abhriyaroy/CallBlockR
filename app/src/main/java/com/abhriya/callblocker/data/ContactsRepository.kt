@@ -6,7 +6,7 @@ import com.abhriya.database.DatabaseHelper
 
 interface ContactsRepository {
     suspend fun saveBlockedContact(contactEntity: ContactEntity)
-    suspend fun removeBlockedContact(contactEntity: ContactEntity)
+    suspend fun unBlockContact(contactEntity: ContactEntity)
     suspend fun getAllBlockedContacts(): List<ContactEntity>
 }
 
@@ -19,11 +19,11 @@ class ContactsRepositoryImpl(private val databaseHelper: DatabaseHelper) : Conta
         }
     }
 
-    override suspend fun removeBlockedContact(contactEntity: ContactEntity) {
+    override suspend fun unBlockContact(contactEntity: ContactEntity) {
         contactEntity.let {
             ContactEntityMapper.mapToContactEntityFromBlockedContactEntity(it)
         }.also {
-            databaseHelper.removeBlockedContacts(it)
+            databaseHelper.removeBlockedContactsFromDb(it)
         }
     }
 
