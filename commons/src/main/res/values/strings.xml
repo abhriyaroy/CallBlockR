@@ -2,4 +2,6 @@
 <resources>
     <string name="unblocked_contacts_fragment_name">Unblocked Contacts</string>
     <string name="blocked_contacts_fragment_name">Blocked Contacts</string>
+    <string name="input_number_to_block">Input number you want to block</string>
+    <string name="block_number">Block Number</string>
 </resources>

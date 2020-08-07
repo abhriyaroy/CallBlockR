@@ -6,18 +6,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.abhriya.callblocker.R
+import com.abhriya.callblocker.databinding.FragmentBlockedContactsBinding
+import com.abhriya.callblocker.databinding.FragmentUnBlockedContactsBinding
+import dagger.android.support.AndroidSupportInjection
 
 
 class UnBlockedContactsFragment : Fragment() {
+
+    private var _binding: FragmentUnBlockedContactsBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        AndroidSupportInjection.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_un_blocked_contacts, container, false)
+        _binding = FragmentUnBlockedContactsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

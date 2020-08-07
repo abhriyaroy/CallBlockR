@@ -14,7 +14,6 @@ deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$CONSTRAINT
 
 deps.material_design = "com.google.android.material:material:$MATERIAL_DESIGN_VERSION"
 
-
 def coroutine = [:]
 coroutine.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE_VERSION"
 coroutine.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINE_VERSION"
@@ -45,7 +44,10 @@ smart_tab_layout.core = "com.ogaclejapan.smarttablayout:library:$SMART_TAB_LAYOU
 smart_tab_layout.utils = "com.ogaclejapan.smarttablayout:utils-v4:$SMART_TAB_LAYOUT_VERSION"
 deps.smart_tab_layout = smart_tab_layout
 
-deps.material_dialogs = "com.afollestad.material-dialogs:core:$MATERIAL_DIALOG_VERSION"
+def material_dialog = [:]
+material_dialog.core = "com.afollestad.material-dialogs:core:$MATERIAL_DIALOG_VERSION"
+material_dialog.input = "com.afollestad.material-dialogs:input:$MATERIAL_DIALOG_VERSION"
+deps.material_dialog = material_dialog
 
 deps.multidex = "androidx.multidex:multidex:$MULTIDEX_VERSION"
 

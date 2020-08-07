@@ -9,9 +9,10 @@ import dagger.android.ContributesAndroidInjector
 import javax.inject.Singleton
 
 @Module
-abstract class ContactsProviderModule {
+class ContactsProviderModule {
 
     @Singleton
-    @ContributesAndroidInjector(modules = [(SystemPermissionModule::class)])
-    abstract fun providesContactsProvider(): ContactsProvider
+    @Provides
+    fun providesContactsProvider(systemPermissionsHandler: SystemPermissionsHandler): ContactsProvider =
+        ContactsProvider(systemPermissionsHandler)
 }

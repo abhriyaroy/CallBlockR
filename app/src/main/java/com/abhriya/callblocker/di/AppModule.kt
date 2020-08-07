@@ -4,12 +4,12 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import com.abhriya.callblocker.di.scopes.PerApplication
+import javax.inject.Singleton
 
 @Module
 class AppModule {
     @Provides
-    @PerApplication
+    @Singleton
     fun provideContext(application: Application): Context {
         return application
     }

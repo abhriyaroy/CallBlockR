@@ -29,8 +29,6 @@ ext.app_module_dependencies = {
         // Smart tab layout
         implementation deps.smart_tab_layout.core
         implementation deps.smart_tab_layout.utils
-        // MAterial dialogs
-        implementation deps.material_dialogs
 
         // Module dependencies
         implementation deps.commons
