@@ -4,11 +4,13 @@ import com.abhriya.callblocker.data.ContactsRepository
 import com.abhriya.callblocker.domain.mapper.ContactsModelMapper
 import com.abhriya.callblocker.domain.model.ContactModel
 import com.abhriya.callblocker.domain.model.ContactModelType.BLOCKED_CONTACT
+import com.abhriya.callblocker.domain.model.ContactModelType.UNBLOCKED_CONTACT
 
 interface ContactsUseCase {
     suspend fun saveBlockedContact(contactModel: ContactModel)
     suspend fun unBlockContact(contactModel: ContactModel)
     suspend fun getAllBlockedContacts(): List<ContactModel>
+    suspend fun getAllSavedAvailableContacts(): List<ContactModel>
 }
 
 class ContactsInteractor(private val contactsRepository: ContactsRepository) : ContactsUseCase {
@@ -30,14 +32,28 @@ class ContactsInteractor(private val contactsRepository: ContactsRepository) : C
 
     override suspend fun getAllBlockedContacts(): List<ContactModel> {
         return contactsRepository.getAllBlockedContacts()
-            .let {
-                it.map { contactEntity ->
-                    ContactsModelMapper.mapToContactsModelFromContactEntity(
-                        contactEntity,
-                        BLOCKED_CONTACT
-                    )
-                }
+            .map {
+                ContactsModelMapper.mapToContactsModelFromContactEntity(it, BLOCKED_CONTACT)
             }
     }
+
+    override suspend fun getAllSavedAvailableContacts(): List<ContactModel> {
+        val savedContacts = contactsRepository.getAllContactsFromDevice()
+            .map {
+                ContactsModelMapper.mapToContactsModelFromContactEntity(it, UNBLOCKED_CONTACT)
+            }
+        val blockedContacts = getAllBlockedContacts()
+        return savedContacts.filter { availableContact ->
+            var isBlocked = true
+            for (blockedContact in blockedContacts) {
+                if (availableContact.phoneNumber == blockedContact.phoneNumber) {
+                    isBlocked = false
+                    break
+                }
+            }
+            isBlocked
+        }
+    }
+
 
 }

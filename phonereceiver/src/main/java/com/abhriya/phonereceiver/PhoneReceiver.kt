@@ -26,6 +26,7 @@ class PhoneReceiver(private val databaseHelper: DatabaseHelper) {
     fun onPhoneStateChange(context: Context, intent: Intent, onNotificationClickIntent: Intent) {
         println("received here call")
         GlobalScope.launch {
+            println("thread is ${Thread.currentThread().name}")
             if (TelephonyManager.ACTION_PHONE_STATE_CHANGED == intent.action && intent.getStringExtra(
                     TelephonyManager.EXTRA_STATE
                 ) == TelephonyManager.EXTRA_STATE_RINGING && shouldRejectPhoneCall(intent)

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.abhriya.callblocker.data.ContactsRepository
 import com.abhriya.callblocker.data.ContactsRepositoryImpl
+import com.abhriya.contactsprovider.ContactsProvider
 import com.abhriya.database.DatabaseHelper
 import dagger.Module
 import dagger.Provides
@@ -19,6 +20,9 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesContactRepository(databaseHelper: DatabaseHelper): ContactsRepository =
-        ContactsRepositoryImpl(databaseHelper)
+    fun providesContactRepository(
+        databaseHelper: DatabaseHelper,
+        contactsProvider: ContactsProvider
+    ): ContactsRepository =
+        ContactsRepositoryImpl(databaseHelper, contactsProvider)
 }

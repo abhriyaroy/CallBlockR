@@ -14,7 +14,10 @@ import com.abhriya.commons.util.drawableRes
 import com.abhriya.commons.util.stringRes
 import kotlinx.android.synthetic.main.item_contacts_list.view.*
 
-class ContactListAdapter(private val handleItemClick: HandleItemClick) :
+class ContactListAdapter(
+    private val context: Context,
+    private val handleItemClick: HandleItemClick
+) :
     RecyclerView.Adapter<ContactListViewHolder>() {
 
     private var list: MutableList<ContactModel> = mutableListOf()
@@ -23,7 +26,7 @@ class ContactListAdapter(private val handleItemClick: HandleItemClick) :
         return ContactListViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.item_contacts_list, parent, false
-            ), parent.context,
+            ), context,
             handleItemClick
         )
     }

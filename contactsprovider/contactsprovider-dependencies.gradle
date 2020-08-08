@@ -7,6 +7,9 @@ ext.contacts_provider_dependencies = {
         implementation deps.androidx_appcompat
         implementation deps.core_ktx
         implementation deps.constraint_layout
+        // Coroutine
+        implementation deps.coroutine.core
+        implementation deps.coroutine.android
         // Dagger
         implementation deps.dagger.core
         implementation deps.dagger.android

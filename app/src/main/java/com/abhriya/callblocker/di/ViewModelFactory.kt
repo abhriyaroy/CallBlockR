@@ -38,6 +38,7 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(ContactsViewModel::class)
+    @Singleton
     internal abstract fun contactViewModel(viewModel: ContactsViewModel): ViewModel
 
 }

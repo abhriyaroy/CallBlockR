@@ -78,11 +78,11 @@ class BlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallback
 
     override fun handleActionImageClick(position: Int, contactModel: ContactModel) {
         isViewLocallyUpdated = true
-        viewModel.unblockContact(contactModel)
+        viewModel.unblockContact(contactModel, viewModel.blockedContactLiveData)
     }
 
     override fun handlePermissionsResult() {
-
+        // Do nothing
     }
 
     private fun obtainPermission() {
@@ -113,7 +113,8 @@ class BlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallback
                             ContactModel(
                                 phoneNumber = inputText,
                                 contactModelType = BLOCKED_CONTACT
-                            )
+                            ),
+                            viewModel.blockedContactLiveData
                         )
                     }
                 }
@@ -124,7 +125,7 @@ class BlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallback
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(activity!!, RecyclerView.VERTICAL, false)
-        recyclerViewAdapter = ContactListAdapter(this)
+        recyclerViewAdapter = ContactListAdapter(requireContext(),this)
         binding.recyclerView.adapter = recyclerViewAdapter
         binding.recyclerView.setHasFixedSize(true)
     }
