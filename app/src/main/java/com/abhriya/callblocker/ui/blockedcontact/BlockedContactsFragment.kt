@@ -1,42 +1,49 @@
 package com.abhriya.callblocker.ui.blockedcontact
 
-import android.graphics.Canvas
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.text.InputType
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.abhriya.callblocker.R
 import com.abhriya.callblocker.databinding.FragmentBlockedContactsBinding
 import com.abhriya.callblocker.domain.model.ContactModel
-import com.abhriya.callblocker.domain.model.ContactModelType
 import com.abhriya.callblocker.domain.model.ContactModelType.BLOCKED_CONTACT
 import com.abhriya.callblocker.ui.adapter.ContactListAdapter
 import com.abhriya.callblocker.ui.adapter.HandleItemClick
-import com.abhriya.callblocker.util.*
+import com.abhriya.commons.util.gone
+import com.abhriya.commons.util.reObserve
+import com.abhriya.commons.util.stringRes
+import com.abhriya.commons.util.visible
 import com.abhriya.callblocker.viewmodel.ContactsViewModel
 import com.abhriya.callblocker.viewmodel.ResourceResult
 import com.abhriya.callblocker.viewmodel.Status
 import com.abhriya.commons.DialogHelper
 import com.abhriya.commons.InputValueListener
-import com.abhriya.commons.RecyclerViewSwipeDecorator
+import com.abhriya.systempermissions.PermissionsCallback
+import com.abhriya.systempermissions.SystemPermissionsHandler
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-class BlockedContactsFragment : Fragment(), HandleItemClick {
+class BlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallback {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     internal lateinit var dialogHelper: DialogHelper
+
+    @Inject
+    internal lateinit var systemPermissionsHandler: SystemPermissionsHandler
     private var _binding: FragmentBlockedContactsBinding? = null
     private val binding get() = _binding!!
     private var isViewLocallyUpdated = false
@@ -46,6 +53,7 @@ class BlockedContactsFragment : Fragment(), HandleItemClick {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidSupportInjection.inject(this)
+        obtainPermission()
     }
 
     override fun onCreateView(
@@ -71,7 +79,25 @@ class BlockedContactsFragment : Fragment(), HandleItemClick {
     override fun handleActionImageClick(position: Int, contactModel: ContactModel) {
         isViewLocallyUpdated = true
         viewModel.unblockContact(contactModel)
-//        recyclerViewAdapter.removeItem(position)
+    }
+
+    override fun handlePermissionsResult() {
+
+    }
+
+    private fun obtainPermission(){
+        systemPermissionsHandler.getMissingPermissionListIfAnyOutOfSuppliedPermissionList(
+            requireContext(),
+            getListOfRequiredPermissions()
+        ).apply {
+            if (first) {
+                systemPermissionsHandler.requestPermission(
+                    requireActivity(),
+                    second,
+                    this@BlockedContactsFragment
+                )
+            }
+        }
     }
 
     private fun attachClickListeners() {
@@ -119,17 +145,50 @@ class BlockedContactsFragment : Fragment(), HandleItemClick {
 
     private fun handleDataUpdate(result: ResourceResult<List<ContactModel>>) {
         when (result.status) {
-            Status.LOADING -> {
-                binding.lottieLoader.visible()
-                binding.lottieLoader.playAnimation()
-            }
-            Status.SUCCESS -> {
-                binding.lottieLoader.pauseAnimation()
-                binding.lottieLoader.gone()
-                recyclerViewAdapter.setContactsList(result.data!!)
-            }
-            Status.ERROR -> {
-            }
+            Status.LOADING -> handleLoadingState()
+            Status.SUCCESS -> handleSuccessState(result)
+            Status.ERROR -> handleErrorState()
         }
+    }
+
+    private fun handleLoadingState() {
+        binding.stateView.gone()
+        binding.lottieLoader.playAnimation()
+        binding.lottieLoader.visible()
+    }
+
+    private fun handleSuccessState(result: ResourceResult<List<ContactModel>>) {
+        binding.lottieLoader.pauseAnimation()
+        binding.lottieLoader.gone()
+        binding.stateView.gone()
+        binding.recyclerView.visible()
+        if (result.data!!.isEmpty()) {
+            showEmptyState()
+        }
+        recyclerViewAdapter.setContactsList(result.data)
+    }
+
+    private fun handleErrorState() {
+        binding.recyclerView.gone()
+        binding.stateView.text = stringRes(R.string.something_went_wrong)
+        binding.stateView.visible()
+    }
+
+    private fun showEmptyState() {
+        binding.stateView.text = stringRes(R.string.wow_so_empty)
+        binding.stateView.visible()
+    }
+
+    private fun getListOfRequiredPermissions(): List<String> {
+        val requiredPermissions: MutableList<String> =
+            mutableListOf(
+                Manifest.permission.CALL_PHONE,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_CALL_LOG
+            )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            requiredPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS)
+        }
+        return requiredPermissions
     }
 }

@@ -10,8 +10,8 @@ import com.abhriya.callblocker.R
 import com.abhriya.callblocker.domain.model.ContactModel
 import com.abhriya.callblocker.domain.model.ContactModelType
 import com.abhriya.callblocker.util.ContactListDiffUtilCallback
-import com.abhriya.callblocker.util.drawableRes
-import com.abhriya.callblocker.util.stringRes
+import com.abhriya.commons.util.drawableRes
+import com.abhriya.commons.util.stringRes
 import kotlinx.android.synthetic.main.item_contacts_list.view.*
 
 class ContactListAdapter(private val handleItemClick: HandleItemClick) :

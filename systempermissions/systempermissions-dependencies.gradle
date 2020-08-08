@@ -7,10 +7,13 @@ ext.system_permission_dependencies = {
         implementation deps.androidx_appcompat
         implementation deps.core_ktx
         implementation deps.constraint_layout
+        implementation deps.material_design
         // Dagger
         implementation deps.dagger.core
         implementation deps.dagger.android
         kapt deps.dagger.compiler_annotation
         kapt deps.dagger.processor_annotation
+        // Commons module
+        implementation deps.commons
     }
 }

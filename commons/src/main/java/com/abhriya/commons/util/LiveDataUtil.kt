@@ -1,4 +1,4 @@
-package com.abhriya.callblocker.util
+package com.abhriya.commons.util
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

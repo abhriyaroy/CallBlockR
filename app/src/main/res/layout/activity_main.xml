@@ -1,52 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:id="@+id/rootLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    android:layout_height="match_parent">
 
-    <com.ogaclejapan.smarttablayout.SmartTabLayout
-        android:id="@+id/viewPagerTab"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:stl_clickable="true"
-        app:stl_defaultTabBackground="?attr/selectableItemBackground"
-        app:stl_defaultTabTextAllCaps="true"
-        app:stl_defaultTabTextColor="#FC000000"
-        app:stl_defaultTabTextHorizontalPadding="16dp"
-        app:stl_defaultTabTextMinWidth="0dp"
-        app:stl_defaultTabTextSize="12sp"
-        app:stl_distributeEvenly="true"
-        app:stl_dividerColor="#4D000000"
-        app:stl_dividerThickness="1dp"
-        app:stl_drawDecorationAfterTab="false"
-        app:stl_indicatorAlwaysInCenter="false"
-        app:stl_indicatorColor="#40C4FF"
-        app:stl_indicatorCornerRadius="2dp"
-        app:stl_indicatorGravity="bottom"
-        app:stl_indicatorInFront="false"
-        app:stl_indicatorInterpolation="smart"
-        app:stl_indicatorThickness="4dp"
-        app:stl_indicatorWidth="auto"
-        app:stl_indicatorWithoutPadding="false"
-        app:stl_overlineColor="#4D000000"
-        app:stl_overlineThickness="0dp"
-        app:stl_titleOffset="24dp"
-        app:stl_underlineColor="#4D000000"
-        app:stl_underlineThickness="1dp" />
+        android:layout_height="match_parent"
+        tools:context=".ui.MainActivity">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_below="@id/viewPagerTab"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewPagerTab" />
+        <com.ogaclejapan.smarttablayout.SmartTabLayout
+            android:id="@+id/viewPagerTab"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:stl_clickable="true"
+            app:stl_defaultTabBackground="?attr/selectableItemBackground"
+            app:stl_defaultTabTextAllCaps="true"
+            app:stl_defaultTabTextColor="#FC000000"
+            app:stl_defaultTabTextHorizontalPadding="16dp"
+            app:stl_defaultTabTextMinWidth="0dp"
+            app:stl_defaultTabTextSize="12sp"
+            app:stl_distributeEvenly="true"
+            app:stl_dividerColor="#4D000000"
+            app:stl_dividerThickness="1dp"
+            app:stl_drawDecorationAfterTab="false"
+            app:stl_indicatorAlwaysInCenter="false"
+            app:stl_indicatorColor="#40C4FF"
+            app:stl_indicatorCornerRadius="2dp"
+            app:stl_indicatorGravity="bottom"
+            app:stl_indicatorInFront="false"
+            app:stl_indicatorInterpolation="smart"
+            app:stl_indicatorThickness="4dp"
+            app:stl_indicatorWidth="auto"
+            app:stl_indicatorWithoutPadding="false"
+            app:stl_overlineColor="#4D000000"
+            app:stl_overlineThickness="0dp"
+            app:stl_titleOffset="24dp"
+            app:stl_underlineColor="#4D000000"
+            app:stl_underlineThickness="1dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@id/viewPagerTab"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewPagerTab" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
