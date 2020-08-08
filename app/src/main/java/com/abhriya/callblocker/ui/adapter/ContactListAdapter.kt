@@ -4,10 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.abhriya.callblocker.R
 import com.abhriya.callblocker.domain.model.ContactModel
 import com.abhriya.callblocker.domain.model.ContactModelType
+import com.abhriya.callblocker.util.ContactListDiffUtilCallback
 import com.abhriya.callblocker.util.drawableRes
 import com.abhriya.callblocker.util.stringRes
 import kotlinx.android.synthetic.main.item_contacts_list.view.*
@@ -36,18 +38,11 @@ class ContactListAdapter(private val handleItemClick: HandleItemClick) :
     }
 
     fun setContactsList(contactModelList: List<ContactModel>) {
+        val oldList = list
         list = contactModelList.toMutableList()
-        notifyDataSetChanged()
-    }
+        val diffResult = DiffUtil.calculateDiff(ContactListDiffUtilCallback(list, oldList))
+        diffResult.dispatchUpdatesTo(this)
 
-    fun removeItem(position: Int) {
-        list.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
-    fun addItem(contactModel: ContactModel) {
-        list.add(contactModel)
-        notifyItemInserted(list.size - 1)
     }
 
 }

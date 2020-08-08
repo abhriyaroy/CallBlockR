@@ -1,5 +1,6 @@
 package com.abhriya.callblocker.viewmodel
 
+import android.database.sqlite.SQLiteException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,25 +21,39 @@ class ContactsViewModel @Inject constructor(private val contactsUseCase: Contact
     fun getAllBlockedContacts() {
         viewModelScope.launch(Dispatchers.IO) {
             _blockedContactsLiveData.postValue(ResourceResult.loading())
-            _blockedContactsLiveData.postValue(
-                ResourceResult.success(contactsUseCase.getAllBlockedContacts())
-            )
+            try {
+                with(contactsUseCase.getAllBlockedContacts()) {
+                    _blockedContactsLiveData.postValue(
+                        ResourceResult.success(this)
+                    )
+                }
+            } catch (sqLiteException: SQLiteException) {
+                _blockedContactsLiveData.postValue(ResourceResult.error(sqLiteException))
+            }
         }
     }
 
     fun blockContact(contactModel: ContactModel) {
         viewModelScope.launch(Dispatchers.IO) {
             _blockedContactsLiveData.postValue(ResourceResult.loading())
-            contactsUseCase.saveBlockedContact(contactModel)
-            _blockedContactsLiveData.postValue(
-                ResourceResult.success(contactsUseCase.getAllBlockedContacts())
-            )
+            try {
+                contactsUseCase.saveBlockedContact(contactModel)
+                getAllBlockedContacts()
+            } catch (sqLiteException: SQLiteException) {
+                _blockedContactsLiveData.postValue(ResourceResult.error(sqLiteException))
+            }
         }
     }
 
-    fun unblockContact(contactModel: ContactModel){
+    fun unblockContact(contactModel: ContactModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            contactsUseCase.unBlockContact(contactModel)
+            _blockedContactsLiveData.postValue(ResourceResult.loading())
+            try {
+                contactsUseCase.unBlockContact(contactModel)
+                getAllBlockedContacts()
+            } catch (sqLiteException: SQLiteException) {
+                _blockedContactsLiveData.postValue(ResourceResult.error(sqLiteException))
+            }
         }
     }
 

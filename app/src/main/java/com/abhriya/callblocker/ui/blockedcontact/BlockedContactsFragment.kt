@@ -39,6 +39,7 @@ class BlockedContactsFragment : Fragment(), HandleItemClick {
     internal lateinit var dialogHelper: DialogHelper
     private var _binding: FragmentBlockedContactsBinding? = null
     private val binding get() = _binding!!
+    private var isViewLocallyUpdated = false
     private lateinit var viewModel: ContactsViewModel
     private lateinit var recyclerViewAdapter: ContactListAdapter
 
@@ -68,8 +69,9 @@ class BlockedContactsFragment : Fragment(), HandleItemClick {
     }
 
     override fun handleActionImageClick(position: Int, contactModel: ContactModel) {
+        isViewLocallyUpdated = true
         viewModel.unblockContact(contactModel)
-        recyclerViewAdapter.removeItem(position)
+//        recyclerViewAdapter.removeItem(position)
     }
 
     private fun attachClickListeners() {
