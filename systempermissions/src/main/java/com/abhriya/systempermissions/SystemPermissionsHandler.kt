@@ -21,7 +21,7 @@ interface SystemPermissionsHandler {
     fun getMissingPermissionListIfAnyOutOfSuppliedPermissionList(
         context: Context,
         permissionList: List<String>
-    ): Pair<Boolean, List<String>>
+    ): List<String>
 
     fun requestPermission(
         activity: Activity,
@@ -45,7 +45,7 @@ class SystemPermissionsHandlerImpl : SystemPermissionsHandler {
     override fun getMissingPermissionListIfAnyOutOfSuppliedPermissionList(
         context: Context,
         permissionList: List<String>
-    ): Pair<Boolean, List<String>> {
+    ): List<String> {
         val missingPermissionsList = mutableListOf<String>()
         for (permission in permissionList) {
             if (ContextCompat.checkSelfPermission(
@@ -56,7 +56,7 @@ class SystemPermissionsHandlerImpl : SystemPermissionsHandler {
                 missingPermissionsList.add(permission)
             }
         }
-        return missingPermissionsList.isNotEmpty() to missingPermissionsList
+        return missingPermissionsList
     }
 
     override fun requestPermission(
@@ -82,8 +82,10 @@ class SystemPermissionsHandlerImpl : SystemPermissionsHandler {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+        println("permissions")
         for (i in permissions.indices) {
             val permission = permissions[i]
+            println(permission)
             if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                 val showRationale = shouldShowRequestPermissionRationale(activity, permission)
                 if (!showRationale) {

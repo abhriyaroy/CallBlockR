@@ -9,8 +9,8 @@
     <string name="unknown">Unknown</string>
     <string name="wow_so_empty">Wow! So empty…</string>
     <string name="something_went_wrong">Something went wrong</string>
-    <string name="accept_permission">Permissions are required to continue</string>
-    <string name="accept_permission_from_settings">Permissions are required to continue, please accept them from settings</string>
+    <string name="accept_permission">Please grant permission</string>
+    <string name="accept_permission_from_settings">Please grant permissions from settings</string>
     <string name="open_settings">Open Settings</string>
     <string name="grant_permission">Grant Permissions</string>
 </resources>

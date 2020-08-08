@@ -85,15 +85,15 @@ class BlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallback
 
     }
 
-    private fun obtainPermission(){
+    private fun obtainPermission() {
         systemPermissionsHandler.getMissingPermissionListIfAnyOutOfSuppliedPermissionList(
             requireContext(),
             getListOfRequiredPermissions()
         ).apply {
-            if (first) {
+            if (isNotEmpty()) {
                 systemPermissionsHandler.requestPermission(
                     requireActivity(),
-                    second,
+                    this,
                     this@BlockedContactsFragment
                 )
             }
@@ -183,8 +183,7 @@ class BlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallback
         val requiredPermissions: MutableList<String> =
             mutableListOf(
                 Manifest.permission.CALL_PHONE,
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.READ_CALL_LOG
+                Manifest.permission.READ_PHONE_STATE
             )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             requiredPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS)

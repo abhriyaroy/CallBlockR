@@ -1,7 +1,6 @@
 package com.abhriya.callblocker.ui.unblockedcontact
 
 import android.Manifest
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.abhriya.callblocker.databinding.FragmentUnBlockedContactsBinding
 import com.abhriya.callblocker.viewmodel.ContactsViewModel
+import com.abhriya.commons.util.gone
+import com.abhriya.commons.util.visible
 import com.abhriya.systempermissions.PermissionsCallback
 import com.abhriya.systempermissions.SystemPermissionsHandler
 import dagger.android.support.AndroidSupportInjection
@@ -32,7 +33,6 @@ class UnBlockedContactsFragment : Fragment(), PermissionsCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidSupportInjection.inject(this)
-        obtainPermission()
     }
 
     override fun onCreateView(
@@ -46,6 +46,12 @@ class UnBlockedContactsFragment : Fragment(), PermissionsCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
+        attachClickListeners()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkForPermission()
     }
 
     override fun onDestroyView() {
@@ -54,11 +60,30 @@ class UnBlockedContactsFragment : Fragment(), PermissionsCallback {
     }
 
     override fun handlePermissionsResult() {
-
+        loadUnblockedContacts()
     }
 
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)[ContactsViewModel::class.java]
+    }
+
+    private fun attachClickListeners() {
+        binding.grantPermissionButton.setOnClickListener {
+            obtainPermission()
+        }
+    }
+
+    private fun checkForPermission() {
+        systemPermissionsHandler.getMissingPermissionListIfAnyOutOfSuppliedPermissionList(
+            requireContext(),
+            getListOfRequiredPermissions()
+        ).also {
+            if (it.isNotEmpty()) {
+                showGrantPermissionLayout()
+            } else {
+                loadUnblockedContacts()
+            }
+        }
     }
 
     private fun obtainPermission() {
@@ -66,10 +91,10 @@ class UnBlockedContactsFragment : Fragment(), PermissionsCallback {
             requireContext(),
             getListOfRequiredPermissions()
         ).apply {
-            if (first) {
+            if (isNotEmpty()) {
                 systemPermissionsHandler.requestPermission(
                     requireActivity(),
-                    second,
+                    this,
                     this@UnBlockedContactsFragment
                 )
             }
@@ -78,5 +103,17 @@ class UnBlockedContactsFragment : Fragment(), PermissionsCallback {
 
     private fun getListOfRequiredPermissions(): List<String> {
         return mutableListOf(Manifest.permission.READ_CONTACTS)
+    }
+
+    private fun showGrantPermissionLayout() {
+        binding.apply {
+            grantPermissionButton.visible()
+            lottieLoader.gone()
+            recyclerView.gone()
+        }
+    }
+
+    private fun loadUnblockedContacts() {
+
     }
 }
