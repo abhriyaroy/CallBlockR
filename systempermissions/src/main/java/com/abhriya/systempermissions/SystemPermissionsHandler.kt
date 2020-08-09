@@ -82,10 +82,8 @@ class SystemPermissionsHandlerImpl : SystemPermissionsHandler {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        println("permissions")
         for (i in permissions.indices) {
             val permission = permissions[i]
-            println(permission)
             if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                 val showRationale = shouldShowRequestPermissionRationale(activity, permission)
                 if (!showRationale) {

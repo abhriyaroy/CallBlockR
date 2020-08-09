@@ -57,7 +57,6 @@ class PhoneReceiverImpl(
     private suspend fun shouldRejectPhoneCall(intent: Intent): Boolean {
         val incomingNumber = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
             ?: return false
-        println(incomingNumber)
         if (incomingNumber.isNotBlank()) {
             val contactData = databaseHelper.getBlockedContactByNumber(incomingNumber)
             return contactData != null
@@ -82,7 +81,6 @@ class PhoneReceiverImpl(
                 // Handle accordingly
             }
         }
-        println("the incominng number is ${intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)}")
         notificationProvider.showCallBlockNotification(
             context,
             onNotificationClickIntent,

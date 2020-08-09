@@ -26,12 +26,10 @@ class ContactsViewModel @Inject constructor(private val contactsUseCase: Contact
         get() = _savedAvailableContactsLiveData
 
     fun getAllBlockedContacts() {
-        println("block called")
         viewModelScope.launch(Dispatchers.IO) {
             _blockedContactsLiveData.postValue(ResourceResult.loading())
             try {
                 with(contactsUseCase.getAllBlockedContacts()) {
-                    println("block finished")
                     _blockedContactsLiveData.postValue(
                         ResourceResult.success(this)
                     )
@@ -87,13 +85,11 @@ class ContactsViewModel @Inject constructor(private val contactsUseCase: Contact
     }
 
     fun getAllSavedAvailableContacts() {
-        println("get all contacts")
         viewModelScope.launch(Dispatchers.IO) {
             _savedAvailableContactsLiveData.postValue(ResourceResult.loading())
             try {
                 contactsUseCase.getAllSavedAvailableContacts()
                     .also {
-                        println("contacts are $it")
                         _savedAvailableContactsLiveData.postValue(ResourceResult.success(it))
                     }
             } catch (sqLiteException: SQLiteException) {
