@@ -6,14 +6,21 @@ import com.abhriya.database.blockedcontacts.BlockedContactsDatabase
 import com.abhriya.database.entity.ContactDbEntity
 import com.abhriya.database.mapper.ContactEntityMapper
 
-class DatabaseHelper(applicationContext: Context) {
+interface DatabaseHelper {
+    suspend fun saveToBlockedContacts(vararg contactDbToBlock: ContactDbEntity)
+    suspend fun removeBlockedContactsFromDb(vararg contactDbToUnblock: ContactDbEntity)
+    suspend fun getAllBlockedContacts(): List<ContactDbEntity>
+    suspend fun getBlockedContactByNumber(phoneNumber: String): ContactDbEntity?
+}
+
+class DatabaseHelperImpl(applicationContext: Context) : DatabaseHelper {
 
     private val blockedContactsDb: BlockedContactsDatabase = Room.databaseBuilder(
         applicationContext,
         BlockedContactsDatabase::class.java, "blocked-contacts"
     ).build()
 
-    suspend fun saveToBlockedContacts(vararg contactDbToBlock: ContactDbEntity) {
+    override suspend fun saveToBlockedContacts(vararg contactDbToBlock: ContactDbEntity) {
         contactDbToBlock.map {
             ContactEntityMapper.mapToBlockedContactsDbEntityFromContactEntity(it)
         }.forEach {
@@ -21,7 +28,7 @@ class DatabaseHelper(applicationContext: Context) {
         }
     }
 
-    suspend fun removeBlockedContactsFromDb(vararg contactDbToUnblock: ContactDbEntity) {
+    override suspend fun removeBlockedContactsFromDb(vararg contactDbToUnblock: ContactDbEntity) {
         contactDbToUnblock.map {
             ContactEntityMapper.mapToBlockedContactsDbEntityFromContactEntity(it)
         }.forEach {
@@ -29,14 +36,14 @@ class DatabaseHelper(applicationContext: Context) {
         }
     }
 
-    suspend fun getAllBlockedContacts(): List<ContactDbEntity> {
+    override suspend fun getAllBlockedContacts(): List<ContactDbEntity> {
         return blockedContactsDb.contactsDao().getAll()
             .map {
                 ContactEntityMapper.mapToContactEntityFromBlockedContactsDbEntity(it)
             }
     }
 
-    suspend fun getBlockedContactByNumber(phoneNumber: String): ContactDbEntity? {
+    override suspend fun getBlockedContactByNumber(phoneNumber: String): ContactDbEntity? {
         return blockedContactsDb.contactsDao().findByNumber(phoneNumber)
             ?.let {
                 ContactEntityMapper.mapToContactEntityFromBlockedContactsDbEntity(it)

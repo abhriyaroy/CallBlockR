@@ -69,4 +69,6 @@ deps.contacts_provider = project(':contactsprovider')
 
 deps.phone_receiver = project(':phonereceiver')
 
+deps.notifications_provider = project(':notificationsprovider')
+
 ext.deps = deps

@@ -1,3 +1,4 @@
+include ':notificationsprovider'
 include ':phonereceiver'
 include ':contactsprovider'
 include ':commons'

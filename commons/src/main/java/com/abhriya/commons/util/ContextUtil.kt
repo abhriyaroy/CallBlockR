@@ -6,4 +6,4 @@ import androidx.annotation.StringRes
 
 fun Context.stringRes(@StringRes id: Int) = getString(id)!!
 
-fun Context.drawableRes(@DrawableRes id: Int) = resources.getDrawable(id)
+fun Context.drawableRes(@DrawableRes id: Int) = resources.getDrawable(id)!!

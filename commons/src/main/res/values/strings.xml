@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">CallBlocker</string>
     <string name="unblocked_contacts_fragment_name">Unblocked Contacts</string>
     <string name="blocked_contacts_fragment_name">Blocked Contacts</string>
     <string name="input_number_to_block">Input number you want to block</string>
@@ -13,4 +14,6 @@
     <string name="accept_permission_from_settings">Please grant permissions from settings</string>
     <string name="open_settings">Open Settings</string>
     <string name="grant_permission">Grant Permissions</string>
+    <string name="call_blocked">Call Blocked</string>
+    <string name="call_rejected_from">Incoming call from %1$s was blocked</string>
 </resources>

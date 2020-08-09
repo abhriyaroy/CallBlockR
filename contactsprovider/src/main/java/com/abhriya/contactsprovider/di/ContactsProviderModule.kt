@@ -2,6 +2,7 @@ package com.abhriya.contactsprovider.di
 
 import android.content.Context
 import com.abhriya.contactsprovider.ContactsProvider
+import com.abhriya.contactsprovider.ContactsProviderImpl
 import com.abhriya.systempermissions.SystemPermissionsHandler
 import com.abhriya.systempermissions.di.SystemPermissionModule
 import dagger.Module
@@ -14,5 +15,5 @@ class ContactsProviderModule {
 
     @Singleton
     @Provides
-    fun providesContactsProvider(context: Context): ContactsProvider = ContactsProvider(context)
+    fun providesContactsProvider(context: Context): ContactsProvider = ContactsProviderImpl(context)
 }

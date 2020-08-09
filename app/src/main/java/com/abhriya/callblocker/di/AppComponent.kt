@@ -8,6 +8,7 @@ import dagger.android.AndroidInjectionModule
 import com.abhriya.commons.di.CommonsProviderModule
 import com.abhriya.contactsprovider.di.ContactsProviderModule
 import com.abhriya.database.di.DatabaseProviderModule
+import com.abhriya.notificationsprovider.di.NotificationsProviderModule
 import com.abhriya.phonereceiver.di.PhoneReceiverModule
 import com.abhriya.systempermissions.di.SystemPermissionModule
 import javax.inject.Singleton
@@ -17,7 +18,7 @@ import javax.inject.Singleton
     modules = [(AndroidInjectionModule::class), (ActivityBuilder::class), (AppModule::class),
         (ContactsProviderModule::class), (CommonsProviderModule::class), (SystemPermissionModule::class),
         (DatabaseProviderModule::class), (DomainModule::class), (ViewModelModule::class),
-        (BroadcastReceiverModule::class), (PhoneReceiverModule::class)]
+        (BroadcastReceiverModule::class), (PhoneReceiverModule::class), (NotificationsProviderModule::class)]
 )
 interface AppComponent {
 

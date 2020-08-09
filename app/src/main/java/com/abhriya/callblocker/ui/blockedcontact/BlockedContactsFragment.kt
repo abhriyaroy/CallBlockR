@@ -184,7 +184,8 @@ class BlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallback
         val requiredPermissions: MutableList<String> =
             mutableListOf(
                 Manifest.permission.CALL_PHONE,
-                Manifest.permission.READ_PHONE_STATE
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_CALL_LOG
             )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             requiredPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS)

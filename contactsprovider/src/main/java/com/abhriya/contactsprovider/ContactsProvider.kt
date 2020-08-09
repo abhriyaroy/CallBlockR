@@ -9,10 +9,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
+interface ContactsProvider {
+    suspend fun getAllContactsFromDevice(): List<DeviceContactsEntity>
+}
 
-class ContactsProvider(private val context: Context) {
 
-    suspend fun getAllContactsFromDevice(): List<DeviceContactsEntity> {
+class ContactsProviderImpl(private val context: Context) : ContactsProvider {
+
+    override suspend fun getAllContactsFromDevice(): List<DeviceContactsEntity> {
         val contactsList = mutableListOf<DeviceContactsEntity>()
         val cr: ContentResolver = context.contentResolver
         val cur: Cursor? = cr.query(
