@@ -1,11 +1,13 @@
 package com.abhriya.callblocker.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.abhriya.callblocker.R
 import com.abhriya.callblocker.databinding.ActivityMainBinding
+import com.abhriya.callblocker.service.ForegroundKeepAppAliveService
 import com.abhriya.callblocker.ui.blockedcontact.BlockedContactsFragment
 import com.abhriya.callblocker.ui.unblockedcontact.UnBlockedContactsFragment
 import com.abhriya.systempermissions.SystemPermissionsHandler
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         decorateViewPager()
+        startKeepAppAliveService()
     }
 
     override fun onRequestPermissionsResult(
@@ -64,6 +67,13 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         )
         binding.viewPager.adapter = adapter
         binding.viewPagerTab.setViewPager(binding.viewPager)
+    }
+
+    private fun startKeepAppAliveService(){
+        println("start service first")
+        with(Intent(this, ForegroundKeepAppAliveService::class.java)) {
+            startService(this)
+        }
     }
 
 }

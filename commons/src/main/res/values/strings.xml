@@ -16,4 +16,5 @@
     <string name="grant_permission">Grant Permissions</string>
     <string name="call_blocked">Call Blocked</string>
     <string name="call_rejected_from">Incoming call from %1$s was blocked</string>
+    <string name="call_blocker_running">Call blocker is active</string>
 </resources>
