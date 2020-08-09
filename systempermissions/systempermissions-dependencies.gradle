@@ -1,7 +1,7 @@
 apply from: '../dependencies.gradle'
 
 ext.system_permission_dependencies = {
-    dependencies{
+    dependencies {
         // Core
         implementation deps.kotlin
         implementation deps.androidx_appcompat

@@ -4,11 +4,12 @@ import android.app.Activity
 import android.app.Application
 import android.app.Service
 import android.content.BroadcastReceiver
-import androidx.fragment.app.Fragment
 import androidx.multidex.MultiDex
 import com.abhriya.callblocker.di.DaggerAppComponent
-import dagger.android.*
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import dagger.android.HasBroadcastReceiverInjector
+import dagger.android.HasServiceInjector
 import javax.inject.Inject
 
 class CallBlockerApplication : Application(), HasActivityInjector,

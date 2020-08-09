@@ -1,11 +1,11 @@
-ext{
+ext {
     APP_VERSION = 1
     APP_VERSION_CODE = "1.0.0"
 
     COMPILE_SDK_VERSION = 30
     BUILD_TOOLS_VERSION = "30.0.1"
 
-    APPLICATION_ID  = "com.abhriya.callblocker"
+    APPLICATION_ID = "com.abhriya.callblocker"
 
     MIN_SDK_VERSION = 21
     TARGET_SDK_VERSION = 30

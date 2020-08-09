@@ -1,7 +1,7 @@
 apply from: '../dependencies.gradle'
 
 ext.contacts_provider_dependencies = {
-    dependencies{
+    dependencies {
         // Core
         implementation deps.kotlin
         implementation deps.androidx_appcompat

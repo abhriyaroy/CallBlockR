@@ -10,5 +10,5 @@ class CommonsProviderModule {
 
     @Singleton
     @Provides
-    fun providesDialogHelper() : DialogHelper = DialogHelper()
+    fun providesDialogHelper(): DialogHelper = DialogHelper()
 }

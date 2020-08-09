@@ -17,6 +17,7 @@ deps.material_design = "com.google.android.material:material:$MATERIAL_DESIGN_VE
 def coroutine = [:]
 coroutine.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$COROUTINE_VERSION"
 coroutine.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$COROUTINE_VERSION"
+coroutine.test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$COROUTINE_VERSION"
 deps.coroutine = coroutine
 
 deps.lottie = "com.airbnb.android:lottie:$LOTTIE_VERSION"
@@ -24,6 +25,7 @@ deps.lottie = "com.airbnb.android:lottie:$LOTTIE_VERSION"
 def lifecycle_component = [:]
 lifecycle_component.extension = "android.arch.lifecycle:extensions:$LIFECYCLE_VERSION"
 lifecycle_component.compiler = "android.arch.lifecycle:compiler:$LIFECYCLE_VERSION"
+lifecycle_component.test_helper = "android.arch.core:core-testing:$LIFECYCLE_VERSION"
 deps.lifecycle_component = lifecycle_component
 
 deps.viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$VIEWMODEL_VERSION"
@@ -70,5 +72,12 @@ deps.contacts_provider = project(':contactsprovider')
 deps.phone_receiver = project(':phonereceiver')
 
 deps.notifications_provider = project(':notificationsprovider')
+
+def junit = [:]
+junit.base = "junit:junit:$JUNIT_VERSION"
+junit.ext = "androidx.test.ext:junit:$JUNIT_EXTENSION_VERSION"
+deps.junit = junit
+
+deps.mockito = "org.mockito:mockito-core:$MOCKITO_VERSION"
 
 ext.deps = deps

@@ -39,5 +39,12 @@ ext.app_module_dependencies = {
         implementation deps.contacts_provider
         implementation deps.phone_receiver
         implementation deps.notifications_provider
+
+        // Unit test dependencies
+        testImplementation deps.junit.base
+        testImplementation deps.mockito
+        testImplementation deps.lifecycle_component.test_helper
+        testImplementation deps.coroutine.test
+
     }
 }

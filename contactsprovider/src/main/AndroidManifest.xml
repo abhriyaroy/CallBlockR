@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.abhriya.contactsprovider">
+
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 </manifest>

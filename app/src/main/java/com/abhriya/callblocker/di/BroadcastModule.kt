@@ -7,5 +7,5 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class BroadcastReceiverModule {
     @ContributesAndroidInjector
-    abstract fun contributesPhoneStateChangeBroadcastReceiver() : PhoneStateChangeBroadcastReceiver
+    abstract fun contributesPhoneStateChangeBroadcastReceiver(): PhoneStateChangeBroadcastReceiver
 }

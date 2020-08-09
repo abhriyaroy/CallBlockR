@@ -1,6 +1,6 @@
 package com.abhriya.database.mapper
 
-import com.abhriya.database.blockedcontacts.BlockedContactsDbEntity
+import com.abhriya.database.blockedcontact.BlockedContactsDbEntity
 import com.abhriya.database.entity.ContactDbEntity
 
 internal object ContactEntityMapper {

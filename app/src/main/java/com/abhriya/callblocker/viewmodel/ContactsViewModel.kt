@@ -1,15 +1,14 @@
 package com.abhriya.callblocker.viewmodel
 
-import android.database.sqlite.SQLiteException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.abhriya.callblocker.data.exception.DataLayerException
 import com.abhriya.callblocker.domain.ContactsUseCase
 import com.abhriya.callblocker.domain.model.ContactModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,8 +33,8 @@ class ContactsViewModel @Inject constructor(private val contactsUseCase: Contact
                         ResourceResult.success(this)
                     )
                 }
-            } catch (sqLiteException: SQLiteException) {
-                _blockedContactsLiveData.postValue(ResourceResult.error(sqLiteException))
+            } catch (dataLayerException: DataLayerException) {
+                _blockedContactsLiveData.postValue(ResourceResult.error(dataLayerException))
             }
         }
     }
@@ -56,8 +55,8 @@ class ContactsViewModel @Inject constructor(private val contactsUseCase: Contact
                     val availableContacts = async { getAllSavedAvailableContacts() }
                     availableContacts.await()
                     blockedContacts.await()
-                } catch (sqLiteException: SQLiteException) {
-                    postValue(ResourceResult.error(sqLiteException))
+                } catch (dataLayerException: DataLayerException) {
+                    postValue(ResourceResult.error(dataLayerException))
                 }
             }
         }
@@ -77,8 +76,8 @@ class ContactsViewModel @Inject constructor(private val contactsUseCase: Contact
                     contactsUseCase.unBlockContact(contactModel)
                     getAllBlockedContacts()
                     getAllSavedAvailableContacts()
-                } catch (sqLiteException: SQLiteException) {
-                    postValue(ResourceResult.error(sqLiteException))
+                } catch (dataLayerException: DataLayerException) {
+                    postValue(ResourceResult.error(dataLayerException))
                 }
             }
         }
@@ -92,8 +91,8 @@ class ContactsViewModel @Inject constructor(private val contactsUseCase: Contact
                     .also {
                         _savedAvailableContactsLiveData.postValue(ResourceResult.success(it))
                     }
-            } catch (sqLiteException: SQLiteException) {
-                _savedAvailableContactsLiveData.postValue(ResourceResult.error(sqLiteException))
+            } catch (dataLayerException: DataLayerException) {
+                _savedAvailableContactsLiveData.postValue(ResourceResult.error(dataLayerException))
             }
         }
     }

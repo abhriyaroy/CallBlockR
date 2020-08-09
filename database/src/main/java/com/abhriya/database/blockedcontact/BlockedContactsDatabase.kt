@@ -1,4 +1,4 @@
-package com.abhriya.database.blockedcontacts
+package com.abhriya.database.blockedcontact
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

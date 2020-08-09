@@ -12,5 +12,6 @@ class NotificationsProviderModule {
 
     @Singleton
     @Provides
-    fun providesDatabase(applicationContext: Context): NotificationProvider = NotificationsProviderImpl()
+    fun providesDatabase(applicationContext: Context): NotificationProvider =
+        NotificationsProviderImpl()
 }

@@ -22,9 +22,7 @@ const val NOTIFICATION_ID = "notif_id"
 const val FOREGROUND_NOTIFICATION_ID = "foreground_notif_id"
 const val NOTIFICATION_CHANNEL_DESCRIPTION = "Call blocked"
 const val NOTIFICATION_CHANNEL_ID = "call_blocker_default_channel"
-const val DEFAULT_CHANNEL_ID = "default"
 const val DEFAULT_CHANNEL_GROUP = "default_group"
-const val FOREGROUND_DEFAULT_CHANNEL_ID = "foreground_default"
 
 class NotificationsProviderImpl : NotificationProvider {
 

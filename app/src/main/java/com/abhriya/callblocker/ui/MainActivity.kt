@@ -69,8 +69,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         binding.viewPagerTab.setViewPager(binding.viewPager)
     }
 
-    private fun startKeepAppAliveService(){
-        println("start service first")
+    private fun startKeepAppAliveService() {
         with(Intent(this, ForegroundKeepAppAliveService::class.java)) {
             startService(this)
         }

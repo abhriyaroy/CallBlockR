@@ -1,6 +1,5 @@
 package com.abhriya.systempermissions
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -11,11 +10,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker
 import com.abhriya.commons.util.stringRes
 import com.google.android.material.snackbar.Snackbar
 import kotlin.random.Random
-
 
 interface SystemPermissionsHandler {
     fun getMissingPermissionListIfAnyOutOfSuppliedPermissionList(
@@ -92,7 +89,7 @@ class SystemPermissionsHandlerImpl : SystemPermissionsHandler {
                     showGrantPermissionSnackBar(
                         activity,
                         coordinatorLayout,
-                        listOf(permission),
+                        permissions.toList(),
                         requestCode
                     )
                 }

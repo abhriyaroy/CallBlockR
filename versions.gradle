@@ -22,4 +22,5 @@ ext {
 
     JUNIT_VERSION = '4.12'
     JUNIT_EXTENSION_VERSION = '1.1.1'
+    MOCKITO_VERSION = '2.2.0'
 }

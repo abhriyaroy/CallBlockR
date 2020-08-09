@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.abhriya.phonereceiver">
+
     <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
 </manifest>

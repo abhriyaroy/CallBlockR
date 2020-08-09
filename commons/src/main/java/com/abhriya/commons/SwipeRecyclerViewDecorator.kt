@@ -7,7 +7,6 @@ import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.text.TextPaint
-import android.util.Log
 import android.util.TypedValue
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper

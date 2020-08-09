@@ -1,8 +1,7 @@
-package com.abhriya.database.blockedcontacts
+package com.abhriya.database.blockedcontact
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity

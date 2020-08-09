@@ -1,7 +1,6 @@
 package com.abhriya.commons
 
 import android.content.Context
-import android.text.InputType
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 

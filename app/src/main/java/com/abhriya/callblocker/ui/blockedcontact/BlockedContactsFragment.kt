@@ -7,7 +7,6 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,15 +19,15 @@ import com.abhriya.callblocker.domain.model.ContactModel
 import com.abhriya.callblocker.domain.model.ContactModelType.BLOCKED_CONTACT
 import com.abhriya.callblocker.ui.adapter.ContactListAdapter
 import com.abhriya.callblocker.ui.adapter.HandleItemClick
-import com.abhriya.commons.util.gone
-import com.abhriya.commons.util.reObserve
-import com.abhriya.commons.util.stringRes
-import com.abhriya.commons.util.visible
 import com.abhriya.callblocker.viewmodel.ContactsViewModel
 import com.abhriya.callblocker.viewmodel.ResourceResult
 import com.abhriya.callblocker.viewmodel.Status
 import com.abhriya.commons.DialogHelper
 import com.abhriya.commons.InputValueListener
+import com.abhriya.commons.util.gone
+import com.abhriya.commons.util.reObserve
+import com.abhriya.commons.util.stringRes
+import com.abhriya.commons.util.visible
 import com.abhriya.systempermissions.PermissionsCallback
 import com.abhriya.systempermissions.SystemPermissionsHandler
 import dagger.android.support.AndroidSupportInjection
@@ -125,7 +124,7 @@ class BlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallback
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(activity!!, RecyclerView.VERTICAL, false)
-        recyclerViewAdapter = ContactListAdapter(requireContext(),this)
+        recyclerViewAdapter = ContactListAdapter(requireContext(), this)
         binding.recyclerView.adapter = recyclerViewAdapter
         binding.recyclerView.setHasFixedSize(true)
     }
