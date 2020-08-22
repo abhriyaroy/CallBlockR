@@ -90,7 +90,10 @@ class UnBlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallba
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[ContactsViewModel::class.java]
+        viewModel = ViewModelProviders.of(
+            requireActivity(),
+            viewModelFactory
+        )[ContactsViewModel::class.java]
     }
 
     private fun attachClickListeners() {

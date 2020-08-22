@@ -10,6 +10,7 @@ import com.abhriya.callblocker.domain.model.ContactModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 class ContactsViewModel @Inject constructor(private val contactsUseCase: ContactsUseCase) :
@@ -70,15 +71,19 @@ class ContactsViewModel @Inject constructor(private val contactsUseCase: Contact
             blockedContactLiveData -> _blockedContactsLiveData
             else -> _savedAvailableContactsLiveData
         }.apply {
-            viewModelScope.launch(Dispatchers.IO) {
-                postValue(ResourceResult.loading())
-                try {
-                    contactsUseCase.unBlockContact(contactModel)
-                    getAllBlockedContacts()
-                    getAllSavedAvailableContacts()
-                } catch (dataLayerException: DataLayerException) {
-                    postValue(ResourceResult.error(dataLayerException))
+            try {
+                viewModelScope.launch(Dispatchers.IO) {
+                    postValue(ResourceResult.loading())
+                    try {
+                        contactsUseCase.unBlockContact(contactModel)
+                        getAllBlockedContacts()
+                        getAllSavedAvailableContacts()
+                    } catch (dataLayerException: DataLayerException) {
+                        postValue(ResourceResult.error(dataLayerException))
+                    }
                 }
+            } catch (e : Exception){
+                e.printStackTrace()
             }
         }
     }

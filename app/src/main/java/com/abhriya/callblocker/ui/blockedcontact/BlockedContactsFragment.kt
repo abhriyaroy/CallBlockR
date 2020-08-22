@@ -130,7 +130,7 @@ class BlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallback
     }
 
     private fun initViewModel() {
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[ContactsViewModel::class.java]
+        viewModel = ViewModelProviders.of(requireActivity(), viewModelFactory)[ContactsViewModel::class.java]
         observeBlockedContactList()
         viewModel.getAllBlockedContacts()
     }

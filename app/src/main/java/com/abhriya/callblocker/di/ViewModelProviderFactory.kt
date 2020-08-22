@@ -30,7 +30,7 @@ class ViewModelFactory @Inject constructor(private val viewModels: MutableMap<Cl
 internal annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
 @Module
-abstract class ViewModelModule {
+abstract class ViewModelFactoryModule {
 
     @Binds
     internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
@@ -38,7 +38,6 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(ContactsViewModel::class)
-    @Singleton
     internal abstract fun contactViewModel(viewModel: ContactsViewModel): ViewModel
 
 }
