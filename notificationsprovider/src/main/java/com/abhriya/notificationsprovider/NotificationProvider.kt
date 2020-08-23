@@ -43,7 +43,7 @@ class NotificationsProviderImpl : NotificationProvider {
             notificationManager.createNotificationChannel(channel)
         }
         val notify: Notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_small)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(context.stringRes(R.string.call_blocked))
             .setContentText(context.getString(R.string.call_rejected_from, number))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -82,7 +82,7 @@ class NotificationsProviderImpl : NotificationProvider {
             notificationManager.createNotificationChannel(channel)
         }
         val notify: Notification = NotificationCompat.Builder(service, NOTIFICATION_CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_small)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(service.stringRes(R.string.app_name))
             .setContentText(service.stringRes(R.string.call_blocker_running))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
