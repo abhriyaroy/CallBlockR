@@ -1,5 +1,8 @@
 apply from: '../dependencies.gradle'
 
+/**
+ * All dependencies for database module should be added here
+ */
 ext.database_dependencies = {
     dependencies {
         // Core

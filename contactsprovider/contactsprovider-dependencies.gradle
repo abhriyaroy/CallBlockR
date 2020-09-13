@@ -1,5 +1,8 @@
 apply from: '../dependencies.gradle'
 
+/**
+ * All dependencies for contacts provider module should be added here
+ */
 ext.contacts_provider_dependencies = {
     dependencies {
         // Core

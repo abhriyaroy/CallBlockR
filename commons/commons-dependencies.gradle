@@ -1,5 +1,8 @@
 apply from: '../dependencies.gradle'
 
+/**
+ * All dependencies for commons module should be added here
+ */
 ext.commons_dependencies = {
     dependencies {
         // Core

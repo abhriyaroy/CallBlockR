@@ -1,3 +1,6 @@
+/**
+ * All app config should be added here
+ */
 ext {
     APP_VERSION = 1
     APP_VERSION_CODE = "1.0.0"

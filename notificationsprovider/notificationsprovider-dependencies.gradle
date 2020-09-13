@@ -1,5 +1,8 @@
 apply from: '../dependencies.gradle'
 
+/**
+ * All dependencies for notifications provider module should be added here
+ */
 ext.notification_dependencies = {
     dependencies {
         // Core

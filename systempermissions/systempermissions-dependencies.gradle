@@ -1,5 +1,8 @@
 apply from: '../dependencies.gradle'
 
+/**
+ * All dependencies for system permissions module should be added here
+ */
 ext.system_permission_dependencies = {
     dependencies {
         // Core
