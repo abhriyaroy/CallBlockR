@@ -15,123 +15,63 @@ import com.google.android.material.snackbar.Snackbar
 import kotlin.random.Random
 
 interface SystemPermissionsHandler {
-    fun getMissingPermissionListIfAnyOutOfSuppliedPermissionList(
+
+    fun checkPermission(
+        context: Context,
+        permission: String
+    ): Boolean
+
+    fun checkPermissions(
         context: Context,
         permissionList: List<String>
-    ): List<String>
+    ): List<Pair<String, Boolean>>
 
     fun requestPermission(
         activity: Activity,
-        permissionList: List<String>,
-        permissionsCallback: PermissionsCallback
+        permissionList: List<Pair<String, Boolean>>
     )
 
-    fun onPermissionResult(
-        activity: Activity,
-        coordinatorLayout: CoordinatorLayout,
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    )
 }
 
 class SystemPermissionsHandlerImpl : SystemPermissionsHandler {
 
-    private val requestsMap = hashMapOf<Int, Pair<List<String>, PermissionsCallback>>()
+    override fun checkPermission(context: Context, permission: String): Boolean {
+        return (ContextCompat.checkSelfPermission(
+            context,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED)
+    }
 
-    override fun getMissingPermissionListIfAnyOutOfSuppliedPermissionList(
+    override fun checkPermissions(
         context: Context,
         permissionList: List<String>
-    ): List<String> {
-        val missingPermissionsList = mutableListOf<String>()
-        for (permission in permissionList) {
-            if (ContextCompat.checkSelfPermission(
-                    context,
-                    permission
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                missingPermissionsList.add(permission)
+    ): List<Pair<String, Boolean>> {
+        return mutableListOf<Pair<String, Boolean>>()
+            .apply {
+                for (permission in permissionList) {
+                    add(permission to checkPermission(context, permission))
+                }
             }
-        }
-        return missingPermissionsList
     }
 
     override fun requestPermission(
         activity: Activity,
-        permissionList: List<String>,
-        permissionsCallback: PermissionsCallback
+        permissionList: List<Pair<String, Boolean>>
+//        permissionsCallback: PermissionsCallback
     ) {
         with(Random.nextInt(0, 100)) {
             if (permissionList.isNotEmpty()) {
-                requestsMap[this] = permissionList to permissionsCallback
+//                [this] = permissionList to permissionsCallback
                 ActivityCompat.requestPermissions(
                     activity,
-                    permissionList.toTypedArray(), this
+                    permissionList.filter {
+                        println(it)
+                        !it.second }
+                        .map {
+                            it.first
+                        }.toTypedArray(), this
                 )
             }
         }
-    }
-
-    override fun onPermissionResult(
-        activity: Activity,
-        coordinatorLayout: CoordinatorLayout,
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        for (i in permissions.indices) {
-            val permission = permissions[i]
-            if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                val showRationale = shouldShowRequestPermissionRationale(activity, permission)
-                if (!showRationale) {
-                    showOpenSettingsSnackBar(activity, coordinatorLayout)
-                } else {
-                    showGrantPermissionSnackBar(
-                        activity,
-                        coordinatorLayout,
-                        permissions.toList(),
-                        requestCode
-                    )
-                }
-            }
-        }
-    }
-
-    private fun showOpenSettingsSnackBar(
-        activity: Activity,
-        coordinatorLayout: CoordinatorLayout
-    ) {
-        Snackbar.make(
-            coordinatorLayout,
-            activity.stringRes(R.string.accept_permission_from_settings),
-            Snackbar.LENGTH_INDEFINITE
-        ).setAction(
-            activity.stringRes(R.string.open_settings)
-        ) {
-            val intent = Intent(
-                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.parse("package:" + activity.packageName)
-            )
-            intent.addCategory(Intent.CATEGORY_DEFAULT)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            activity.startActivity(intent)
-        }.show()
-    }
-
-    private fun showGrantPermissionSnackBar(
-        activity: Activity,
-        coordinatorLayout: CoordinatorLayout,
-        permissionList: List<String>,
-        requestCode: Int
-    ) {
-        Snackbar.make(
-            coordinatorLayout,
-            activity.stringRes(R.string.accept_permission),
-            Snackbar.LENGTH_INDEFINITE
-        ).setAction(
-            activity.stringRes(R.string.grant_permission)
-        ) {
-            requestPermission(activity, permissionList, requestsMap[requestCode]!!.second)
-        }.show()
     }
 }

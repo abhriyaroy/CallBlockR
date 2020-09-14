@@ -1,5 +1,5 @@
 /**
- * All app config should be added here
+ * All app related version and build config should be added here
  */
 ext {
     APP_VERSION = 1

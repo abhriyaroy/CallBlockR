@@ -18,7 +18,7 @@ class ContactsProviderImpl(
 ) : ContactsProvider {
 
     override suspend fun getAllContactsFromDevice(): List<DeviceContactsEntity> {
-        if (permissionsHandler.getMissingPermissionListIfAnyOutOfSuppliedPermissionList(
+        if (permissionsHandler.checkPermissions(
                 context, getListOfRequiredPermissions()
             ).isEmpty()
         ) {

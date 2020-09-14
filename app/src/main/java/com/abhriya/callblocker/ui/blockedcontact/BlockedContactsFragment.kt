@@ -85,15 +85,15 @@ class BlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallback
     }
 
     private fun obtainPermission() {
-        systemPermissionsHandler.getMissingPermissionListIfAnyOutOfSuppliedPermissionList(
+        systemPermissionsHandler.checkPermissions(
             requireContext(),
             getListOfRequiredPermissions()
         ).apply {
             if (isNotEmpty()) {
                 systemPermissionsHandler.requestPermission(
                     requireActivity(),
-                    this,
-                    this@BlockedContactsFragment
+                    this
+//                    this@BlockedContactsFragment
                 )
             }
         }
