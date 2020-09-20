@@ -54,6 +54,7 @@ class ContactsRepositoryImpl(
     }
 
     override suspend fun getAllContactsFromDevice(): List<ContactEntity> {
+        println("contacts repositroy")
         return contactsProvider.getAllContactsFromDevice()
             .map {
                 ContactEntityMapper.mapToContactEntityFromDeviceContactEntity(it)

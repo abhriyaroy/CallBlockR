@@ -2,17 +2,9 @@ package com.abhriya.systempermissions
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
-import android.provider.Settings
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
-import com.abhriya.commons.util.stringRes
-import com.google.android.material.snackbar.Snackbar
-import kotlin.random.Random
 
 interface SystemPermissionsHandler {
 
@@ -33,7 +25,10 @@ interface SystemPermissionsHandler {
 
 }
 
-class SystemPermissionsHandlerImpl : SystemPermissionsHandler {
+const val PERMISSION_REQUEST_CODE = 101
+
+class SystemPermissionsHandlerImpl(private val permissionUtil: SystemPermissionUtil) :
+    SystemPermissionsHandler {
 
     override fun checkPermission(context: Context, permission: String): Boolean {
         return (ContextCompat.checkSelfPermission(
@@ -57,21 +52,17 @@ class SystemPermissionsHandlerImpl : SystemPermissionsHandler {
     override fun requestPermission(
         activity: Activity,
         permissionList: List<Pair<String, Boolean>>
-//        permissionsCallback: PermissionsCallback
     ) {
-        with(Random.nextInt(0, 100)) {
-            if (permissionList.isNotEmpty()) {
-//                [this] = permissionList to permissionsCallback
-                ActivityCompat.requestPermissions(
-                    activity,
-                    permissionList.filter {
-                        println(it)
-                        !it.second }
-                        .map {
-                            it.first
-                        }.toTypedArray(), this
-                )
+        permissionUtil.filterPermissionListForMissingPermissions(permissionList)
+            .apply {
+                if (this.isNotEmpty()) {
+                    map {
+                        it.first
+                    }.toTypedArray().let {
+                        println(activity.localClassName)
+                        ActivityCompat.requestPermissions(activity, it, PERMISSION_REQUEST_CODE)
+                    }
+                }
             }
-        }
     }
 }

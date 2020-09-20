@@ -16,7 +16,6 @@ import com.abhriya.callblocker.databinding.FragmentUnBlockedContactsBinding
 import com.abhriya.callblocker.domain.model.ContactModel
 import com.abhriya.callblocker.ui.adapter.ContactListAdapter
 import com.abhriya.callblocker.ui.adapter.HandleItemClick
-import com.abhriya.callblocker.ui.base.BaseFragment
 import com.abhriya.callblocker.viewmodel.ContactsViewModel
 import com.abhriya.callblocker.viewmodel.ResourceResult
 import com.abhriya.callblocker.viewmodel.Status
@@ -24,18 +23,22 @@ import com.abhriya.commons.util.gone
 import com.abhriya.commons.util.reObserve
 import com.abhriya.commons.util.stringRes
 import com.abhriya.commons.util.visible
+import com.abhriya.systempermissions.SystemPermissionUtil
 import com.abhriya.systempermissions.SystemPermissionsHandler
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
 
-class UnBlockedContactsFragment : BaseFragment(), HandleItemClick {
+class UnBlockedContactsFragment : Fragment(), HandleItemClick {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     @Inject
     internal lateinit var systemPermissionsHandler: SystemPermissionsHandler
+
+    @Inject
+    internal lateinit var systemPermissionUtil: SystemPermissionUtil
 
     private var _binding: FragmentUnBlockedContactsBinding? = null
     private val binding get() = _binding!!
@@ -77,9 +80,6 @@ class UnBlockedContactsFragment : BaseFragment(), HandleItemClick {
         viewModel.blockContact(contactModel, viewModel.savedAvailableContactLiveData)
     }
 
-    override fun handlePermissionGranted() {
-        loadUnblockedContacts()
-    }
 
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager =
@@ -115,7 +115,7 @@ class UnBlockedContactsFragment : BaseFragment(), HandleItemClick {
             requireContext(),
             getListOfRequiredPermissions()
         ).also {
-            if (it.isNotEmpty()) {
+            if (systemPermissionUtil.filterPermissionListForMissingPermissions(it).isNotEmpty()) {
                 showGrantPermissionLayout()
             } else {
                 loadUnblockedContacts()
@@ -128,13 +128,16 @@ class UnBlockedContactsFragment : BaseFragment(), HandleItemClick {
             requireContext(),
             getListOfRequiredPermissions()
         ).apply {
-            if (isNotEmpty()) {
-                systemPermissionsHandler.requestPermission(
-                    requireActivity(),
-                    this
+            systemPermissionUtil.filterPermissionListForMissingPermissions(this)
+                .apply {
+                    if (isNotEmpty()) {
+                        systemPermissionsHandler.requestPermission(
+                            requireActivity(),
+                            this
 //                    this@UnBlockedContactsFragment
-                )
-            }
+                        )
+                    }
+                }
         }
     }
 

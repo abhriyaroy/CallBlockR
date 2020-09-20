@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
 import com.abhriya.contactsprovider.model.DeviceContactsEntity
+import com.abhriya.systempermissions.SystemPermissionUtil
 import com.abhriya.systempermissions.SystemPermissionsHandler
 
 interface ContactsProvider {
@@ -14,13 +15,16 @@ interface ContactsProvider {
 
 class ContactsProviderImpl(
     private val context: Context,
-    private val permissionsHandler: SystemPermissionsHandler
+    private val permissionsHandler: SystemPermissionsHandler,
+    private val permissionUtil: SystemPermissionUtil
 ) : ContactsProvider {
 
     override suspend fun getAllContactsFromDevice(): List<DeviceContactsEntity> {
         if (permissionsHandler.checkPermissions(
                 context, getListOfRequiredPermissions()
-            ).isEmpty()
+            ).let {
+                permissionUtil.filterPermissionListForMissingPermissions(it)
+            }.isEmpty()
         ) {
             val contactsList = mutableListOf<DeviceContactsEntity>()
             val cr: ContentResolver = context.contentResolver
@@ -64,6 +68,7 @@ class ContactsProviderImpl(
                 }
             }
             cur?.close()
+            println("contact list is $contactsList")
             return contactsList
         } else {
             return listOf()
