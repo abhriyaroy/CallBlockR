@@ -19,6 +19,7 @@ import com.abhriya.callblocker.domain.model.ContactModel
 import com.abhriya.callblocker.domain.model.ContactModelType.BLOCKED_CONTACT
 import com.abhriya.callblocker.ui.adapter.ContactListAdapter
 import com.abhriya.callblocker.ui.adapter.HandleItemClick
+import com.abhriya.callblocker.ui.base.BaseFragment
 import com.abhriya.callblocker.viewmodel.ContactsViewModel
 import com.abhriya.callblocker.viewmodel.ResourceResult
 import com.abhriya.callblocker.viewmodel.Status
@@ -28,12 +29,11 @@ import com.abhriya.commons.util.gone
 import com.abhriya.commons.util.reObserve
 import com.abhriya.commons.util.stringRes
 import com.abhriya.commons.util.visible
-import com.abhriya.systempermissions.PermissionsCallback
 import com.abhriya.systempermissions.SystemPermissionsHandler
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
-class BlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallback {
+class BlockedContactsFragment : BaseFragment(), HandleItemClick {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -80,8 +80,7 @@ class BlockedContactsFragment : Fragment(), HandleItemClick, PermissionsCallback
         viewModel.unblockContact(contactModel, viewModel.blockedContactLiveData)
     }
 
-    override fun handlePermissionsResult() {
-        // Do nothing
+    override fun handlePermissionGranted() {
     }
 
     private fun obtainPermission() {

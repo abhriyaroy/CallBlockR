@@ -15,6 +15,7 @@ import com.abhriya.callblocker.databinding.ActivityMainBinding
 import com.abhriya.callblocker.service.ForegroundKeepAppAliveService
 import com.abhriya.callblocker.ui.blockedcontact.BlockedContactsFragment
 import com.abhriya.callblocker.ui.unblockedcontact.UnBlockedContactsFragment
+import com.abhriya.callblocker.util.openAppSettings
 import com.abhriya.commons.util.stringRes
 import com.abhriya.systempermissions.SystemPermissionsHandler
 import com.google.android.material.snackbar.Snackbar
@@ -33,6 +34,9 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     @Inject
     internal lateinit var systemPermissionsHandler: SystemPermissionsHandler
+
+    @Inject
+    internal lateinit var permissionsHandler: SystemPermissionsHandler
 
     private lateinit var binding: ActivityMainBinding
 
@@ -102,13 +106,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         ).setAction(
             activity.stringRes(com.abhriya.systempermissions.R.string.open_settings)
         ) {
-            val intent = Intent(
-                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.parse("package:" + activity.packageName)
-            )
-            intent.addCategory(Intent.CATEGORY_DEFAULT)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            activity.startActivity(intent)
+            openAppSettings()
         }.show()
     }
 
@@ -124,7 +122,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         ).setAction(
             activity.stringRes(com.abhriya.systempermissions.R.string.grant_permission)
         ) {
-            requestPermission(
+            permissionsHandler.requestPermission(
                 activity, permissionList.map { it to false }
             )
         }.show()
