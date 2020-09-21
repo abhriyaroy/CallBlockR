@@ -2,7 +2,7 @@ include ':notificationsprovider'
 include ':phonereceiver'
 include ':contactsprovider'
 include ':commons'
-include ':database'
+include ':blockedcontactsdatabase'
 include ':systempermissions'
 include ':app'
 rootProject.name = "CallBlocker"

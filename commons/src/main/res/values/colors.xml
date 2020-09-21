@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">@color/black_dark</color>
+    <color name="colorPrimaryDark">@color/black</color>
+    <color name="colorAccent">@color/black_light</color>
     <color name="red">#DC143C</color>
     <color name="green">#008000</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="black_dark">#131313</color>
+    <color name="black_light">#202020</color>
 </resources>

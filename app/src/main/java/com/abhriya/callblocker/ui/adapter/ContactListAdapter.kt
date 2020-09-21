@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.abhriya.callblocker.R
@@ -45,7 +46,6 @@ class ContactListAdapter(
         list = contactModelList.toMutableList()
         val diffResult = DiffUtil.calculateDiff(ContactListDiffUtilCallback(list, oldList))
         diffResult.dispatchUpdatesTo(this)
-
     }
 
 }
@@ -60,6 +60,7 @@ class ContactListViewHolder(
     fun decorateItem(contactModel: ContactModel) {
         itemView.titleTextView.text = contactModel.name ?: context.stringRes(R.string.unknown)
         itemView.subTitleTextView.text = contactModel.phoneNumber
+        itemView.contactAvatar.setText(itemView.titleTextView.text.toString())
         when (contactModel.contactModelType) {
             ContactModelType.BLOCKED_CONTACT -> itemView.actionImage.setImageDrawable(
                 context.drawableRes(
@@ -71,12 +72,11 @@ class ContactListViewHolder(
                     R.drawable.ic_black_block_24
                 )
             )
-
         }
     }
 
     fun attachActionItemClickListener(contactModel: ContactModel) {
-        itemView.actionImage.setOnClickListener {
+        itemView.rootLayout.setOnClickListener {
             handleItemClick.handleActionImageClick(adapterPosition, contactModel)
         }
     }

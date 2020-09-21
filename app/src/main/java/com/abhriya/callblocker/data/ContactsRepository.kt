@@ -4,8 +4,8 @@ import com.abhriya.callblocker.data.entity.ContactEntity
 import com.abhriya.callblocker.data.exception.DataLayerException
 import com.abhriya.callblocker.data.mapper.ContactEntityMapper
 import com.abhriya.contactsprovider.ContactsProvider
-import com.abhriya.database.DatabaseHelper
-import com.abhriya.database.exception.DatabaseException
+import com.abhriya.blockedcontactsdatabase.DatabaseHelper
+import com.abhriya.blockedcontactsdatabase.exception.DatabaseException
 
 interface ContactsRepository {
     suspend fun saveBlockedContact(contactEntity: ContactEntity)

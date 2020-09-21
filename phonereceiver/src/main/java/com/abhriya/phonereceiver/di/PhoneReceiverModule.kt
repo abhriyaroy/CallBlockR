@@ -1,6 +1,6 @@
 package com.abhriya.phonereceiver.di
 
-import com.abhriya.database.DatabaseHelper
+import com.abhriya.blockedcontactsdatabase.DatabaseHelper
 import com.abhriya.notificationsprovider.NotificationProvider
 import com.abhriya.phonereceiver.PhoneReceiver
 import com.abhriya.phonereceiver.PhoneReceiverImpl

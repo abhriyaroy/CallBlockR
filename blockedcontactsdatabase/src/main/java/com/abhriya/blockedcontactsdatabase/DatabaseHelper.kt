@@ -1,12 +1,12 @@
-package com.abhriya.database
+package com.abhriya.blockedcontactsdatabase
 
 import android.content.Context
 import android.database.sqlite.SQLiteException
 import androidx.room.Room
-import com.abhriya.database.blockedcontact.BlockedContactsDatabase
-import com.abhriya.database.entity.ContactDbEntity
-import com.abhriya.database.exception.DatabaseException
-import com.abhriya.database.mapper.ContactEntityMapper
+import com.abhriya.blockedcontactsdatabase.blockedcontact.BlockedContactsDatabase
+import com.abhriya.blockedcontactsdatabase.entity.ContactDbEntity
+import com.abhriya.blockedcontactsdatabase.exception.DatabaseException
+import com.abhriya.blockedcontactsdatabase.mapper.ContactEntityMapper
 
 interface DatabaseHelper {
     suspend fun saveToBlockedContactsDb(vararg contactDbToBlock: ContactDbEntity)

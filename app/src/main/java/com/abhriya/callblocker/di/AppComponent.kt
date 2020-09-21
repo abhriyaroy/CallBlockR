@@ -4,7 +4,7 @@ import android.app.Application
 import com.abhriya.callblocker.CallBlockerApplication
 import com.abhriya.commons.di.CommonsProviderModule
 import com.abhriya.contactsprovider.di.ContactsProviderModule
-import com.abhriya.database.di.DatabaseProviderModule
+import com.abhriya.blockedcontactsdatabase.di.DatabaseProviderModule
 import com.abhriya.notificationsprovider.di.NotificationsProviderModule
 import com.abhriya.phonereceiver.di.PhoneReceiverModule
 import com.abhriya.systempermissions.di.SystemPermissionModule

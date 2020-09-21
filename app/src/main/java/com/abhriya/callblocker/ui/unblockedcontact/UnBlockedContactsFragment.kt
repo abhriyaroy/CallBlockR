@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.abhriya.callblocker.R
-import com.abhriya.callblocker.databinding.FragmentUnBlockedContactsBinding
+import com.abhriya.callblocker.databinding.FragmentUnblockedContactsBinding
 import com.abhriya.callblocker.domain.model.ContactModel
 import com.abhriya.callblocker.ui.adapter.ContactListAdapter
 import com.abhriya.callblocker.ui.adapter.HandleItemClick
@@ -40,7 +41,7 @@ class UnBlockedContactsFragment : Fragment(), HandleItemClick {
     @Inject
     internal lateinit var systemPermissionUtil: SystemPermissionUtil
 
-    private var _binding: FragmentUnBlockedContactsBinding? = null
+    private var _binding: FragmentUnblockedContactsBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: ContactsViewModel
     private lateinit var recyclerViewAdapter: ContactListAdapter
@@ -54,7 +55,7 @@ class UnBlockedContactsFragment : Fragment(), HandleItemClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentUnBlockedContactsBinding.inflate(inflater, container, false)
+        _binding = FragmentUnblockedContactsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -177,6 +178,7 @@ class UnBlockedContactsFragment : Fragment(), HandleItemClick {
         binding.lottieLoader.pauseAnimation()
         binding.lottieLoader.gone()
         binding.stateView.gone()
+        binding.recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recyclerview_layout_anim)
         binding.recyclerView.visible()
         if (result.data!!.isEmpty()) {
             showEmptyState()

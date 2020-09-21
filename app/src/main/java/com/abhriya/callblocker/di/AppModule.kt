@@ -5,7 +5,7 @@ import android.content.Context
 import com.abhriya.callblocker.data.ContactsRepository
 import com.abhriya.callblocker.data.ContactsRepositoryImpl
 import com.abhriya.contactsprovider.ContactsProvider
-import com.abhriya.database.DatabaseHelper
+import com.abhriya.blockedcontactsdatabase.DatabaseHelper
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

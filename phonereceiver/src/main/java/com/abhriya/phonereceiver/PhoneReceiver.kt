@@ -9,7 +9,7 @@ import android.telephony.TelephonyManager
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import com.abhriya.commons.util.stringRes
-import com.abhriya.database.DatabaseHelper
+import com.abhriya.blockedcontactsdatabase.DatabaseHelper
 import com.abhriya.notificationsprovider.NotificationProvider
 import com.android.internal.telephony.ITelephony
 import kotlinx.coroutines.GlobalScope
@@ -59,6 +59,7 @@ class PhoneReceiverImpl(
             ?: return false
         if (incomingNumber.isNotBlank()) {
             val contactData = databaseHelper.getBlockedContactByNumber(incomingNumber)
+            println("contact data obtained $contactData")
             return contactData != null
         }
         return false

@@ -7,6 +7,7 @@ import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -157,6 +158,7 @@ class BlockedContactsFragment : Fragment(), HandleItemClick {
         binding.lottieLoader.gone()
         binding.stateView.gone()
         binding.recyclerView.visible()
+        binding.recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(context, R.anim.recyclerview_layout_anim)
         if (result.data!!.isEmpty()) {
             showEmptyState()
         }

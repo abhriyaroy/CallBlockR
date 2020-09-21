@@ -3,7 +3,7 @@ package com.abhriya.callblocker.data.mapper
 import com.abhriya.callblocker.data.entity.ContactEntity
 import com.abhriya.commons.util.removeAllWhiteSpaces
 import com.abhriya.contactsprovider.model.DeviceContactsEntity
-import com.abhriya.database.entity.ContactDbEntity
+import com.abhriya.blockedcontactsdatabase.entity.ContactDbEntity
 
 internal object ContactEntityMapper {
 

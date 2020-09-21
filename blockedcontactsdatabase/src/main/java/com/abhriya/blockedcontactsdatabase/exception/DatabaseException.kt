@@ -1,4 +1,4 @@
-package com.abhriya.database.exception
+package com.abhriya.blockedcontactsdatabase.exception
 
 import java.lang.Exception
 

@@ -1,8 +1,8 @@
-package com.abhriya.database.di
+package com.abhriya.blockedcontactsdatabase.di
 
 import android.content.Context
-import com.abhriya.database.DatabaseHelper
-import com.abhriya.database.DatabaseHelperImpl
+import com.abhriya.blockedcontactsdatabase.DatabaseHelper
+import com.abhriya.blockedcontactsdatabase.DatabaseHelperImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
