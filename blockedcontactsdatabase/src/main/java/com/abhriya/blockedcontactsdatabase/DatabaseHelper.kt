@@ -59,8 +59,10 @@ class DatabaseHelperImpl(applicationContext: Context) : DatabaseHelper {
 
     override suspend fun getBlockedContactByNumber(phoneNumber: String): ContactDbEntity? {
         try {
-            return blockedContactsDb.contactsDao().findByNumber(phoneNumber)
-                ?.let {
+            return blockedContactsDb.contactsDao().getAll()
+                .find {
+                    phoneNumber.contains(it.phoneNumber)
+                }?.let {
                     ContactEntityMapper.mapToContactEntityFromBlockedContactsDbEntity(it)
                 }
         } catch (sqLiteException: SQLiteException) {

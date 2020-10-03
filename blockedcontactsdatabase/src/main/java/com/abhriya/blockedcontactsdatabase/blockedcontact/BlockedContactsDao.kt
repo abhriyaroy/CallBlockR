@@ -10,7 +10,7 @@ internal interface BlockedContactsDao {
     @Query("SELECT * FROM BlockedContactsDbEntity")
     suspend fun getAll(): List<BlockedContactsDbEntity>
 
-    @Query("SELECT * FROM BlockedContactsDbEntity WHERE phone_number LIKE '%' || :number || '%' LIMIT 1")
+    @Query("SELECT * FROM BlockedContactsDbEntity WHERE phone_number LIKE :number LIMIT 1")
     suspend fun findByNumber(number: String): BlockedContactsDbEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
