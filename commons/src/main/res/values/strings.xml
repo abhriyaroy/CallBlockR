@@ -17,4 +17,7 @@
     <string name="call_blocked">Call Blocked</string>
     <string name="call_rejected_from">Incoming call from %1$s was blocked</string>
     <string name="call_blocker_running">Call blocker is active</string>
+    <string name="recents">Recents</string>
+    <string name="contacts">Contacts</string>
+    <string name="blocked">Blocked</string>
 </resources>

@@ -6,10 +6,13 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.abhriya.callblocker.R
 import com.abhriya.callblocker.databinding.ActivityMainBinding
 import com.abhriya.callblocker.service.ForegroundKeepAppAliveService
@@ -24,6 +27,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
@@ -39,14 +43,22 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     internal lateinit var permissionsHandler: SystemPermissionsHandler
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        decorateViewPager()
+//        navController = findNavController(R.id.nav_host_fragment_container)
+//        decorateViewPager()
         startKeepAppAliveService()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.bottom_menu,menu)
+//        bottomBar.setupWithNavController(menu, navController)
+        return true
     }
 
     override fun onRequestPermissionsResult(
@@ -75,19 +87,19 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun supportFragmentInjector() = fragmentInjector
 
-    private fun decorateViewPager() {
-        val adapter = FragmentPagerItemAdapter(
-            supportFragmentManager, FragmentPagerItems.with(this)
-                .add(R.string.blocked_contacts_fragment_name, BlockedContactsFragment::class.java)
-                .add(
-                    R.string.unblocked_contacts_fragment_name,
-                    UnBlockedContactsFragment::class.java
-                )
-                .create()
-        )
-        binding.viewPager.adapter = adapter
-        binding.viewPagerTab.setViewPager(binding.viewPager)
-    }
+//    private fun decorateViewPager() {
+//        val adapter = FragmentPagerItemAdapter(
+//            supportFragmentManager, FragmentPagerItems.with(this)
+//                .add(R.string.blocked_contacts_fragment_name, BlockedContactsFragment::class.java)
+//                .add(
+//                    R.string.unblocked_contacts_fragment_name,
+//                    UnBlockedContactsFragment::class.java
+//                )
+//                .create()
+//        )
+//        binding.viewPager.adapter = adapter
+//        binding.viewPagerTab.setViewPager(binding.viewPager)
+//    }
 
     private fun startKeepAppAliveService() {
         with(Intent(this, ForegroundKeepAppAliveService::class.java)) {

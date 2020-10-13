@@ -33,6 +33,11 @@ ext.app_module_dependencies = {
         implementation deps.lottie
         // Acronym view
         implementation deps.acronym_view
+        // Bottom nav bar
+        implementation deps.bottom_bar
+        // Navigation
+        implementation deps.navigation.fragment
+        implementation deps.navigation.ui
 
         // Module dependencies
         implementation deps.commons

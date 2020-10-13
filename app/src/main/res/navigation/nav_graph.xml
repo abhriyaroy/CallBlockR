@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/first_fragment">
+
+    <fragment
+        android:id="@+id/first_fragment"
+        android:name="com.abhriya.callblocker.ui.blockedcontact.BlockedContactsFragment"
+        android:label="First Fragment"
+        tools:layout="@layout/fragment_blocked_contacts" />
+    <fragment
+        android:id="@+id/second_fragment"
+        android:name="com.abhriya.callblocker.ui.unblockedcontact.UnBlockedContactsFragment"
+        android:label="Second Fragment"
+        tools:layout="@layout/fragment_unblocked_contacts" />
+</navigation>
