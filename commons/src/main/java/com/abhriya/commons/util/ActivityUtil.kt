@@ -1,4 +1,4 @@
-package com.abhriya.commons.util
+package com.abhriya.callblockr.util
 
 import android.app.Activity
 import androidx.annotation.StringRes

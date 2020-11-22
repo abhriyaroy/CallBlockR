@@ -2,7 +2,7 @@
 <tabs>
     <tab
         drawable="@drawable/ic_phone_call"
-        text="@string/recents" />
+        text="@string/call_log_fragment_name" />
 
     <tab
         drawable="@drawable/ic_contact_book"

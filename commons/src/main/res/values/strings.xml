@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CallBlockR</string>
-    <string name="unblocked_contacts_fragment_name">Unblocked Contacts</string>
+    <string name="unblocked_contacts_fragment_name">Contacts List</string>
     <string name="blocked_contacts_fragment_name">Blocked Contacts</string>
+    <string name="call_log_fragment_name">Call Log</string>
     <string name="input_number_to_block">Input number you want to block</string>
     <string name="block_number">Block Number</string>
     <string name="block">Block</string>
