@@ -12,7 +12,7 @@ android {
     buildToolsVersion = Apps.buildToolsVersion
 
     defaultConfig {
-        applicationId = "com.biofourmis.ipmpatient"
+        applicationId = "com.abhriya.callblockr"
         minSdkVersion(Apps.minSdk)
         targetSdkVersion(Apps.targetSdk)
         versionCode = Apps.versionCode
@@ -63,8 +63,6 @@ dependencies {
     implementation(Libs.coroutineAndroid)
     // Lifecycle components
     implementation(Libs.lifecycleComponentExtension)
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt(Libs.lifecycleComponentExtension)
     // Viewmodel
     implementation(Libs.viewmodel)

@@ -14,7 +14,11 @@
     <string name="accept_permission">Please grant permission</string>
     <string name="accept_permission_from_settings">Please grant permissions from settings</string>
     <string name="open_settings">Open Settings</string>
-    <string name="grant_permission">Grant Permissions</string>
+    <string name="grant_permission">Grant permissions</string>
+    <string name="grant_permission_call_log">Call log permission is required to show your recent calls</string>
+    <string name="grant_permission_contact_list">Contacts permissions are required to show your contacts</string>
+    <string name="grant_permission_phone_receilver">Phone state permissions are required to block incoming calls</string>
+    <string name="grant_permission_description">Please click here to grant permissions</string>
     <string name="call_blocked">Call Blocked</string>
     <string name="call_rejected_from">Incoming call from %1$s was blocked</string>
     <string name="call_blocker_running">Call blocker is active</string>

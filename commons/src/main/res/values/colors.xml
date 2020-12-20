@@ -14,7 +14,7 @@
     
     <color name="darkPrimary">#353946</color>
     <color name="darkPrimaryDark">#2F333F</color>
-    <color name="darkAccent">#8BE9FD</color>
-    <color name="darkTextPrimary">#74CF7A</color>
+    <color name="darkAccent">#74CF7A</color>
+    <color name="darkTextPrimary">@color/darkAccent</color>
     <color name="darkTextSecondary">#98999F</color>
 </resources>

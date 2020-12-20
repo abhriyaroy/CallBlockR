@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs>
     <tab
+        drawable="@drawable/ic_blocked"
+        text="@string/blocked" />
+
+    <tab
         drawable="@drawable/ic_phone_call"
         text="@string/call_log_fragment_name" />
 
     <tab
         drawable="@drawable/ic_contact_book"
         text="@string/contacts" />
-
-    <tab
-        drawable="@drawable/ic_blocked"
-        text="@string/blocked" />
 
 </tabs>

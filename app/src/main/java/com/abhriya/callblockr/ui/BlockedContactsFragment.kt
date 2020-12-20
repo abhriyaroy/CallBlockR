@@ -1,6 +1,7 @@
 package com.abhriya.callblockr.ui
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
@@ -8,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -20,28 +23,30 @@ import com.abhriya.callblockr.domain.model.ContactModelType
 import com.abhriya.callblockr.util.*
 import com.abhriya.commons.DialogHelper
 import com.abhriya.commons.InputValueListener
-import com.abhriya.systempermissions.SystemPermissionsHandler
+import com.abhriya.commons.SystemPermissionUtil
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+const val BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE = 3
+
 @AndroidEntryPoint
 class BlockedContactsFragment : Fragment(),
-    com.abhriya.callblockr.HandleItemClick {
+    HandleItemClick {
 
     @Inject
     internal lateinit var dialogHelper: DialogHelper
 
     @Inject
-    internal lateinit var systemPermissionsHandler: SystemPermissionsHandler
+    internal lateinit var systemPermissionUtil: SystemPermissionUtil
     val viewModel: BlockedContactsViewModel by viewModels()
     private var _binding: FragmentBlockedContactsBinding? = null
     private val binding get() = _binding!!
     private var isViewLocallyUpdated = false
-    private lateinit var recyclerViewAdapter: com.abhriya.callblockr.ContactListAdapter
+    private lateinit var recyclerViewAdapter: ContactListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        obtainPermission()
     }
 
     override fun onCreateView(
@@ -59,6 +64,11 @@ class BlockedContactsFragment : Fragment(),
         initViewModel()
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkForPermission()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -72,16 +82,58 @@ class BlockedContactsFragment : Fragment(),
         viewModel.unblockContact(contactModel, viewModel.blockedContactLiveData)
     }
 
-    private fun obtainPermission() {
-        systemPermissionsHandler.checkPermissions(
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        for (i in permissions.indices) {
+            val permission = permissions[i]
+            if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                val showRationale =
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        requireActivity(),
+                        permission
+                    )
+                if (!showRationale) {
+                    showOpenSettingsSnackBar(requireActivity().findViewById(R.id.rootLayout))
+                } else {
+                    showGrantPermissionSnackBar(
+                        requireActivity().findViewById(R.id.rootLayout),
+                        permissions.toList()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun checkForPermission(){
+        systemPermissionUtil.checkPermissions(
             requireContext(),
             getListOfRequiredPermissions()
-        ).apply {
-            println("the list $this")
-            if (isNotEmpty()) {
-                systemPermissionsHandler.requestPermission(
-                    requireActivity(),
-                    this
+        ).also {
+            if (systemPermissionUtil.getMissingPermissionsArray(it).isNotEmpty()) {
+                obtainPermission()
+            } else {
+                binding.permissionRequiredLayout.permissionRequiredViewGroup.gone()
+                binding.fab.visible()
+                viewModel.getAllBlockedContacts()
+            }
+        }
+    }
+
+    private fun obtainPermission() {
+        systemPermissionUtil.checkPermissions(
+            requireContext(),
+            getListOfRequiredPermissions()
+        ).filter {
+            !it.second
+        }.apply {
+            if (!isNullOrEmpty()) {
+                requestPermissions(
+                    map { it.first }.toTypedArray(),
+                    BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE
                 )
             }
         }
@@ -113,7 +165,7 @@ class BlockedContactsFragment : Fragment(),
         binding.recyclerView.layoutManager =
             LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
         recyclerViewAdapter =
-            com.abhriya.callblockr.ContactListAdapter(requireContext(), this)
+            ContactListAdapter(requireContext(), this)
         binding.recyclerView.adapter = recyclerViewAdapter
         binding.recyclerView.setHasFixedSize(true)
     }
@@ -151,7 +203,8 @@ class BlockedContactsFragment : Fragment(),
         binding.stateView.gone()
         binding.recyclerView.visible()
         binding.recyclerView.layoutAnimation =
-            AnimationUtils.loadLayoutAnimation(context,
+            AnimationUtils.loadLayoutAnimation(
+                context,
                 R.anim.recyclerview_layout_anim
             )
         if (result.isEmpty()) {
@@ -175,12 +228,42 @@ class BlockedContactsFragment : Fragment(),
         val requiredPermissions: MutableList<String> =
             mutableListOf(
                 Manifest.permission.CALL_PHONE,
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.READ_CALL_LOG
+                Manifest.permission.READ_PHONE_STATE
+//                Manifest.permission.READ_CALL_LOG
             )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             requiredPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS)
         }
         return requiredPermissions
+    }
+
+    private fun showOpenSettingsSnackBar(coordinatorLayout: CoordinatorLayout) {
+        Snackbar.make(
+            coordinatorLayout,
+            stringRes(R.string.accept_permission_from_settings),
+            Snackbar.LENGTH_INDEFINITE
+        ).setAction(
+            stringRes(R.string.open_settings)
+        ) {
+            requireActivity().openAppSettings()
+        }.show()
+    }
+
+    private fun showGrantPermissionSnackBar(
+        coordinatorLayout: CoordinatorLayout,
+        permissionList: List<String>
+    ) {
+        Snackbar.make(
+            coordinatorLayout,
+            stringRes(R.string.accept_permission),
+            Snackbar.LENGTH_INDEFINITE
+        ).setAction(
+            stringRes(R.string.grant_permission)
+        ) {
+            requestPermissions(
+                permissionList.toTypedArray(),
+                BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE
+            )
+        }.show()
     }
 }

@@ -1,4 +1,4 @@
-package com.abhriya.callblockr
+package com.abhriya.callblockr.ui
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.abhriya.callblockr.R
 import com.abhriya.callblockr.domain.model.ContactModel
 import com.abhriya.callblockr.domain.model.ContactModelType
 import com.abhriya.callblockr.util.drawableRes

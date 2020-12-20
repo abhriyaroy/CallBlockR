@@ -1,25 +1,27 @@
-package com.abhriya.callblockr
+package com.abhriya.callblockr.ui
 
 import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.abhriya.callblockr.databinding.FragmentUnblockedContactsBinding
+import com.abhriya.callblockr.R
+import com.abhriya.callblockr.databinding.FragmentContactListBinding
 import com.abhriya.callblockr.domain.model.ContactModel
+import com.abhriya.callblockr.util.*
 import com.abhriya.callblockr.viewmodel.ContactsViewModel
-import com.abhriya.callblockr.util.ResourceState
-import com.abhriya.callblockr.util.gone
-import com.abhriya.callblockr.util.stringRes
-import com.abhriya.callblockr.util.visible
-import com.abhriya.systempermissions.SystemPermissionUtil
-import com.abhriya.systempermissions.SystemPermissionsHandler
+import com.abhriya.commons.SystemPermissionUtil
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,25 +29,17 @@ import javax.inject.Inject
 class ContactListFragment : Fragment(), HandleItemClick {
 
     @Inject
-    internal lateinit var systemPermissionsHandler: SystemPermissionsHandler
-
-    @Inject
     internal lateinit var systemPermissionUtil: SystemPermissionUtil
 
-    private var _binding: FragmentUnblockedContactsBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding : FragmentContactListBinding
     private lateinit var viewModel: ContactsViewModel
     private lateinit var recyclerViewAdapter: ContactListAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentUnblockedContactsBinding.inflate(inflater, container, false)
+        binding = FragmentContactListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -62,20 +56,41 @@ class ContactListFragment : Fragment(), HandleItemClick {
         checkForPermission()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun handleActionImageClick(position: Int, contactModel: ContactModel) {
         viewModel.blockContact(contactModel, viewModel.savedAvailableContactLiveData)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        for (i in permissions.indices) {
+            val permission = permissions[i]
+            if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                val showRationale =
+                    ActivityCompat.shouldShowRequestPermissionRationale(
+                        requireActivity(),
+                        permission
+                    )
+                if (!showRationale) {
+                    showOpenSettingsSnackBar(requireActivity().findViewById(R.id.rootLayout))
+                } else {
+                    showGrantPermissionSnackBar(
+                        requireActivity().findViewById(R.id.rootLayout),
+                        permissions.toList()
+                    )
+                }
+            }
+        }
+    }
 
     private fun initRecyclerView() {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
-        recyclerViewAdapter = ContactListAdapter(requireContext(), this)
+        recyclerViewAdapter =
+            ContactListAdapter(requireContext(), this)
         binding.recyclerView.adapter = recyclerViewAdapter
         binding.recyclerView.setHasFixedSize(true)
     }
@@ -87,25 +102,30 @@ class ContactListFragment : Fragment(), HandleItemClick {
     }
 
     private fun attachClickListeners() {
-        binding.grantPermissionButton.setOnClickListener {
+        binding.permissionRequiredLayout.permissionRequiredViewGroup.setOnClickListener {
+            Log.d("${this.javaClass.name}","layout clicked")
             obtainPermission()
         }
     }
 
     private fun observeUnBlockedContactList() {
         viewModel.savedAvailableContactLiveData.observe(
-            this,
+            viewLifecycleOwner,
             Observer {
                 handleDataUpdate(it)
             })
     }
 
     private fun checkForPermission() {
-        systemPermissionsHandler.checkPermissions(
+        Log.d("${this.javaClass.name}","check permission")
+        systemPermissionUtil.checkPermissions(
             requireContext(),
             getListOfRequiredPermissions()
-        ).also {
-            if (systemPermissionUtil.filterPermissionListForMissingPermissions(it).isNotEmpty()) {
+        ).let {
+            systemPermissionUtil.getMissingPermissionsArray(it)
+        }.also {
+            if (it.isNotEmpty()) {
+                Log.d("${this.javaClass.name}","the permission list is ${it[0]}")
                 showGrantPermissionLayout()
             } else {
                 loadUnblockedContacts()
@@ -114,17 +134,16 @@ class ContactListFragment : Fragment(), HandleItemClick {
     }
 
     private fun obtainPermission() {
-        systemPermissionsHandler.checkPermissions(
+        systemPermissionUtil.checkPermissions(
             requireContext(),
             getListOfRequiredPermissions()
-        ).apply {
-            systemPermissionUtil.filterPermissionListForMissingPermissions(this)
+        ).run {
+            systemPermissionUtil.getMissingPermissionsArray(this)
                 .apply {
                     if (isNotEmpty()) {
-                        systemPermissionsHandler.requestPermission(
-                            requireActivity(),
-                            this
-//                    this@UnBlockedContactsFragment
+                        requestPermissions(
+                            this,
+                            12
                         )
                     }
                 }
@@ -137,7 +156,7 @@ class ContactListFragment : Fragment(), HandleItemClick {
 
     private fun showGrantPermissionLayout() {
         binding.apply {
-            grantPermissionButton.visible()
+            permissionRequiredLayout.permissionRequiredViewGroup.visible()
             lottieLoader.gone()
             recyclerView.gone()
         }
@@ -160,7 +179,7 @@ class ContactListFragment : Fragment(), HandleItemClick {
         binding.lottieLoader.playAnimation()
         binding.lottieLoader.visible()
         binding.recyclerView.gone()
-        binding.grantPermissionButton.gone()
+        binding.permissionRequiredLayout.permissionRequiredViewGroup.gone()
     }
 
     private fun handleSuccessState(result: List<ContactModel>) {
@@ -168,7 +187,9 @@ class ContactListFragment : Fragment(), HandleItemClick {
         binding.lottieLoader.gone()
         binding.stateView.gone()
         binding.recyclerView.layoutAnimation =
-            AnimationUtils.loadLayoutAnimation(context, R.anim.recyclerview_layout_anim)
+            AnimationUtils.loadLayoutAnimation(context,
+                R.anim.recyclerview_layout_anim
+            )
         binding.recyclerView.visible()
         if (result.isEmpty()) {
             showEmptyState()
@@ -185,5 +206,35 @@ class ContactListFragment : Fragment(), HandleItemClick {
     private fun showEmptyState() {
         binding.stateView.text = stringRes(R.string.wow_so_empty)
         binding.stateView.visible()
+    }
+
+    private fun showOpenSettingsSnackBar(coordinatorLayout: CoordinatorLayout) {
+        Snackbar.make(
+            coordinatorLayout,
+            stringRes(R.string.accept_permission_from_settings),
+            Snackbar.LENGTH_INDEFINITE
+        ).setAction(
+            stringRes(R.string.open_settings)
+        ) {
+            requireActivity().openAppSettings()
+        }.show()
+    }
+
+    private fun showGrantPermissionSnackBar(
+        coordinatorLayout: CoordinatorLayout,
+        permissionList: List<String>
+    ) {
+        Snackbar.make(
+            coordinatorLayout,
+            stringRes(R.string.accept_permission),
+            Snackbar.LENGTH_INDEFINITE
+        ).setAction(
+            stringRes(R.string.grant_permission)
+        ) {
+            requestPermissions(
+                permissionList.toTypedArray(),
+                BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE
+            )
+        }.show()
     }
 }

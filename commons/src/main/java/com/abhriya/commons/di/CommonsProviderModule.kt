@@ -1,11 +1,8 @@
 package com.abhriya.commons.di
 
-import android.content.Context
 import com.abhriya.commons.DialogHelper
-import com.abhriya.systempermissions.SystemPermissionUtil
-import com.abhriya.systempermissions.SystemPermissionUtilImpl
-import com.abhriya.systempermissions.SystemPermissionsHandler
-import com.abhriya.systempermissions.SystemPermissionsHandlerImpl
+import com.abhriya.commons.SystemPermissionUtil
+import com.abhriya.commons.SystemPermissionUtilImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,10 +18,10 @@ class CommonsProviderModule {
     fun providesDialogHelper(): DialogHelper = DialogHelper()
 
 
-    @Provides
-    @Singleton
-    fun providesSystemPermissionsHandler(permissionUtil: SystemPermissionUtil): SystemPermissionsHandler =
-        SystemPermissionsHandlerImpl(permissionUtil)
+//    @Provides
+//    @Singleton
+//    fun providesSystemPermissionsHandler(permissionUtil: SystemPermissionUtil): SystemPermissionsHandler =
+//        SystemPermissionsHandlerImpl(permissionUtil)
 
     @Provides
     @Singleton

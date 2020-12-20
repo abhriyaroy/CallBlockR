@@ -12,7 +12,7 @@ android {
     buildToolsVersion = Apps.buildToolsVersion
 
     defaultConfig {
-        applicationId = "com.biofourmis.ipmpatient"
+        applicationId = "com.abhriya.callblockrt"
         minSdkVersion(Apps.minSdk)
         targetSdkVersion(Apps.targetSdk)
         versionCode = Apps.versionCode

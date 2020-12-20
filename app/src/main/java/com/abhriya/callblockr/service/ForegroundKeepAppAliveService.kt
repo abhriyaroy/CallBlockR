@@ -11,9 +11,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ForegroundKeepAppAliveService : Service() {
 
-    override fun onCreate() {
-        super.onCreate()
-    }
 
     @Inject
     internal lateinit var notificationProvider: NotificationProvider
