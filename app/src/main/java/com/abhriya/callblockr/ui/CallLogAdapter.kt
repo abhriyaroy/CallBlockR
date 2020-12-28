@@ -78,22 +78,22 @@ class CallLogViewHolder(
         itemView.contactAvatar.setText(itemView.titleTextView.text.toString())
         when (callLogModel.callType) {
             CallType.INCOMING_CALL-> {
-                itemView.callTypeTextView.text = "Incoming"
+                itemView.callTypeTextView.text = context.stringRes(R.string.incoming)
             }
             CallType.OUTGOING_CALL-> {
-                itemView.callTypeTextView.text = "Outgoing"
+                itemView.callTypeTextView.text = context.stringRes(R.string.outgoing)
             }
             CallType.MISSED_CALL-> {
-                itemView.callTypeTextView.text = "Missed"
+                itemView.callTypeTextView.text = context.stringRes(R.string.missed)
             }
             CallType.VOICE_MAIL-> {
-                itemView.callTypeTextView.text = "VoiceMail"
+                itemView.callTypeTextView.text = context.stringRes(R.string.voiceMail)
             }
             CallType.REJECTED_CALL-> {
-                itemView.callTypeTextView.text = "Rejected"
+                itemView.callTypeTextView.text = context.stringRes(R.string.rejected)
             }
             CallType.BLOCKED_CALL-> {
-                itemView.callTypeTextView.text = "Blocked"
+                itemView.callTypeTextView.text = context.stringRes(R.string.blocked)
             }
         }
         if(!callLogModel.isNumberBlocked){

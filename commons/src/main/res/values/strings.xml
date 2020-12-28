@@ -25,4 +25,9 @@
     <string name="recents">Recents</string>
     <string name="contacts">Contacts</string>
     <string name="blocked">Blocked</string>
+    <string name="incoming">Incoming</string>
+    <string name="outgoing">Outgoing</string>
+    <string name="missed">Missed</string>
+    <string name="voiceMail">VoiceMail</string>
+    <string name="rejected">Rejected</string>
 </resources>

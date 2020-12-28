@@ -34,6 +34,7 @@ object Versions {
     const val acronymView = "2.0"
     const val bottomBar = "0.2"
     const val viewPager = "1.0.0"
+    const val fabulousFilter = "0.0.5"
 
     // Test
     const val junit = "4.12"
@@ -101,6 +102,8 @@ object Libs {
         "com.afollestad.material-dialogs:input:${Versions.materialDialog}"
 
     const val viewPager = "androidx.viewpager2:viewpager2:${Versions.viewPager}"
+
+    const val fabulousBottomBar = "com.allattentionhere:fabulousfilter:${Versions.fabulousFilter}"
 
 }
 

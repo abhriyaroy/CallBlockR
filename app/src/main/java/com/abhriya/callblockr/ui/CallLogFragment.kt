@@ -8,12 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.abhriya.callblockr.databinding.FragmentCallLogBinding
 import com.abhriya.callblockr.domain.model.CallLogModel
+import com.abhriya.callblockr.domain.model.ContactModel
+import com.abhriya.callblockr.domain.model.ContactModelType
 import com.abhriya.callblockr.util.gone
 import com.abhriya.callblockr.util.visible
+import com.abhriya.callblockr.viewmodel.ContactsViewModel
 import com.abhriya.commons.SystemPermissionUtil
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -23,7 +27,7 @@ class CallLogFragment : Fragment(), HandleCallLogItemClick {
 
     @Inject
     internal lateinit var systemPermissionUtil: SystemPermissionUtil
-    internal val viewModel: CallLogViewModel by viewModels()
+    private lateinit var viewModel: ContactsViewModel
     private lateinit var binding: FragmentCallLogBinding
     private lateinit var recyclerViewAdapter: CallLogAdapter
 
@@ -31,8 +35,10 @@ class CallLogFragment : Fragment(), HandleCallLogItemClick {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentCallLogBinding.inflate(inflater, container, false)
+        viewModel = requireActivity().run {
+            ViewModelProvider(this)[ContactsViewModel::class.java]
+        }
         return binding.root
 
     }
@@ -50,7 +56,14 @@ class CallLogFragment : Fragment(), HandleCallLogItemClick {
     }
 
     override fun handleActionImageClick(position: Int, callLogModel: CallLogModel) {
-
+        viewModel.blockContact(
+            ContactModel(
+                name = callLogModel.contactName,
+                phoneNumber = callLogModel.contactNumber,
+                contactModelType = ContactModelType.BLOCKED_CONTACT
+            ),
+            viewModel.blockedContactLiveData
+        )
     }
 
     private fun setupObservers() {

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.abhriya.callblockr.data.exception.DataLayerException
 import com.abhriya.callblockr.domain.ContactsUseCase
+import com.abhriya.callblockr.domain.model.CallLogModel
 import com.abhriya.callblockr.domain.model.ContactModel
 import com.abhriya.callblockr.util.ResourceState
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +19,8 @@ import javax.inject.Inject
 class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase: ContactsUseCase) :
     ViewModel() {
 
+    val inputNumberToBlock : MutableLiveData<String> = MutableLiveData()
+
     private var _blockedContactsLiveData = MutableLiveData<ResourceState<List<ContactModel>>>()
     val blockedContactLiveData: LiveData<ResourceState<List<ContactModel>>>
         get() = _blockedContactsLiveData
@@ -26,6 +29,9 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
         MutableLiveData<ResourceState<List<ContactModel>>>()
     val savedAvailableContactLiveData: LiveData<ResourceState<List<ContactModel>>>
         get() = _savedAvailableContactsLiveData
+
+    private val _callLogList : MutableLiveData<List<CallLogModel>> = MutableLiveData()
+    val callLogList : MutableLiveData<List<CallLogModel>> = _callLogList
 
     fun getAllBlockedContacts() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -56,8 +62,10 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
                     contactsUseCase.saveBlockedContact(contactModel)
                     val blockedContacts = async { getAllBlockedContacts() }
                     val availableContacts = async { getAllSavedAvailableContacts() }
+                    val callLog = async { getCallLog() }
                     availableContacts.await()
                     blockedContacts.await()
+                    callLog.await()
                 } catch (dataLayerException: DataLayerException) {
                     it.postValue(ResourceState.error(dataLayerException.message, dataLayerException))
                 }
@@ -105,6 +113,12 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
                     ResourceState.error(dataLayerException.message, dataLayerException)
                 )
             }
+        }
+    }
+
+    fun getCallLog(){
+        viewModelScope.launch {
+            _callLogList.value = contactsUseCase.getCallLog()
         }
     }
 

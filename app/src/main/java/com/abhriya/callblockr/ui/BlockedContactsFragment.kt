@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +13,15 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.abhriya.callblockr.R
 import com.abhriya.callblockr.databinding.FragmentBlockedContactsBinding
 import com.abhriya.callblockr.domain.model.ContactModel
-import com.abhriya.callblockr.domain.model.ContactModelType
 import com.abhriya.callblockr.util.*
+import com.abhriya.callblockr.viewmodel.ContactsViewModel
 import com.abhriya.commons.DialogHelper
-import com.abhriya.commons.InputValueListener
 import com.abhriya.commons.SystemPermissionUtil
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +38,7 @@ class BlockedContactsFragment : Fragment(),
 
     @Inject
     internal lateinit var systemPermissionUtil: SystemPermissionUtil
-    val viewModel: BlockedContactsViewModel by viewModels()
+    private lateinit var viewModel: ContactsViewModel
     private var _binding: FragmentBlockedContactsBinding? = null
     private val binding get() = _binding!!
     private var isViewLocallyUpdated = false
@@ -54,6 +53,9 @@ class BlockedContactsFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentBlockedContactsBinding.inflate(inflater, container, false)
+        viewModel = requireActivity().run {
+            ViewModelProvider(this)[ContactsViewModel::class.java]
+        }
         return binding.root
     }
 
@@ -141,23 +143,27 @@ class BlockedContactsFragment : Fragment(),
 
     private fun attachClickListeners() {
         binding.fab.setOnClickListener {
-            dialogHelper.showInputDialog(
-                requireContext(),
-                requireContext().stringRes(R.string.input_number_to_block),
-                requireContext().stringRes(R.string.block_number),
-                InputType.TYPE_CLASS_PHONE,
-                object : InputValueListener {
-                    override fun onInputSubmitted(inputText: String) {
-                        viewModel.blockContact(
-                            ContactModel(
-                                phoneNumber = inputText,
-                                contactModelType = ContactModelType.BLOCKED_CONTACT
-                            ),
-                            viewModel.blockedContactLiveData
-                        )
-                    }
-                }
-            )
+//            dialogHelper.showInputDialog(
+//                requireContext(),
+//                requireContext().stringRes(R.string.input_number_to_block),
+//                requireContext().stringRes(R.string.block_number),
+//                InputType.TYPE_CLASS_PHONE,
+//                object : InputValueListener {
+//                    override fun onInputSubmitted(inputText: String) {
+//                        viewModel.blockContact(
+//                            ContactModel(
+//                                phoneNumber = inputText,
+//                                contactModelType = ContactModelType.BLOCKED_CONTACT
+//                            ),
+//                            viewModel.blockedContactLiveData
+//                        )
+//                    }
+//                }
+//            )
+
+            val dialogFrag = BlockContactFragment()
+            dialogFrag.setParentFab(binding.fab)
+            dialogFrag.show(requireFragmentManager(), dialogFrag.tag)
         }
     }
 

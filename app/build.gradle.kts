@@ -63,6 +63,8 @@ dependencies {
     implementation(Libs.coroutineAndroid)
     // Lifecycle components
     implementation(Libs.lifecycleComponentExtension)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt(Libs.lifecycleComponentExtension)
     // Viewmodel
     implementation(Libs.viewmodel)
@@ -89,6 +91,8 @@ dependencies {
     implementation(Libs.hiltViewModelLifecycle)
     kapt(Libs.hiltDaggerAndroidCompiler)
     kapt(Libs.hiltCompiler)
+
+    implementation(Libs.fabulousBottomBar)
 
     implementation(project(":commons"))
     implementation(project(":datasource"))

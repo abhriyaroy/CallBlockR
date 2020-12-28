@@ -1,5 +1,7 @@
 package com.abhriya.callblockr.util
 
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 
 fun View.gone() {
@@ -12,4 +14,8 @@ fun View.invisible() {
 
 fun View.visible() {
     this.visibility = View.VISIBLE
+}
+
+fun withDelayOnMain(delay: Long, block: () -> Unit) {
+    Handler(Looper.getMainLooper()).postDelayed(Runnable(block), delay)
 }
