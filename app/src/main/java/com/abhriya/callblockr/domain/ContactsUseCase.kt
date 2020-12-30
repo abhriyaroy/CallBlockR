@@ -10,7 +10,7 @@ interface ContactsUseCase {
     suspend fun saveBlockedContact(contactModel: ContactModel)
     suspend fun unBlockContact(contactModel: ContactModel)
     suspend fun getAllBlockedContacts(): List<ContactModel>
-    suspend fun getAllSavedAvailableContacts(): List<ContactModel>
+    suspend fun getAllSavedContacts(): List<ContactModel>
     suspend fun getCallLog(): List<CallLogModel>
 }
 
@@ -37,24 +37,29 @@ class ContactsInteractor(private val contactsRepository: ContactsRepository) : C
             }
     }
 
-    override suspend fun getAllSavedAvailableContacts(): List<ContactModel> {
+    override suspend fun getAllSavedContacts(): List<ContactModel> {
         val savedContacts : List<ContactModel> = contactsRepository.getAllContactsFromDevice()
             .map {
                 ContactsModelMapper.mapToContactsModelFromContactEntity(
                     it,
-                    ContactModelType.UNBLOCKED_CONTACT
+                    ContactModelType.ALL_CONTACT
                 )
             }
         val blockedContacts = getAllBlockedContacts()
-        return savedContacts.filter {
-            var isBlocked = true
+        return savedContacts.map {
+            var isBlocked = false
             for (blockedContact in blockedContacts) {
                 if (it.phoneNumber == blockedContact.phoneNumber) {
-                    isBlocked = false
+                    isBlocked = true
                     break
                 }
             }
-            isBlocked
+            ContactModel(
+                it.name,
+                it.phoneNumber,
+                it.contactModelType,
+                isBlocked
+            )
         }
     }
 

@@ -33,4 +33,6 @@
     <string name="rejected">Rejected</string>
     <string name="contact_blocked">Contact blocked</string>
     <string name="contact_unblocked">Contact unblocked</string>
+    <string name="empty_call_log">Your call log is empty</string>
+    <string name="empty_contacts">Your call log is empty</string>
 </resources>

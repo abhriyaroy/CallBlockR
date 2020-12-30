@@ -25,6 +25,17 @@
             layout="@layout/layout_permission_required"
             app:permissionDescription="@{@string/grant_permission_contact_list}" />
 
+        <TextView
+            android:id="@+id/emptyCallLogTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintTop_toTopOf="parent"
+            bind:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="gone"
+            android:text="@string/empty_call_log"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

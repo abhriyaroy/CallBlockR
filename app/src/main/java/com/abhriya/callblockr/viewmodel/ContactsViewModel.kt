@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.lang.Exception
-import javax.inject.Inject
 
 class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase: ContactsUseCase) :
     ViewModel() {
@@ -61,7 +60,7 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
                 try {
                     contactsUseCase.saveBlockedContact(contactModel)
                     val blockedContacts = async { getAllBlockedContacts() }
-                    val availableContacts = async { getAllSavedAvailableContacts() }
+                    val availableContacts = async { getAllSavedContacts() }
                     val callLog = async { getCallLog() }
                     availableContacts.await()
                     blockedContacts.await()
@@ -87,7 +86,7 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
                     try {
                         contactsUseCase.unBlockContact(contactModel)
                         getAllBlockedContacts()
-                        getAllSavedAvailableContacts()
+                        getAllSavedContacts()
                     } catch (dataLayerException: DataLayerException) {
                         it.postValue(
                             ResourceState.error(dataLayerException.message, dataLayerException)
@@ -100,12 +99,18 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
         }
     }
 
-    fun getAllSavedAvailableContacts() {
+    fun getAllSavedContacts() {
         viewModelScope.launch(Dispatchers.IO) {
             _savedAvailableContactsLiveData.postValue(ResourceState.loading())
             try {
-                contactsUseCase.getAllSavedAvailableContacts()
-                    .also {
+                contactsUseCase.getAllSavedContacts()
+                    .let {
+                        val list= it.toMutableList()
+                            list.sortWith(Comparator { o1, o2 ->
+                            o1.name?.compareTo(o2.name?:"")?:0
+                        })
+                        list
+                    }.also {
                         _savedAvailableContactsLiveData.postValue(ResourceState.success(it))
                     }
             } catch (dataLayerException: DataLayerException) {
@@ -117,8 +122,8 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
     }
 
     fun getCallLog(){
-        viewModelScope.launch {
-            _callLogList.value = contactsUseCase.getCallLog()
+        viewModelScope.launch(Dispatchers.IO) {
+            _callLogList.postValue(contactsUseCase.getCallLog())
         }
     }
 

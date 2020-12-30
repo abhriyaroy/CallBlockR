@@ -69,17 +69,22 @@ class ContactListViewHolder(
                     R.drawable.ic_black_remove_24
                 )
             )
-            ContactModelType.UNBLOCKED_CONTACT -> itemView.actionImage.setImageDrawable(
-                context.drawableRes(
-                    R.drawable.ic_black_block_24
+            ContactModelType.ALL_CONTACT -> {
+                if(!contactModel.isContactBlocked)
+                itemView.actionImage.setImageDrawable(
+                    context.drawableRes(
+                        R.drawable.ic_black_block_24
+                    )
                 )
-            )
+            }
         }
     }
 
     fun attachActionItemClickListener(contactModel: ContactModel) {
-        itemView.rootLayout.setOnClickListener {
-            handleItemClick.handleActionImageClick(adapterPosition, contactModel)
+        if(!contactModel.isContactBlocked) {
+            itemView.rootLayout.setOnClickListener {
+                handleItemClick.handleActionImageClick(adapterPosition, contactModel)
+            }
         }
     }
 }
@@ -95,7 +100,7 @@ class ContactListDiffUtilCallback(
 
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].phoneNumber == newList[newItemPosition].phoneNumber
+        return areContentsTheSame(oldItemPosition, newItemPosition)
     }
 
     override fun getOldListSize() = oldList.size
@@ -105,6 +110,7 @@ class ContactListDiffUtilCallback(
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition].phoneNumber == newList[newItemPosition].phoneNumber
                 && oldList[oldItemPosition].name == newList[newItemPosition].name
+                && oldList[oldItemPosition].isContactBlocked == newList[newItemPosition].isContactBlocked
     }
 
 }

@@ -79,6 +79,7 @@ class BlockedContactsFragment : Fragment(),
     ) {
         isViewLocallyUpdated = true
         viewModel.unblockContact(contactModel, viewModel.blockedContactLiveData)
+        showContactUnBlockedSnackBar(requireActivity().findViewById(R.id.rootLayout))
     }
 
     override fun onRequestPermissionsResult(
@@ -269,4 +270,12 @@ class BlockedContactsFragment : Fragment(),
 //            )
 //        }.show()
 //    }
+
+    private fun showContactUnBlockedSnackBar(coordinatorLayout: CoordinatorLayout) {
+        Snackbar.make(
+            coordinatorLayout,
+            stringRes(R.string.contact_unblocked),
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
 }

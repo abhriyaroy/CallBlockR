@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -99,7 +100,18 @@ class CallLogFragment : Fragment(), HandleCallLogItemClick {
 
     private fun setupObservers() {
         viewModel.callLogList.observe(viewLifecycleOwner, Observer {
-            recyclerViewAdapter.setCallLogList(it)
+            if(it.isEmpty()){
+                binding.emptyCallLogTextView.visible()
+                binding.recyclerView.gone()
+            } else {
+                binding.emptyCallLogTextView.gone()
+                binding.recyclerView.visible()
+                binding.recyclerView.layoutAnimation =
+                    AnimationUtils.loadLayoutAnimation(context,
+                        R.anim.recyclerview_layout_anim
+                    )
+                recyclerViewAdapter.setCallLogList(it)
+            }
         })
 
         viewModel.blockedContactLiveData.observe(viewLifecycleOwner, Observer {

@@ -36,6 +36,7 @@ class CallLogProviderImpl(
                 null,
                 null
             )
+
             return cursorToMatrix(cursor)
         } else {
             return listOf()
@@ -61,5 +62,5 @@ class CallLogProviderImpl(
     }
 
     private fun Cursor.getStringFromColumn(columnName: String) =
-        getString(getColumnIndex(columnName))
+        getString(getColumnIndex(columnName)) ?: ""
 }

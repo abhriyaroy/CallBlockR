@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.abhriya.callblockr.R
@@ -15,10 +16,12 @@ import com.abhriya.callblockr.databinding.FragmentBlockedContactsBinding
 import com.abhriya.callblockr.domain.model.ContactModel
 import com.abhriya.callblockr.domain.model.ContactModelType
 import com.abhriya.callblockr.util.KeyboardUtil
+import com.abhriya.callblockr.util.stringRes
 import com.abhriya.callblockr.util.withDelayOnMain
 import com.abhriya.callblockr.viewmodel.ContactsViewModel
 import com.allattentionhere.fabulousfilter.AAH_FabulousFragment
 import com.bumptech.glide.util.Util
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -46,6 +49,7 @@ class BlockContactFragment : AAH_FabulousFragment() {
                 )
                 closeFilter("")
                 viewModel.inputNumberToBlock.value = ""
+                showContactBlockedSnackBar(requireActivity().findViewById(R.id.rootLayout))
             }
         }
         binding.closeImageView.setOnClickListener {
@@ -68,6 +72,14 @@ class BlockContactFragment : AAH_FabulousFragment() {
         super.onDismiss(dialog)
         closeFilter("")
         viewModel.inputNumberToBlock.value = ""
+    }
+
+    private fun showContactBlockedSnackBar(coordinatorLayout: CoordinatorLayout) {
+        Snackbar.make(
+            coordinatorLayout,
+            stringRes(R.string.contact_blocked),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
 }

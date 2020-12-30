@@ -58,6 +58,7 @@ class ContactListFragment : Fragment(), HandleItemClick {
 
     override fun handleActionImageClick(position: Int, contactModel: ContactModel) {
         viewModel.blockContact(contactModel, viewModel.savedAvailableContactLiveData)
+        showContactBlockedSnackBar(requireActivity().findViewById(R.id.rootLayout))
     }
 
     override fun onRequestPermissionsResult(
@@ -163,7 +164,7 @@ class ContactListFragment : Fragment(), HandleItemClick {
     }
 
     private fun loadUnblockedContacts() {
-        viewModel.getAllSavedAvailableContacts()
+        viewModel.getAllSavedContacts()
     }
 
     private fun handleDataUpdate(result: ResourceState<List<ContactModel>>) {
@@ -242,4 +243,12 @@ class ContactListFragment : Fragment(), HandleItemClick {
 //            )
 //        }.show()
 //    }
+
+    private fun showContactBlockedSnackBar(coordinatorLayout: CoordinatorLayout) {
+        Snackbar.make(
+            coordinatorLayout,
+            stringRes(R.string.contact_blocked),
+            Snackbar.LENGTH_SHORT
+        ).show()
+    }
 }

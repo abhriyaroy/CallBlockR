@@ -4,7 +4,8 @@ package com.abhriya.callblockr.domain.model
 data class ContactModel(
     val name: String? = null,
     val phoneNumber: String,
-    val contactModelType: ContactModelType
+    val contactModelType: ContactModelType,
+    val isContactBlocked : Boolean = false
 ) : Comparable<ContactModel> {
     override fun compareTo(other: ContactModel): Int {
         return if (name == other.name && phoneNumber == other.phoneNumber && contactModelType == other.contactModelType) {
@@ -17,5 +18,5 @@ data class ContactModel(
 
 enum class ContactModelType {
     BLOCKED_CONTACT,
-    UNBLOCKED_CONTACT
+    ALL_CONTACT
 }
