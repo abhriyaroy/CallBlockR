@@ -9,14 +9,44 @@
         android:layout_height="match_parent"
         android:background="?attr/colorPrimary">
 
+        <com.mancj.materialsearchbar.MaterialSearchBar
+            style="@style/MaterialSearchBarLight"
+            app:mt_speechMode="false"
+            app:mt_hint="Custom hint"
+            app:mt_maxSuggestionsCount="4"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchBar"
+            app:mt_searchBarColor="?attr/colorPrimaryDark"
+            app:mt_searchIconTint="?attr/colorAccent"
+            app:mt_dividerColor="?attr/colorAccent"
+            app:mt_navIconTint="?attr/colorAccent"
+            app:mt_clearIconTint="?attr/colorAccent"
+            app:mt_backIconTint="?attr/colorAccent"
+            app:mt_textCursorTint="?attr/colorAccent"
+            app:mt_textColor="?attr/colorAccent"
+            app:mt_hintColor="?attr/colorAccent"
+            app:mt_placeholderColor="?attr/colorAccent"
+            app:mt_highlightedTextColor="?attr/colorAccent"
+            app:mt_searchIconUseTint="true"
+            app:mt_navIconEnabled="false"
+            android:visibility="gone"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/searchBar" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieLoader"

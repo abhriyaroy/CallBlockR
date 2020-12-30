@@ -22,6 +22,7 @@ class ForegroundKeepAppAliveService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         notificationProvider.showKeepAppAliveForegroundNotification(
             this,
+            this,
             Intent(this, MainActivity::class.java)
         )
         return super.onStartCommand(intent, flags, startId)

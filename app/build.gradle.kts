@@ -94,6 +94,8 @@ dependencies {
 
     implementation(Libs.fabulousBottomBar)
 
+    implementation(Libs.searchBar)
+
     implementation(project(":commons"))
     implementation(project(":datasource"))
 

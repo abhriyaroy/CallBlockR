@@ -48,7 +48,7 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesNotificationsProvider(): NotificationProvider = NotificationsProviderImpl()
+    fun providesNotificationsProvider(systemPermissionUtil: SystemPermissionUtil): NotificationProvider = NotificationsProviderImpl(systemPermissionUtil)
 
     @Provides
     @Singleton
@@ -60,7 +60,8 @@ class AppModule {
     @Provides
     @Singleton
     fun providesCallLogProvider(
-        @ApplicationContext context: Context
-    ): CallLogProvider = CallLogProviderImpl(context)
+        @ApplicationContext context: Context,
+        systemPermissionUtil: SystemPermissionUtil
+    ): CallLogProvider = CallLogProviderImpl(context, systemPermissionUtil)
 
 }

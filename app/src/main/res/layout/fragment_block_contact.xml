@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.allattentionhere.fabulousfilter.AAH_FilterView
@@ -12,9 +11,22 @@
             android:id="@+id/mainConstraintView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
             android:paddingTop="24dp"
-            android:paddingBottom="24dp"
-            android:background="?attr/colorPrimary">
+            android:paddingBottom="24dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/closeImageView"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_close_black_48dp"
+                android:tint="?attr/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/titleTextView"
@@ -32,15 +44,15 @@
                 android:id="@+id/inputNumberEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="16dp"
-                android:textColor="?attr/colorAccent"
                 android:layout_marginStart="24dp"
-                android:inputType="number"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
+                android:inputType="number"
                 android:text="@={viewModel.inputNumberToBlock}"
-                app:layout_constraintTop_toBottomOf="@id/titleTextView"/>
+                android:textColor="?attr/colorAccent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleTextView" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/confirmButton"
@@ -48,8 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="24dp"
                 android:background="@drawable/bg_button_curved"
-                android:text="@string/block_number"
                 android:enabled="@{!TextUtils.isEmpty(viewModel.inputNumberToBlock)}"
+                android:text="@string/block_number"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +72,7 @@
     </com.allattentionhere.fabulousfilter.AAH_FilterView>
 
     <data>
+
         <variable
             name="viewModel"
             type="com.abhriya.callblockr.viewmodel.ContactsViewModel" />

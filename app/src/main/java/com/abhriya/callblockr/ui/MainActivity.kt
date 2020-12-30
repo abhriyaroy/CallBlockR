@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.abhriya.callblockr.R
 import com.abhriya.callblockr.databinding.ActivityMainBinding
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.bottom_menu,menu)
+        menuInflater.inflate(R.menu.bottom_menu, menu)
         return true
     }
 
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                 .create()
         )
         binding.viewPager.adapter = adapter
-        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+        binding.viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
 
             }
@@ -97,12 +98,13 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun startKeepAppAliveService() {
-        with(Intent(this, ForegroundKeepAppAliveService::class.java)) {
+    fun startKeepAppAliveService() {
+        Intent(this, ForegroundKeepAppAliveService::class.java).let {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(this)
+                ContextCompat.startForegroundService(this, it);
+//                startForegroundService(this)
             } else {
-                startService(this)
+                startService(it)
             }
         }
     }
@@ -140,8 +142,8 @@ class MainActivity : AppCompatActivity() {
 //        }.show()
 //    }
 
-    private fun initBottomBarListener(){
-        binding.bottomBar.setOnItemSelectListener( object : ReadableBottomBar.ItemSelectListener{
+    private fun initBottomBarListener() {
+        binding.bottomBar.setOnItemSelectListener(object : ReadableBottomBar.ItemSelectListener {
             override fun onItemSelected(index: Int) {
                 binding.viewPager.setCurrentItem(index, true)
             }

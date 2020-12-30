@@ -101,6 +101,8 @@ class CallLogViewHolder(
                 context.drawableRes(
                     R.drawable.ic_black_block_24
                 ))
+        } else {
+            itemView.actionImage.setImageDrawable(null)
         }
     }
 
@@ -122,7 +124,7 @@ class CallLogDiffUtilCallback(
 
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldList[oldItemPosition].timeStampInMillis == newList[newItemPosition].timeStampInMillis
+        return areContentsTheSame(oldItemPosition, newItemPosition)
     }
 
     override fun getOldListSize() = oldList.size
@@ -132,6 +134,7 @@ class CallLogDiffUtilCallback(
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition].contactNumber == newList[newItemPosition].contactNumber
                 && oldList[oldItemPosition].timeStampInMillis == newList[newItemPosition].timeStampInMillis
+                && oldList[oldItemPosition].isNumberBlocked == newList[newItemPosition].isNumberBlocked
     }
 
 }

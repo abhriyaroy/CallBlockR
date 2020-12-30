@@ -26,6 +26,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
             app:lottie_autoPlay="true"
             app:lottie_fileName="loader.json"
             app:lottie_loop="true" />
@@ -46,7 +47,7 @@
         <include
             android:id="@+id/permissionRequiredLayout"
             layout="@layout/layout_permission_required"
-            bind:permissionDescription="@{@string/grant_permission_contact_list}" />
+            bind:permissionDescription="@{@string/grant_permission_phone_receiver}" />
 
         <TextView
             android:id="@+id/stateView"

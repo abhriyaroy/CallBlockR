@@ -1,6 +1,7 @@
 package com.abhriya.callblockr.ui
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -47,6 +48,10 @@ class BlockContactFragment : AAH_FabulousFragment() {
                 viewModel.inputNumberToBlock.value = ""
             }
         }
+        binding.closeImageView.setOnClickListener {
+            closeFilter("")
+            viewModel.inputNumberToBlock.value = ""
+        }
         //params to set
         setAnimationDuration(300) //optional; default 500ms
 //        setPeekHeight(300) // optional; default 400dp
@@ -57,6 +62,12 @@ class BlockContactFragment : AAH_FabulousFragment() {
         setViewMain(binding.mainConstraintView) //necessary; main bottomsheet view
         setMainContentView(binding.root ) // necessary; call at end before super
         super.setupDialog(dialog, style) //call super at last
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        closeFilter("")
+        viewModel.inputNumberToBlock.value = ""
     }
 
 }

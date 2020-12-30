@@ -76,11 +76,11 @@ class ContactListFragment : Fragment(), HandleItemClick {
                     )
                 if (!showRationale) {
                     showOpenSettingsSnackBar(requireActivity().findViewById(R.id.rootLayout))
-                } else {
-                    showGrantPermissionSnackBar(
-                        requireActivity().findViewById(R.id.rootLayout),
-                        permissions.toList()
-                    )
+//                } else {
+//                    showGrantPermissionSnackBar(
+//                        requireActivity().findViewById(R.id.rootLayout),
+//                        permissions.toList()
+//                    )
                 }
             }
         }
@@ -179,6 +179,7 @@ class ContactListFragment : Fragment(), HandleItemClick {
         binding.lottieLoader.playAnimation()
         binding.lottieLoader.visible()
         binding.recyclerView.gone()
+        binding.searchBar.gone()
         binding.permissionRequiredLayout.permissionRequiredViewGroup.gone()
     }
 
@@ -190,6 +191,7 @@ class ContactListFragment : Fragment(), HandleItemClick {
             AnimationUtils.loadLayoutAnimation(context,
                 R.anim.recyclerview_layout_anim
             )
+        binding.searchBar.visible()
         binding.recyclerView.visible()
         if (result.isEmpty()) {
             showEmptyState()
@@ -199,11 +201,14 @@ class ContactListFragment : Fragment(), HandleItemClick {
 
     private fun handleErrorState() {
         binding.recyclerView.gone()
+        binding.searchBar.gone()
         binding.stateView.text = stringRes(R.string.something_went_wrong)
         binding.stateView.visible()
     }
 
     private fun showEmptyState() {
+        binding.permissionRequiredLayout.permissionRequiredViewGroup.gone()
+        binding.searchBar.visible()
         binding.stateView.text = stringRes(R.string.wow_so_empty)
         binding.stateView.visible()
     }
@@ -212,7 +217,7 @@ class ContactListFragment : Fragment(), HandleItemClick {
         Snackbar.make(
             coordinatorLayout,
             stringRes(R.string.accept_permission_from_settings),
-            Snackbar.LENGTH_INDEFINITE
+            Snackbar.LENGTH_LONG
         ).setAction(
             stringRes(R.string.open_settings)
         ) {
@@ -220,21 +225,21 @@ class ContactListFragment : Fragment(), HandleItemClick {
         }.show()
     }
 
-    private fun showGrantPermissionSnackBar(
-        coordinatorLayout: CoordinatorLayout,
-        permissionList: List<String>
-    ) {
-        Snackbar.make(
-            coordinatorLayout,
-            stringRes(R.string.accept_permission),
-            Snackbar.LENGTH_INDEFINITE
-        ).setAction(
-            stringRes(R.string.grant_permission)
-        ) {
-            requestPermissions(
-                permissionList.toTypedArray(),
-                BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE
-            )
-        }.show()
-    }
+//    private fun showGrantPermissionSnackBar(
+//        coordinatorLayout: CoordinatorLayout,
+//        permissionList: List<String>
+//    ) {
+//        Snackbar.make(
+//            coordinatorLayout,
+//            stringRes(R.string.accept_permission),
+//            Snackbar.LENGTH_INDEFINITE
+//        ).setAction(
+//            stringRes(R.string.grant_permission)
+//        ) {
+//            requestPermissions(
+//                permissionList.toTypedArray(),
+//                BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE
+//            )
+//        }.show()
+//    }
 }

@@ -17,11 +17,12 @@
     <string name="grant_permission">Grant permissions</string>
     <string name="grant_permission_call_log">Call log permission is required to show your recent calls</string>
     <string name="grant_permission_contact_list">Contacts permissions are required to show your contacts</string>
-    <string name="grant_permission_phone_receilver">Phone state permissions are required to block incoming calls</string>
+    <string name="grant_permission_phone_receiver">Phone state permissions are required to block incoming calls</string>
     <string name="grant_permission_description">Please click here to grant permissions</string>
     <string name="call_blocked">Call Blocked</string>
     <string name="call_rejected_from">Incoming call from %1$s was blocked</string>
     <string name="call_blocker_running">Call blocker is active</string>
+    <string name="call_blocker_not_running_due_to_missing_permission">CallBlockR requires permissions to function properly</string>
     <string name="recents">Recents</string>
     <string name="contacts">Contacts</string>
     <string name="blocked">Blocked</string>
@@ -30,4 +31,6 @@
     <string name="missed">Missed</string>
     <string name="voiceMail">VoiceMail</string>
     <string name="rejected">Rejected</string>
+    <string name="contact_blocked">Contact blocked</string>
+    <string name="contact_unblocked">Contact unblocked</string>
 </resources>

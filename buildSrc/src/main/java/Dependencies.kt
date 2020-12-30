@@ -35,6 +35,7 @@ object Versions {
     const val bottomBar = "0.2"
     const val viewPager = "1.0.0"
     const val fabulousFilter = "0.0.5"
+    const val searchBar = "0.8.5"
 
     // Test
     const val junit = "4.12"
@@ -104,6 +105,8 @@ object Libs {
     const val viewPager = "androidx.viewpager2:viewpager2:${Versions.viewPager}"
 
     const val fabulousBottomBar = "com.allattentionhere:fabulousfilter:${Versions.fabulousFilter}"
+
+    const val searchBar = "com.github.mancj:MaterialSearchBar:${Versions.searchBar}"
 
 }
 

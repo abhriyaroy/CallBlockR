@@ -43,10 +43,7 @@ class BlockedContactsFragment : Fragment(),
     private val binding get() = _binding!!
     private var isViewLocallyUpdated = false
     private lateinit var recyclerViewAdapter: ContactListAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private var isPermissionDeniedBefore = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -100,11 +97,6 @@ class BlockedContactsFragment : Fragment(),
                     )
                 if (!showRationale) {
                     showOpenSettingsSnackBar(requireActivity().findViewById(R.id.rootLayout))
-                } else {
-                    showGrantPermissionSnackBar(
-                        requireActivity().findViewById(R.id.rootLayout),
-                        permissions.toList()
-                    )
                 }
             }
         }
@@ -116,30 +108,32 @@ class BlockedContactsFragment : Fragment(),
             getListOfRequiredPermissions()
         ).also {
             if (systemPermissionUtil.getMissingPermissionsArray(it).isNotEmpty()) {
-                obtainPermission()
+                if(!isPermissionDeniedBefore) {
+                    isPermissionDeniedBefore = true
+                    obtainPermission()
+                }
             } else {
                 binding.permissionRequiredLayout.permissionRequiredViewGroup.gone()
                 binding.fab.visible()
                 viewModel.getAllBlockedContacts()
+                (requireActivity() as MainActivity).startKeepAppAliveService()
             }
         }
     }
 
     private fun obtainPermission() {
-        systemPermissionUtil.checkPermissions(
-            requireContext(),
-            getListOfRequiredPermissions()
-        ).filter {
-            !it.second
-        }.apply {
-            if (!isNullOrEmpty()) {
+        systemPermissionUtil.getMissingPermissionsArray(
+            systemPermissionUtil.checkPermissions(
+                requireContext(),
+                getListOfRequiredPermissions()
+            )
+        ).run {
                 requestPermissions(
-                    map { it.first }.toTypedArray(),
+                    this,
                     BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE
                 )
             }
         }
-    }
 
     private fun attachClickListeners() {
         binding.fab.setOnClickListener {
@@ -165,6 +159,10 @@ class BlockedContactsFragment : Fragment(),
             dialogFrag.setParentFab(binding.fab)
             dialogFrag.show(requireFragmentManager(), dialogFrag.tag)
         }
+
+        binding.permissionRequiredLayout.permissionRequiredViewGroup.setOnClickListener {
+            obtainPermission()
+        }
     }
 
     private fun initRecyclerView() {
@@ -178,7 +176,6 @@ class BlockedContactsFragment : Fragment(),
 
     private fun initViewModel() {
         observeBlockedContactList()
-        viewModel.getAllBlockedContacts()
     }
 
     private fun observeBlockedContactList() {
@@ -255,21 +252,21 @@ class BlockedContactsFragment : Fragment(),
         }.show()
     }
 
-    private fun showGrantPermissionSnackBar(
-        coordinatorLayout: CoordinatorLayout,
-        permissionList: List<String>
-    ) {
-        Snackbar.make(
-            coordinatorLayout,
-            stringRes(R.string.accept_permission),
-            Snackbar.LENGTH_INDEFINITE
-        ).setAction(
-            stringRes(R.string.grant_permission)
-        ) {
-            requestPermissions(
-                permissionList.toTypedArray(),
-                BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE
-            )
-        }.show()
-    }
+//    private fun showGrantPermissionSnackBar(
+//        coordinatorLayout: CoordinatorLayout,
+//        permissionList: List<String>
+//    ) {
+//        Snackbar.make(
+//            coordinatorLayout,
+//            stringRes(R.string.accept_permission),
+//            Snackbar.LENGTH_INDEFINITE
+//        ).setAction(
+//            stringRes(R.string.grant_permission)
+//        ) {
+//            requestPermissions(
+//                permissionList.toTypedArray(),
+//                BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE
+//            )
+//        }.show()
+//    }
 }
