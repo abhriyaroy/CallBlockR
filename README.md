@@ -27,19 +27,19 @@ Most other examples of the Architecture components that I could find on GitHub w
 
 ## UI Samples
 
-
-
-### Landscape
-
 <p align="center">
-  <img height="400" src="resources/landscape_demo.gif">
+  <img src="readme/Callblockr_blockedcontacts.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
+  <img src="readme/Callblockr_blocknumbermanually.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
+</p> 
+<p align="center">
+  <img src="readme/Callblockr_calllog.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
+  <img src="readme/Callblockr_allcontacts.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
+</p>
+<p align="center">
+  <img src="readme/Callblockr_searchcontact.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
+  <img src="readme/Callblockr_notification.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
 </p>
 
-### Portrait
-
-<p align="center">
-  <img height="600" src="resources/portrait_demo.gif">
-</p>
 
 ## Architecture
 
