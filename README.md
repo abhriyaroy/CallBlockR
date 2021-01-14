@@ -2,7 +2,7 @@
 A privacy first, open-source call blocking app.
 
 <p align="center">
- <img src="resources/ic_callblocker_high_res.png" alt="CallBlockR" width=300 height=300>
+ <img src="readme/ic_callblocker_high_res.png" alt="CallBlockR" width=300 height=300>
  </a>
 </p>
 
