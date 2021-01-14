@@ -6,27 +6,25 @@ A privacy first, open-source call blocking app.
 </p>
 
 # Table of Contents
-
 - [Introduction](#introduction) <br>
 - [UI Samples](#ui-samples) <br>
+- [Features](#features) <br>
 - [Architecture](#things-to-look-out-for)<br>
 - [Installation](#installation) <br>
 - [Acknowledgements](#acknowledgements) <br>
 - [About the Author](#about-the-author)<br>
 
 ## Introduction
+CallBlockR is a beautiful call blocking app which values user privacy over everything else.
 
-MovieD is a beautiful looking Movie list based project to showcase the [Android Architecture components](https://developer.android.com/topic/libraries/architecture).
 It implements:-
 - the [MVVM](https://medium.com/upday-devs/android-architecture-patterns-part-3-model-view-viewmodel-e7eeee76b73b) pattern
-- DI using [Dagger](https://github.com/google/dagger)
-- using [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) to make network calls with the help of [Retrofit](https://square.github.io/retrofit/)
-- serves and maintains the data using [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData)
-
-Most other examples of the Architecture components that I could find on GitHub were mostly a little too easy or a little too complex, here comes MovieD which maintains a fine balance of both. I have tried to keep it simple yet not too simple. I will be glad if even one persons gains something out of this! If you like it, please leave a ⭐ 😁
+- DI using [Hilt](https://developer.android.com/training/dependency-injection/hilt-android)
+- using [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) to perform background thread operations
+- using [Room](https://developer.android.com/training/data-storage/room?gclid=Cj0KCQiA9P__BRC0ARIsAEZ6iri4OPfc0B6ShpQOET_6iUpmuJFUQVVchLj1Y941zUX183rbOUO8E80aAkwQEALw_wcB&gclsrc=aw.ds) database for storing data locally.
+- serves and maintains the data state using [LiveData](https://developer.android.com/reference/android/arch/lifecycle/LiveData)
 
 ## UI Samples
-
 <p align="center">
   <img src="readme/Callblockr_blockedcontacts.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
   <img src="readme/Callblockr_blocknumbermanually.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
@@ -40,6 +38,13 @@ Most other examples of the Architecture components that I could find on GitHub w
   <img src="readme/Callblockr_notification.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
 </p>
 
+## Features
+Using CallBlockR you can
+- Block a contact directly from your phone contact list
+- Block a phone-number from your phone call log
+- Block a number by inputting manually
+- Get a notification whenever a call was blocked
+
 
 ## Architecture
 
@@ -49,14 +54,17 @@ Most other examples of the Architecture components that I could find on GitHub w
 This project should work right away after cloning.
               
 ## Acknowledgements
+Special thanks to [Deep Joshi](https://twitter.com/imdeepjoshi) for providing the app icon
 
+## Request to you
+If you like it, please leave a ⭐ on this repository 😁
 
 
 ## About the Author
 
 ### Abhriya Roy
 
- Android Developer with 2 years of experience in building apps that look and feel great. 
+ Android Developer with 3 years of experience in building apps that look and feel great. 
  Enthusiastic towards writing clean and maintainable code.
  Open source contributor.
 
