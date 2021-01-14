@@ -3,7 +3,6 @@ A privacy first, open-source call blocking app.
 
 <p align="center">
  <img src="readme/ic_callblocker_high_res.png" alt="CallBlockR" width=300 height=300>
- </a>
 </p>
 
 # Table of Contents
@@ -27,6 +26,8 @@ It implements:-
 Most other examples of the Architecture components that I could find on GitHub were mostly a little too easy or a little too complex, here comes MovieD which maintains a fine balance of both. I have tried to keep it simple yet not too simple. I will be glad if even one persons gains something out of this! If you like it, please leave a ⭐ 😁
 
 ## UI Samples
+
+
 
 ### Landscape
 
