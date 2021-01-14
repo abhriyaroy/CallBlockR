@@ -7,8 +7,8 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.abhriya.callblockr.util.stringRes
 import com.abhriya.commons.SystemPermissionUtil
+import com.abhriya.commons.util.stringRes
 
 interface NotificationProvider {
     fun showCallBlockNotification(
@@ -17,7 +17,11 @@ interface NotificationProvider {
         number: String
     )
 
-    fun showKeepAppAliveForegroundNotification(context: Context, service: Service, onNotificationClickIntent: Intent)
+    fun showKeepAppAliveForegroundNotification(
+        context: Context,
+        service: Service,
+        onNotificationClickIntent: Intent
+    )
 }
 
 const val NOTIFICATION_ID = "notif_id"
@@ -26,7 +30,8 @@ const val NOTIFICATION_CHANNEL_DESCRIPTION = "Call blocked"
 const val NOTIFICATION_CHANNEL_ID = "call_blocker_defaul_channel"
 const val DEFAULT_CHANNEL_GROUP = "defaul_group"
 
-class NotificationsProviderImpl(private val systemPermissionUtil: SystemPermissionUtil) : NotificationProvider {
+class NotificationsProviderImpl(private val systemPermissionUtil: SystemPermissionUtil) :
+    NotificationProvider {
 
     private var serviceKeepAliveDescriptiontext = ""
 
@@ -75,12 +80,18 @@ class NotificationsProviderImpl(private val systemPermissionUtil: SystemPermissi
         service: Service,
         onNotificationClickIntent: Intent
     ) {
-        val contentText = if(systemPermissionUtil.getMissingPermissionsArray(systemPermissionUtil.checkPermissions(context, getListOfRequiredPermissions())).isNotEmpty()){
+        val contentText = if (systemPermissionUtil.getMissingPermissionsArray(
+                systemPermissionUtil.checkPermissions(
+                    context,
+                    getListOfRequiredPermissions()
+                )
+            ).isNotEmpty()
+        ) {
             service.stringRes(R.string.call_blocker_not_running_due_to_missing_permission)
         } else {
             service.stringRes(R.string.call_blocker_running)
         }
-        if(contentText!=serviceKeepAliveDescriptiontext){
+        if (contentText != serviceKeepAliveDescriptiontext) {
             serviceKeepAliveDescriptiontext = contentText
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val notificationManager =

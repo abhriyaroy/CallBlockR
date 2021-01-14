@@ -1,4 +1,4 @@
-package com.abhriya.callblockr.util
+package com.abhriya.commons.util
 
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes

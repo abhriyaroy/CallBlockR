@@ -1,37 +1,31 @@
-package com.abhriya.callblockr.ui
+package com.abhriya.callblockr.ui.blockcontact
 
 import android.app.Dialog
 import android.content.DialogInterface
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.abhriya.callblockr.R
 import com.abhriya.callblockr.databinding.FragmentBlockContactBinding
-import com.abhriya.callblockr.databinding.FragmentBlockedContactsBinding
 import com.abhriya.callblockr.domain.model.ContactModel
 import com.abhriya.callblockr.domain.model.ContactModelType
-import com.abhriya.callblockr.util.KeyboardUtil
-import com.abhriya.callblockr.util.stringRes
-import com.abhriya.callblockr.util.withDelayOnMain
 import com.abhriya.callblockr.viewmodel.ContactsViewModel
+import com.abhriya.commons.util.KeyboardUtil
+import com.abhriya.commons.util.stringRes
+import com.abhriya.commons.util.withDelayOnMain
 import com.allattentionhere.fabulousfilter.AAH_FabulousFragment
-import com.bumptech.glide.util.Util
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class BlockContactFragment : AAH_FabulousFragment() {
 
-    lateinit var binding : FragmentBlockContactBinding
+    lateinit var binding: FragmentBlockContactBinding
     private lateinit var viewModel: ContactsViewModel
 
     override fun setupDialog(dialog: Dialog, style: Int) {
-        binding = FragmentBlockContactBinding.inflate(LayoutInflater.from(requireContext()), null, false)
+        binding =
+            FragmentBlockContactBinding.inflate(LayoutInflater.from(requireContext()), null, false)
         viewModel = requireActivity().run {
             ViewModelProvider(this)[ContactsViewModel::class.java]
         }
@@ -39,7 +33,7 @@ class BlockContactFragment : AAH_FabulousFragment() {
         binding.lifecycleOwner = this
         binding.confirmButton.setOnClickListener {
             KeyboardUtil.hideKeyboard(it)
-            withDelayOnMain(300){
+            withDelayOnMain(300) {
                 viewModel.blockContact(
                     ContactModel(
                         phoneNumber = viewModel.inputNumberToBlock.value!!,
@@ -64,7 +58,7 @@ class BlockContactFragment : AAH_FabulousFragment() {
 //        setViewgroupStatic(ll_buttons) // optional; layout to stick at bottom on slide
 //        setViewPager(vp_types) //optional; if you use viewpager that has scrollview
         setViewMain(binding.mainConstraintView) //necessary; main bottomsheet view
-        setMainContentView(binding.root ) // necessary; call at end before super
+        setMainContentView(binding.root) // necessary; call at end before super
         super.setupDialog(dialog, style) //call super at last
     }
 

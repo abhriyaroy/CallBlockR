@@ -1,4 +1,4 @@
-package com.abhriya.callblockr.ui
+package com.abhriya.callblockr.ui.calllog
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -10,7 +10,6 @@ import android.view.animation.AnimationUtils
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,15 +19,22 @@ import com.abhriya.callblockr.databinding.FragmentCallLogBinding
 import com.abhriya.callblockr.domain.model.CallLogModel
 import com.abhriya.callblockr.domain.model.ContactModel
 import com.abhriya.callblockr.domain.model.ContactModelType
-import com.abhriya.callblockr.util.*
+import com.abhriya.callblockr.ui.adapter.CallLogAdapter
+import com.abhriya.callblockr.ui.adapter.HandleCallLogItemClick
+import com.abhriya.callblockr.util.openAppSettings
 import com.abhriya.callblockr.viewmodel.ContactsViewModel
 import com.abhriya.commons.SystemPermissionUtil
+import com.abhriya.commons.util.ResourceState
+import com.abhriya.commons.util.gone
+import com.abhriya.commons.util.stringRes
+import com.abhriya.commons.util.visible
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CallLogFragment : Fragment(), HandleCallLogItemClick {
+class CallLogFragment : Fragment(),
+    HandleCallLogItemClick {
 
     @Inject
     internal lateinit var systemPermissionUtil: SystemPermissionUtil
@@ -100,14 +106,15 @@ class CallLogFragment : Fragment(), HandleCallLogItemClick {
 
     private fun setupObservers() {
         viewModel.callLogList.observe(viewLifecycleOwner, Observer {
-            if(it.isEmpty()){
+            if (it.isEmpty()) {
                 binding.emptyCallLogTextView.visible()
                 binding.recyclerView.gone()
             } else {
                 binding.emptyCallLogTextView.gone()
                 binding.recyclerView.visible()
                 binding.recyclerView.layoutAnimation =
-                    AnimationUtils.loadLayoutAnimation(context,
+                    AnimationUtils.loadLayoutAnimation(
+                        context,
                         R.anim.recyclerview_layout_anim
                     )
                 recyclerViewAdapter.setCallLogList(it)
@@ -115,7 +122,7 @@ class CallLogFragment : Fragment(), HandleCallLogItemClick {
         })
 
         viewModel.blockedContactLiveData.observe(viewLifecycleOwner, Observer {
-            if(it is ResourceState.Success){
+            if (it is ResourceState.Success) {
                 checkForPermission()
             }
         })
@@ -125,7 +132,10 @@ class CallLogFragment : Fragment(), HandleCallLogItemClick {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
         recyclerViewAdapter =
-            CallLogAdapter(requireContext(), this)
+            CallLogAdapter(
+                requireContext(),
+                this
+            )
         binding.recyclerView.adapter = recyclerViewAdapter
         binding.recyclerView.setHasFixedSize(true)
     }

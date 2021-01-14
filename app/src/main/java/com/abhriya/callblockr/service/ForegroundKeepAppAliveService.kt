@@ -3,8 +3,8 @@ package com.abhriya.callblockr.service
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import com.abhriya.callblockr.ui.MainActivity
 import com.abhriya.callblockr.NotificationProvider
+import com.abhriya.callblockr.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

@@ -1,6 +1,6 @@
 package com.abhriya.callblockr.domain
 
-import com.abhriya.callblockr.data.ContactsRepository
+import com.abhriya.callblockr.data.repository.ContactsRepository
 import com.abhriya.callblockr.domain.mapper.ContactsModelMapper
 import com.abhriya.callblockr.domain.model.CallLogModel
 import com.abhriya.callblockr.domain.model.ContactModel
@@ -38,7 +38,7 @@ class ContactsInteractor(private val contactsRepository: ContactsRepository) : C
     }
 
     override suspend fun getAllSavedContacts(): List<ContactModel> {
-        val savedContacts : List<ContactModel> = contactsRepository.getAllContactsFromDevice()
+        val savedContacts: List<ContactModel> = contactsRepository.getAllContactsFromDevice()
             .map {
                 ContactsModelMapper.mapToContactsModelFromContactEntity(
                     it,

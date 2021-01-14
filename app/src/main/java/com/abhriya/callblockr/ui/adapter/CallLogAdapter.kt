@@ -1,4 +1,4 @@
-package com.abhriya.callblockr.ui
+package com.abhriya.callblockr.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,15 +8,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.abhriya.callblockr.R
 import com.abhriya.callblockr.data.entity.CallType
-import com.abhriya.callblockr.data.entity.ContactEntity
 import com.abhriya.callblockr.domain.model.CallLogModel
-import com.abhriya.callblockr.domain.model.ContactModel
-import com.abhriya.callblockr.domain.model.ContactModelType
-import com.abhriya.callblockr.util.drawableRes
-import com.abhriya.callblockr.util.stringRes
+import com.abhriya.commons.util.*
 import kotlinx.android.synthetic.main.item_call_log.view.*
 import kotlinx.android.synthetic.main.item_call_log.view.actionImage
-import kotlinx.android.synthetic.main.item_contacts_list.view.*
 import kotlinx.android.synthetic.main.item_contacts_list.view.contactAvatar
 import kotlinx.android.synthetic.main.item_contacts_list.view.rootLayout
 import kotlinx.android.synthetic.main.item_contacts_list.view.subTitleTextView
@@ -69,7 +64,7 @@ class CallLogViewHolder(
     RecyclerView.ViewHolder(itemView) {
 
     fun decorateItem(callLogModel: CallLogModel) {
-        itemView.titleTextView.text = if(callLogModel.contactName.isNotBlank()){
+        itemView.titleTextView.text = if (callLogModel.contactName.isNotBlank()) {
             callLogModel.contactName
         } else {
             context.stringRes(R.string.unknown)
@@ -77,32 +72,34 @@ class CallLogViewHolder(
         itemView.subTitleTextView.text = callLogModel.contactNumber
         itemView.contactAvatar.setText(itemView.titleTextView.text.toString())
         when (callLogModel.callType) {
-            CallType.INCOMING_CALL-> {
+            CallType.INCOMING_CALL -> {
                 itemView.callTypeTextView.text = context.stringRes(R.string.incoming)
             }
-            CallType.OUTGOING_CALL-> {
+            CallType.OUTGOING_CALL -> {
                 itemView.callTypeTextView.text = context.stringRes(R.string.outgoing)
             }
-            CallType.MISSED_CALL-> {
+            CallType.MISSED_CALL -> {
                 itemView.callTypeTextView.text = context.stringRes(R.string.missed)
             }
-            CallType.VOICE_MAIL-> {
+            CallType.VOICE_MAIL -> {
                 itemView.callTypeTextView.text = context.stringRes(R.string.voiceMail)
             }
-            CallType.REJECTED_CALL-> {
+            CallType.REJECTED_CALL -> {
                 itemView.callTypeTextView.text = context.stringRes(R.string.rejected)
             }
-            CallType.BLOCKED_CALL-> {
+            CallType.BLOCKED_CALL -> {
                 itemView.callTypeTextView.text = context.stringRes(R.string.blocked)
             }
         }
-        if(!callLogModel.isNumberBlocked){
+        if (!callLogModel.isNumberBlocked) {
             itemView.actionImage.setImageDrawable(
                 context.drawableRes(
                     R.drawable.ic_black_block_24
-                ))
+                )
+            )
+            itemView.actionImage.visible()
         } else {
-            itemView.actionImage.setImageDrawable(null)
+            itemView.actionImage.invisible()
         }
     }
 
@@ -133,6 +130,7 @@ class CallLogDiffUtilCallback(
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition].contactNumber == newList[newItemPosition].contactNumber
+                && oldList[oldItemPosition].contactName == newList[newItemPosition].contactName
                 && oldList[oldItemPosition].timeStampInMillis == newList[newItemPosition].timeStampInMillis
                 && oldList[oldItemPosition].isNumberBlocked == newList[newItemPosition].isNumberBlocked
     }

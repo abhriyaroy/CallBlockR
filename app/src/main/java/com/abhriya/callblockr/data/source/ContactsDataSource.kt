@@ -1,24 +1,27 @@
-package com.abhriya.callblockr.contactsprovider
+package com.abhriya.callblockr.data.source
 
 import android.Manifest
 import android.content.ContentResolver
 import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
-import com.abhriya.callblockr.model.DeviceContactsEntity
+import com.abhriya.callblockr.data.entity.DeviceContactsEntity
 import com.abhriya.commons.SystemPermissionUtil
 import me.xdrop.fuzzywuzzy.FuzzySearch
 
-interface ContactsProvider {
+interface ContactsDataSource {
     suspend fun getAllContactsFromDevice(): List<DeviceContactsEntity>
 
-    suspend fun searchContact(charSequence: CharSequence, allContactList: List<DeviceContactsEntity>): List<DeviceContactsEntity>
+    suspend fun searchContact(
+        charSequence: CharSequence,
+        allContactList: List<DeviceContactsEntity>
+    ): List<DeviceContactsEntity>
 }
 
-class ContactsProviderImpl(
+class ContactsDataSourceImpl(
     private val context: Context,
     private val permissionUtil: SystemPermissionUtil
-) : ContactsProvider {
+) : ContactsDataSource {
 
     override suspend fun getAllContactsFromDevice(): List<DeviceContactsEntity> {
         if (permissionUtil.checkPermissions(

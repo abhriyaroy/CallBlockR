@@ -19,6 +19,14 @@ android {
             )
         }
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 }
 
 dependencies {
@@ -37,5 +45,5 @@ dependencies {
     api(Libs.roomKts)
     kapt(Libs.roomCompiler)
 
-    implementation(project(":commons"))
+    implementation(project(Modules.commons))
 }

@@ -8,5 +8,5 @@ data class CallLogModel(
     val callType: CallType,
     val timeStampInMillis: String,
     val callDuration: String,
-    val isNumberBlocked : Boolean
+    val isNumberBlocked: Boolean
 )

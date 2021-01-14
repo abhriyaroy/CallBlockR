@@ -1,4 +1,4 @@
-package com.abhriya.callblockr.ui
+package com.abhriya.callblockr.ui.allcontacts
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -20,9 +20,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.abhriya.callblockr.R
 import com.abhriya.callblockr.databinding.FragmentContactListBinding
 import com.abhriya.callblockr.domain.model.ContactModel
-import com.abhriya.callblockr.util.*
+import com.abhriya.callblockr.ui.adapter.ContactListAdapter
+import com.abhriya.callblockr.ui.adapter.HandleItemClick
+import com.abhriya.callblockr.util.openAppSettings
 import com.abhriya.callblockr.viewmodel.ContactsViewModel
 import com.abhriya.commons.SystemPermissionUtil
+import com.abhriya.commons.util.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -83,11 +86,6 @@ class ContactListFragment : Fragment(), HandleItemClick {
                     )
                 if (!showRationale) {
                     showOpenSettingsSnackBar(requireActivity().findViewById(R.id.rootLayout))
-//                } else {
-//                    showGrantPermissionSnackBar(
-//                        requireActivity().findViewById(R.id.rootLayout),
-//                        permissions.toList()
-//                    )
                 }
             }
         }
@@ -97,7 +95,10 @@ class ContactListFragment : Fragment(), HandleItemClick {
         binding.recyclerView.layoutManager =
             LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
         recyclerViewAdapter =
-            ContactListAdapter(requireContext(), this)
+            ContactListAdapter(
+                requireContext(),
+                this
+            )
         binding.recyclerView.adapter = recyclerViewAdapter
         binding.recyclerView.setHasFixedSize(true)
     }
@@ -154,24 +155,6 @@ class ContactListFragment : Fragment(), HandleItemClick {
             viewModel.closeSearch()
             true
         }
-
-//        binding.searchBar.setOnSearchActionListener(object : MaterialSearchBar.OnSearchActionListener{
-//            override fun onButtonClicked(buttonCode: Int) {
-//                when (buttonCode) {
-//                    MaterialSearchBar.BUTTON_BACK -> viewModel.searchAllContacts(null)
-//                }
-//            }
-//
-//            override fun onSearchConfirmed(text: CharSequence?) {
-//                viewModel.searchAllContacts(text)
-//            }
-//
-//            override fun onSearchStateChanged(enabled: Boolean) {
-//                if(!enabled) {
-//                    viewModel.searchAllContacts(null)
-//                }
-//            }
-//        })
     }
 
     private fun checkForPermission() {
@@ -270,7 +253,7 @@ class ContactListFragment : Fragment(), HandleItemClick {
     private fun showEmptyState() {
         binding.permissionRequiredLayout.permissionRequiredViewGroup.gone()
         binding.searchView.visible()
-        binding.stateView.text = stringRes(R.string.wow_so_empty)
+        binding.stateView.text = stringRes(R.string.contacts_on_your_contact_list_will_show_up_here)
         binding.stateView.visible()
     }
 
@@ -285,24 +268,6 @@ class ContactListFragment : Fragment(), HandleItemClick {
             requireActivity().openAppSettings()
         }.show()
     }
-
-//    private fun showGrantPermissionSnackBar(
-//        coordinatorLayout: CoordinatorLayout,
-//        permissionList: List<String>
-//    ) {
-//        Snackbar.make(
-//            coordinatorLayout,
-//            stringRes(R.string.accept_permission),
-//            Snackbar.LENGTH_INDEFINITE
-//        ).setAction(
-//            stringRes(R.string.grant_permission)
-//        ) {
-//            requestPermissions(
-//                permissionList.toTypedArray(),
-//                BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE
-//            )
-//        }.show()
-//    }
 
     private fun showContactBlockedSnackBar(coordinatorLayout: CoordinatorLayout) {
         Snackbar.make(

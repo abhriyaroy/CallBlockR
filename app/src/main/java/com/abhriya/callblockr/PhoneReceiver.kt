@@ -8,7 +8,7 @@ import android.telecom.TelecomManager
 import android.telephony.TelephonyManager
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
-import com.abhriya.callblockr.util.stringRes
+import com.abhriya.commons.util.stringRes
 import com.abhriya.datasource.local.LocalDataSource
 import com.android.internal.telephony.ITelephony
 import kotlinx.coroutines.GlobalScope
@@ -58,14 +58,13 @@ class PhoneReceiverImpl(
             ?: return false
         if (incomingNumber.isNotBlank()) {
             val contactData = localDataSource.getBlockedContactByNumber(incomingNumber)
-            println("contact data obtained $contactData")
             return contactData != null
         }
         return false
     }
 
     @SuppressLint("MissingPermission")
-    private fun rejectCall(
+    private suspend fun rejectCall(
         @NonNull context: Context,
         intent: Intent,
         onNotificationClickIntent: Intent
@@ -81,11 +80,13 @@ class PhoneReceiverImpl(
                 // Handle accordingly
             }
         }
+        val notificationBodyIdentifier: String? =
+            localDataSource.getBlockedContactByNumber(intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER))?.name
+                ?: intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
         notificationProvider.showCallBlockNotification(
             context,
             onNotificationClickIntent,
-            intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER)
-                ?: context.stringRes(R.string.unknown)
+            notificationBodyIdentifier ?: context.stringRes(R.string.unknown)
         )
     }
 

@@ -109,6 +109,11 @@ object Libs {
 
 }
 
+object Modules {
+    const val commons = ":commons"
+    const val datasource = ":datasource"
+}
+
 object TestLibs {
     const val junit = "junit:junit:${Versions.junit}"
     const val junitExtension = "androidx.test.ext:junit:${Versions.junit_extension}"

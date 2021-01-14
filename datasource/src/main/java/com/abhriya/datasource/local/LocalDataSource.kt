@@ -12,7 +12,7 @@ interface LocalDataSource {
     suspend fun saveToBlockedContactsDb(contactListToBlock: List<ContactDbEntity>)
     suspend fun removeBlockedContactsFromDb(contactListToUnBlock: List<ContactDbEntity>)
     suspend fun getAllBlockedContacts(): List<ContactDbEntity>
-    suspend fun getBlockedContactByNumber(phoneNumber: String): ContactDbEntity?
+    suspend fun getBlockedContactByNumber(phoneNumber: String?): ContactDbEntity?
 }
 
 class LocalDataSourceImpl(applicationContext: Context) :
@@ -58,7 +58,10 @@ class LocalDataSourceImpl(applicationContext: Context) :
         }
     }
 
-    override suspend fun getBlockedContactByNumber(phoneNumber: String): ContactDbEntity? {
+    override suspend fun getBlockedContactByNumber(phoneNumber: String?): ContactDbEntity? {
+        if(phoneNumber.isNullOrEmpty()){
+            return null
+        }
         try {
             return blockedContactsDb.contactsDao().getAll()
                 .find {

@@ -1,6 +1,6 @@
 package com.abhriya.callblockr.di
 
-import com.abhriya.callblockr.data.ContactsRepository
+import com.abhriya.callblockr.data.repository.ContactsRepository
 import com.abhriya.callblockr.domain.ContactsInteractor
 import com.abhriya.callblockr.domain.ContactsUseCase
 import dagger.Module

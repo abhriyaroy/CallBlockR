@@ -1,6 +1,4 @@
-package com.abhriya.callblockr.util
-
-import java.lang.Exception
+package com.abhriya.commons.util
 
 /**
  * Data and UI State management
@@ -32,7 +30,7 @@ sealed class ResourceState<T> {
          * Returns [ResourceState.Error] instance.
          * @param message Description of failure.
          */
-        fun <T> error(message: String?, error : Exception) =
+        fun <T> error(message: String?, error: Exception) =
             Error<T>(
                 message,
                 error

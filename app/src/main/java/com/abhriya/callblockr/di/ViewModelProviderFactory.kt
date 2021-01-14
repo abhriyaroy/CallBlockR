@@ -1,6 +1,5 @@
 package com.abhriya.callblockr.di
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.abhriya.callblockr.viewmodel.ContactsViewModel

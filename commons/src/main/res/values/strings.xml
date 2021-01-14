@@ -10,6 +10,8 @@
     <string name="unblock">Unblock</string>
     <string name="unknown">Unknown</string>
     <string name="wow_so_empty">Wow! So empty…</string>
+    <string name="your_blocked_contacts_show_up_here">Your blocked contacts will show up here</string>
+    <string name="contacts_on_your_contact_list_will_show_up_here">Contacts on your contact list will show up here</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="accept_permission">Please grant permission</string>
     <string name="accept_permission_from_settings">Please grant permissions from settings</string>

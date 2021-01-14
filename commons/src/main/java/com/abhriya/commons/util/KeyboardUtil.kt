@@ -1,4 +1,4 @@
-package com.abhriya.callblockr.util
+package com.abhriya.commons.util
 
 import android.app.Activity
 import android.content.Context
@@ -48,7 +48,8 @@ object KeyboardUtil {
     fun hideKeyboard(view: View?) {
         if (view != null) {
             val inputManager =
-                view!!.getContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                view!!.getContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             if (inputManager != null) {
                 inputManager!!.hideSoftInputFromWindow(view!!.getWindowToken(), 0)
             }

@@ -1,4 +1,4 @@
-package com.abhriya.callblockr.ui
+package com.abhriya.callblockr.ui.blockedcontacts
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -11,7 +11,6 @@ import android.view.animation.AnimationUtils
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,10 +18,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.abhriya.callblockr.R
 import com.abhriya.callblockr.databinding.FragmentBlockedContactsBinding
 import com.abhriya.callblockr.domain.model.ContactModel
-import com.abhriya.callblockr.util.*
+import com.abhriya.callblockr.ui.MainActivity
+import com.abhriya.callblockr.ui.adapter.ContactListAdapter
+import com.abhriya.callblockr.ui.adapter.HandleItemClick
+import com.abhriya.callblockr.ui.blockcontact.BlockContactFragment
+import com.abhriya.callblockr.util.openAppSettings
 import com.abhriya.callblockr.viewmodel.ContactsViewModel
-import com.abhriya.commons.DialogHelper
 import com.abhriya.commons.SystemPermissionUtil
+import com.abhriya.commons.util.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -32,9 +35,6 @@ const val BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE = 3
 @AndroidEntryPoint
 class BlockedContactsFragment : Fragment(),
     HandleItemClick {
-
-    @Inject
-    internal lateinit var dialogHelper: DialogHelper
 
     @Inject
     internal lateinit var systemPermissionUtil: SystemPermissionUtil
@@ -103,13 +103,13 @@ class BlockedContactsFragment : Fragment(),
         }
     }
 
-    private fun checkForPermission(){
+    private fun checkForPermission() {
         systemPermissionUtil.checkPermissions(
             requireContext(),
             getListOfRequiredPermissions()
         ).also {
             if (systemPermissionUtil.getMissingPermissionsArray(it).isNotEmpty()) {
-                if(!isPermissionDeniedBefore) {
+                if (!isPermissionDeniedBefore) {
                     isPermissionDeniedBefore = true
                     obtainPermission()
                 }
@@ -129,34 +129,17 @@ class BlockedContactsFragment : Fragment(),
                 getListOfRequiredPermissions()
             )
         ).run {
-                requestPermissions(
-                    this,
-                    BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE
-                )
-            }
+            requestPermissions(
+                this,
+                BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE
+            )
         }
+    }
 
     private fun attachClickListeners() {
         binding.fab.setOnClickListener {
-//            dialogHelper.showInputDialog(
-//                requireContext(),
-//                requireContext().stringRes(R.string.input_number_to_block),
-//                requireContext().stringRes(R.string.block_number),
-//                InputType.TYPE_CLASS_PHONE,
-//                object : InputValueListener {
-//                    override fun onInputSubmitted(inputText: String) {
-//                        viewModel.blockContact(
-//                            ContactModel(
-//                                phoneNumber = inputText,
-//                                contactModelType = ContactModelType.BLOCKED_CONTACT
-//                            ),
-//                            viewModel.blockedContactLiveData
-//                        )
-//                    }
-//                }
-//            )
-
-            val dialogFrag = BlockContactFragment()
+            val dialogFrag =
+                BlockContactFragment()
             dialogFrag.setParentFab(binding.fab)
             dialogFrag.show(requireFragmentManager(), dialogFrag.tag)
         }
@@ -170,7 +153,10 @@ class BlockedContactsFragment : Fragment(),
         binding.recyclerView.layoutManager =
             LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
         recyclerViewAdapter =
-            ContactListAdapter(requireContext(), this)
+            ContactListAdapter(
+                requireContext(),
+                this
+            )
         binding.recyclerView.adapter = recyclerViewAdapter
         binding.recyclerView.setHasFixedSize(true)
     }
@@ -224,7 +210,7 @@ class BlockedContactsFragment : Fragment(),
     }
 
     private fun showEmptyState() {
-        binding.stateView.text = stringRes(R.string.wow_so_empty)
+        binding.stateView.text = stringRes(R.string.your_blocked_contacts_show_up_here)
         binding.stateView.visible()
     }
 

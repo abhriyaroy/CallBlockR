@@ -6,14 +6,14 @@ import com.abhriya.callblockr.NotificationProvider
 import com.abhriya.callblockr.NotificationsProviderImpl
 import com.abhriya.callblockr.PhoneReceiver
 import com.abhriya.callblockr.PhoneReceiverImpl
-import com.abhriya.callblockr.calllogprovider.CallLogProvider
-import com.abhriya.callblockr.calllogprovider.CallLogProviderImpl
-import com.abhriya.callblockr.contactsprovider.ContactsProvider
-import com.abhriya.callblockr.contactsprovider.ContactsProviderImpl
-import com.abhriya.callblockr.data.ContactsRepository
-import com.abhriya.callblockr.data.ContactsRepositoryImpl
-import com.abhriya.datasource.local.LocalDataSource
+import com.abhriya.callblockr.data.repository.ContactsRepository
+import com.abhriya.callblockr.data.repository.ContactsRepositoryImpl
+import com.abhriya.callblockr.data.source.CallLogDataSource
+import com.abhriya.callblockr.data.source.CallLogDataSourceImpl
+import com.abhriya.callblockr.data.source.ContactsDataSource
+import com.abhriya.callblockr.data.source.ContactsDataSourceImpl
 import com.abhriya.commons.SystemPermissionUtil
+import com.abhriya.datasource.local.LocalDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,10 +34,14 @@ class AppModule {
     @Singleton
     fun providesContactRepository(
         localDataSource: LocalDataSource,
-        contactsProvider: ContactsProvider,
-        callLogProvider: CallLogProvider
+        contactsDataSource: ContactsDataSource,
+        callLogDataSource: CallLogDataSource
     ): ContactsRepository =
-        ContactsRepositoryImpl(localDataSource, contactsProvider, callLogProvider)
+        ContactsRepositoryImpl(
+            localDataSource,
+            contactsDataSource,
+            callLogDataSource
+        )
 
     @Provides
     @Singleton
@@ -48,20 +52,29 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun providesNotificationsProvider(systemPermissionUtil: SystemPermissionUtil): NotificationProvider = NotificationsProviderImpl(systemPermissionUtil)
+    fun providesNotificationsProvider(systemPermissionUtil: SystemPermissionUtil): NotificationProvider =
+        NotificationsProviderImpl(systemPermissionUtil)
 
     @Provides
     @Singleton
     fun providesContactProvider(
         @ApplicationContext context: Context,
         permissionUtil: SystemPermissionUtil
-    ): ContactsProvider = ContactsProviderImpl(context, permissionUtil)
+    ): ContactsDataSource =
+        ContactsDataSourceImpl(
+            context,
+            permissionUtil
+        )
 
     @Provides
     @Singleton
     fun providesCallLogProvider(
         @ApplicationContext context: Context,
         systemPermissionUtil: SystemPermissionUtil
-    ): CallLogProvider = CallLogProviderImpl(context, systemPermissionUtil)
+    ): CallLogDataSource =
+        CallLogDataSourceImpl(
+            context,
+            systemPermissionUtil
+        )
 
 }

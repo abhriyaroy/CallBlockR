@@ -1,4 +1,4 @@
-package com.abhriya.callblockr.calllogprovider
+package com.abhriya.callblockr.data.source
 
 import android.Manifest
 import android.content.Context
@@ -9,14 +9,14 @@ import com.abhriya.callblockr.data.entity.CallType
 import com.abhriya.commons.SystemPermissionUtil
 import dagger.hilt.android.qualifiers.ApplicationContext
 
-interface CallLogProvider {
+interface CallLogDataSource {
     fun getCallLog(): List<CallLogEntity>
 }
 
-class CallLogProviderImpl(
+class CallLogDataSourceImpl(
     @ApplicationContext private val context: Context,
     private val systemPermissionUtil: SystemPermissionUtil
-) : CallLogProvider {
+) : CallLogDataSource {
     override fun getCallLog(): List<CallLogEntity> {
         if (systemPermissionUtil.checkPermission(context, Manifest.permission.READ_CALL_LOG)) {
             val c = context.applicationContext

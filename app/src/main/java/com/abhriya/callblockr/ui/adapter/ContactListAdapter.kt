@@ -1,4 +1,4 @@
-package com.abhriya.callblockr.ui
+package com.abhriya.callblockr.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,9 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.abhriya.callblockr.R
 import com.abhriya.callblockr.domain.model.ContactModel
 import com.abhriya.callblockr.domain.model.ContactModelType
-import com.abhriya.callblockr.util.drawableRes
-import com.abhriya.callblockr.util.stringRes
+import com.abhriya.commons.util.*
+import kotlinx.android.synthetic.main.item_call_log.view.*
 import kotlinx.android.synthetic.main.item_contacts_list.view.*
+import kotlinx.android.synthetic.main.item_contacts_list.view.actionImage
+import kotlinx.android.synthetic.main.item_contacts_list.view.contactAvatar
+import kotlinx.android.synthetic.main.item_contacts_list.view.rootLayout
+import kotlinx.android.synthetic.main.item_contacts_list.view.subTitleTextView
+import kotlinx.android.synthetic.main.item_contacts_list.view.titleTextView
 
 class ContactListAdapter(
     private val context: Context,
@@ -70,18 +75,23 @@ class ContactListViewHolder(
                 )
             )
             ContactModelType.ALL_CONTACT -> {
-                if(!contactModel.isContactBlocked)
-                itemView.actionImage.setImageDrawable(
-                    context.drawableRes(
-                        R.drawable.ic_black_block_24
+                if (!contactModel.isContactBlocked) {
+                    itemView.actionImage.setImageDrawable(
+                        context.drawableRes(
+                            R.drawable.ic_black_block_24
+                        )
                     )
-                )
+                    itemView.actionImage.visible()
+                } else {
+                    itemView.actionImage.invisible()
+
+                }
             }
         }
     }
 
     fun attachActionItemClickListener(contactModel: ContactModel) {
-        if(!contactModel.isContactBlocked) {
+        if (!contactModel.isContactBlocked) {
             itemView.rootLayout.setOnClickListener {
                 handleItemClick.handleActionImageClick(adapterPosition, contactModel)
             }
@@ -109,6 +119,7 @@ class ContactListDiffUtilCallback(
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         return oldList[oldItemPosition].phoneNumber == newList[newItemPosition].phoneNumber
+                && oldList[oldItemPosition].name == newList[newItemPosition].name
                 && oldList[oldItemPosition].name == newList[newItemPosition].name
                 && oldList[oldItemPosition].isContactBlocked == newList[newItemPosition].isContactBlocked
     }

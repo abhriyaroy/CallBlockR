@@ -1,10 +1,9 @@
 package com.abhriya.callblockr.broadcastreceiver
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.abhriya.callblockr.ui.MainActivity
 import com.abhriya.callblockr.PhoneReceiver
+import com.abhriya.callblockr.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
