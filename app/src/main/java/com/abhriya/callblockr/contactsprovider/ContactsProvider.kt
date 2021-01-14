@@ -7,9 +7,12 @@ import android.database.Cursor
 import android.provider.ContactsContract
 import com.abhriya.callblockr.model.DeviceContactsEntity
 import com.abhriya.commons.SystemPermissionUtil
+import me.xdrop.fuzzywuzzy.FuzzySearch
 
 interface ContactsProvider {
     suspend fun getAllContactsFromDevice(): List<DeviceContactsEntity>
+
+    suspend fun searchContact(charSequence: CharSequence, allContactList: List<DeviceContactsEntity>): List<DeviceContactsEntity>
 }
 
 class ContactsProviderImpl(
@@ -75,6 +78,19 @@ class ContactsProviderImpl(
             return contactsList
         } else {
             return listOf()
+        }
+    }
+
+    override suspend fun searchContact(
+        charSequence: CharSequence,
+        allContactList: List<DeviceContactsEntity>
+    ): List<DeviceContactsEntity> {
+        return FuzzySearch.extractAll(charSequence.toString(), allContactList) { item ->
+            item?.name ?: "" + item?.phoneNumber ?: ""
+        }.filter {
+            it.score >= 80
+        }.map {
+            it.referent
         }
     }
 

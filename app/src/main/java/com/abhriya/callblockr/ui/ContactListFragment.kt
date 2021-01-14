@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.EditText
+import androidx.appcompat.widget.SearchView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -25,13 +27,16 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+const val MINIMUM_NUMBER_OF_SEARCH_CHARS = 2
+
+
 @AndroidEntryPoint
 class ContactListFragment : Fragment(), HandleItemClick {
 
     @Inject
     internal lateinit var systemPermissionUtil: SystemPermissionUtil
 
-    private lateinit var binding : FragmentContactListBinding
+    private lateinit var binding: FragmentContactListBinding
     private lateinit var viewModel: ContactsViewModel
     private lateinit var recyclerViewAdapter: ContactListAdapter
 
@@ -49,6 +54,7 @@ class ContactListFragment : Fragment(), HandleItemClick {
         initViewModel()
         attachClickListeners()
         observeUnBlockedContactList()
+        initSearchView()
     }
 
     override fun onResume() {
@@ -57,7 +63,7 @@ class ContactListFragment : Fragment(), HandleItemClick {
     }
 
     override fun handleActionImageClick(position: Int, contactModel: ContactModel) {
-        viewModel.blockContact(contactModel, viewModel.savedAvailableContactLiveData)
+        viewModel.blockContact(contactModel, viewModel.allContactsToShowLiveData)
         showContactBlockedSnackBar(requireActivity().findViewById(R.id.rootLayout))
     }
 
@@ -104,21 +110,72 @@ class ContactListFragment : Fragment(), HandleItemClick {
 
     private fun attachClickListeners() {
         binding.permissionRequiredLayout.permissionRequiredViewGroup.setOnClickListener {
-            Log.d("${this.javaClass.name}","layout clicked")
+            Log.d("${this.javaClass.name}", "layout clicked")
             obtainPermission()
         }
     }
 
     private fun observeUnBlockedContactList() {
-        viewModel.savedAvailableContactLiveData.observe(
+        viewModel.allContactsToShowLiveData.observe(
             viewLifecycleOwner,
             Observer {
                 handleDataUpdate(it)
             })
     }
 
+    private fun initSearchView() {
+        binding.searchView.setIconifiedByDefault(false)
+        binding.searchView.findViewById<EditText>(R.id.search_src_text).apply {
+            setHintTextColor(requireContext().getThemeColor(R.attr.colorAccent))
+            setTextColor(requireContext().getThemeColor(R.attr.colorAccent))
+        }
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText?.length != null && newText.length > MINIMUM_NUMBER_OF_SEARCH_CHARS) {
+                    viewModel.searchAllContacts(newText)
+                } else if (newText == null || newText.isEmpty()) {
+                    viewModel.closeSearch()
+                }
+                return true
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query?.length != null && query.isNotEmpty()) {
+                    viewModel.searchAllContacts(query)
+                } else if (query == null || query.isEmpty()) {
+                    viewModel.closeSearch()
+                }
+                return true
+            }
+        })
+
+        binding.searchView.setOnCloseListener {
+            viewModel.closeSearch()
+            true
+        }
+
+//        binding.searchBar.setOnSearchActionListener(object : MaterialSearchBar.OnSearchActionListener{
+//            override fun onButtonClicked(buttonCode: Int) {
+//                when (buttonCode) {
+//                    MaterialSearchBar.BUTTON_BACK -> viewModel.searchAllContacts(null)
+//                }
+//            }
+//
+//            override fun onSearchConfirmed(text: CharSequence?) {
+//                viewModel.searchAllContacts(text)
+//            }
+//
+//            override fun onSearchStateChanged(enabled: Boolean) {
+//                if(!enabled) {
+//                    viewModel.searchAllContacts(null)
+//                }
+//            }
+//        })
+    }
+
     private fun checkForPermission() {
-        Log.d("${this.javaClass.name}","check permission")
+        Log.d("${this.javaClass.name}", "check permission")
         systemPermissionUtil.checkPermissions(
             requireContext(),
             getListOfRequiredPermissions()
@@ -126,7 +183,7 @@ class ContactListFragment : Fragment(), HandleItemClick {
             systemPermissionUtil.getMissingPermissionsArray(it)
         }.also {
             if (it.isNotEmpty()) {
-                Log.d("${this.javaClass.name}","the permission list is ${it[0]}")
+                Log.d("${this.javaClass.name}", "the permission list is ${it[0]}")
                 showGrantPermissionLayout()
             } else {
                 loadUnblockedContacts()
@@ -160,6 +217,8 @@ class ContactListFragment : Fragment(), HandleItemClick {
             permissionRequiredLayout.permissionRequiredViewGroup.visible()
             lottieLoader.gone()
             recyclerView.gone()
+            stateView.gone()
+            searchCardView.gone()
         }
     }
 
@@ -180,7 +239,7 @@ class ContactListFragment : Fragment(), HandleItemClick {
         binding.lottieLoader.playAnimation()
         binding.lottieLoader.visible()
         binding.recyclerView.gone()
-        binding.searchBar.gone()
+        binding.searchView.gone()
         binding.permissionRequiredLayout.permissionRequiredViewGroup.gone()
     }
 
@@ -189,10 +248,11 @@ class ContactListFragment : Fragment(), HandleItemClick {
         binding.lottieLoader.gone()
         binding.stateView.gone()
         binding.recyclerView.layoutAnimation =
-            AnimationUtils.loadLayoutAnimation(context,
+            AnimationUtils.loadLayoutAnimation(
+                context,
                 R.anim.recyclerview_layout_anim
             )
-        binding.searchBar.visible()
+        binding.searchView.visible()
         binding.recyclerView.visible()
         if (result.isEmpty()) {
             showEmptyState()
@@ -202,14 +262,14 @@ class ContactListFragment : Fragment(), HandleItemClick {
 
     private fun handleErrorState() {
         binding.recyclerView.gone()
-        binding.searchBar.gone()
+        binding.searchView.gone()
         binding.stateView.text = stringRes(R.string.something_went_wrong)
         binding.stateView.visible()
     }
 
     private fun showEmptyState() {
         binding.permissionRequiredLayout.permissionRequiredViewGroup.gone()
-        binding.searchBar.visible()
+        binding.searchView.visible()
         binding.stateView.text = stringRes(R.string.wow_so_empty)
         binding.stateView.visible()
     }

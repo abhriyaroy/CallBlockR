@@ -35,4 +35,5 @@
     <string name="contact_unblocked">Contact unblocked</string>
     <string name="empty_call_log">Your call log is empty</string>
     <string name="empty_contacts">Your call log is empty</string>
+    <string name="search_contact_hint">Search contact name or number</string>
 </resources>

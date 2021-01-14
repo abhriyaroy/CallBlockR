@@ -13,7 +13,6 @@ import com.abhriya.callblockr.util.ResourceState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase: ContactsUseCase) :
     ViewModel() {
@@ -24,13 +23,15 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
     val blockedContactLiveData: LiveData<ResourceState<List<ContactModel>>>
         get() = _blockedContactsLiveData
 
-    private var _savedAvailableContactsLiveData =
+    private var _allContactsToShowLiveData =
         MutableLiveData<ResourceState<List<ContactModel>>>()
-    val savedAvailableContactLiveData: LiveData<ResourceState<List<ContactModel>>>
-        get() = _savedAvailableContactsLiveData
+    val allContactsToShowLiveData: LiveData<ResourceState<List<ContactModel>>>
+        get() = _allContactsToShowLiveData
 
     private val _callLogList : MutableLiveData<List<CallLogModel>> = MutableLiveData()
     val callLogList : MutableLiveData<List<CallLogModel>> = _callLogList
+
+    private var allContactsList = listOf<ContactModel>()
 
     fun getAllBlockedContacts() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -53,7 +54,7 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
     ) {
         when (updateReceiver) {
             blockedContactLiveData -> _blockedContactsLiveData
-            else -> _savedAvailableContactsLiveData
+            else -> _allContactsToShowLiveData
         }.let {
             viewModelScope.launch(Dispatchers.IO) {
                 it.postValue(ResourceState.loading())
@@ -78,7 +79,7 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
     ) {
         when (updateReceiver) {
             blockedContactLiveData -> _blockedContactsLiveData
-            else -> _savedAvailableContactsLiveData
+            else -> _allContactsToShowLiveData
         }.let {
             try {
                 viewModelScope.launch(Dispatchers.IO) {
@@ -101,7 +102,7 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
 
     fun getAllSavedContacts() {
         viewModelScope.launch(Dispatchers.IO) {
-            _savedAvailableContactsLiveData.postValue(ResourceState.loading())
+            _allContactsToShowLiveData.postValue(ResourceState.loading())
             try {
                 contactsUseCase.getAllSavedContacts()
                     .let {
@@ -111,10 +112,11 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
                         })
                         list
                     }.also {
-                        _savedAvailableContactsLiveData.postValue(ResourceState.success(it))
+                        allContactsList = it
+                        _allContactsToShowLiveData.postValue(ResourceState.success(it))
                     }
             } catch (dataLayerException: DataLayerException) {
-                _savedAvailableContactsLiveData.postValue(
+                _allContactsToShowLiveData.postValue(
                     ResourceState.error(dataLayerException.message, dataLayerException)
                 )
             }
@@ -125,6 +127,64 @@ class ContactsViewModel @ViewModelInject constructor(private val contactsUseCase
         viewModelScope.launch(Dispatchers.IO) {
             _callLogList.postValue(contactsUseCase.getCallLog())
         }
+    }
+
+    fun searchAllContacts(stringToSearch : String?){
+        if(stringToSearch?.isNullOrEmpty()!=true){
+            viewModelScope.launch(Dispatchers.IO) {
+                fuzzySearch(stringToSearch).let {
+                    if(it!=null) {
+                        _allContactsToShowLiveData.postValue(ResourceState.success(it))
+                    } else {
+                        _allContactsToShowLiveData.postValue(ResourceState.success(listOf()))
+                    }
+                }
+            }
+        } else {
+            _allContactsToShowLiveData.postValue(ResourceState.success(allContactsList))
+        }
+    }
+
+    fun closeSearch(){
+        _allContactsToShowLiveData.value = ResourceState.success(allContactsList)
+    }
+
+
+    private fun fuzzySearch(str: String): List<ContactModel>? {
+        val filterList: MutableList<ContactModel> =
+            ArrayList<ContactModel>() // 过滤后的list
+        //if (str.matches("^([0-9]|[/+])*$")) {// 正则表达式 匹配号码
+        if (str.matches(Regex("^([0-9]|[/+]).*"))) { // 正则表达式 匹配以数字或者加号开头的字符串(包括了带空格及-分割的号码)
+            val simpleStr = str.replace("\\-|\\s".toRegex(), "")
+            for (contact in allContactsList) {
+                if (contact.phoneNumber != null && contact.name != null) {
+                    if (contact.phoneNumber.contains(simpleStr) || contact.name.contains(str)) {
+                        if (!filterList.contains(contact)) {
+                            filterList.add(contact)
+                        }
+                    }
+                }
+            }
+        } else {
+            for (contact in allContactsList) {
+                if (contact.phoneNumber != null && contact.name != null) {
+                    val isNameContains: Boolean = contact.name.toLowerCase().contains(str.toLowerCase())
+                    val isSortKeyContains: Boolean =
+                        contact.name.toLowerCase().replace(" ", "")
+                            .contains(str.toLowerCase())
+                    val isSimpleSpellContains: Boolean =
+                        contact.name.toLowerCase().contains(str.toLowerCase())
+                    val isWholeSpellContains: Boolean =
+                        contact.name.toLowerCase().contains(str.toLowerCase())
+                    if (isNameContains || isSortKeyContains || isSimpleSpellContains || isWholeSpellContains) {
+                        if (!filterList.contains(contact)) {
+                            filterList.add(contact)
+                        }
+                    }
+                }
+            }
+        }
+        return filterList
     }
 
 }

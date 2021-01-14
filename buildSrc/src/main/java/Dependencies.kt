@@ -35,8 +35,7 @@ object Versions {
     const val bottomBar = "0.2"
     const val viewPager = "1.0.0"
     const val fabulousFilter = "0.0.5"
-    const val searchBar = "0.8.5"
-
+    const val fuzzySearch = "1.3.1"
     // Test
     const val junit = "4.12"
     const val junit_extension = "1.1.2"
@@ -106,7 +105,7 @@ object Libs {
 
     const val fabulousBottomBar = "com.allattentionhere:fabulousfilter:${Versions.fabulousFilter}"
 
-    const val searchBar = "com.github.mancj:MaterialSearchBar:${Versions.searchBar}"
+    const val fuzzySearch = "me.xdrop:fuzzywuzzy:${Versions.fuzzySearch}"
 
 }
 
