@@ -26,16 +26,16 @@ It implements:-
 
 ## UI Samples
 <p align="center">
-  <img src="readme/Callblockr_blockedcontacts.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
-  <img src="readme/Callblockr_blocknumbermanually.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
+  <img src="readme/Callblockr_blockedcontacts.jpg" alt="Explore Wallpapers" width=425 height=325 hspace="2">
+  <img src="readme/Callblockr_blocknumbermanually.jpg" alt="Explore Wallpapers" width=425 height=325 hspace="2">
 </p> 
 <p align="center">
-  <img src="readme/Callblockr_calllog.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
-  <img src="readme/Callblockr_allcontacts.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
+  <img src="readme/Callblockr_calllog.jpg" alt="Explore Wallpapers" width=425 height=325 hspace="2">
+  <img src="readme/Callblockr_allcontacts.jpg" alt="Explore Wallpapers" width=425 height=325 hspace="2">
 </p>
 <p align="center">
-  <img src="readme/Callblockr_searchcontact.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
-  <img src="readme/Callblockr_notification.jpg" alt="Explore Wallpapers" width=450 height=350 hspace="2">
+  <img src="readme/Callblockr_searchcontact.jpg" alt="Explore Wallpapers" width=425 height=325 hspace="2">
+  <img src="readme/Callblockr_notification.jpg" alt="Explore Wallpapers" width=425 height=325 hspace="2">
 </p>
 
 ## Features
@@ -54,7 +54,7 @@ Using CallBlockR you can
 This project should work right away after cloning.
               
 ## Acknowledgements
-Special thanks to [Deep Joshi](https://twitter.com/imdeepjoshi) for providing the app icon
+Special thanks to [Deep Joshi](https://twitter.com/imdeepjoshi) for providing the awesome app icon!
 
 ## Request to you
 If you like it, please leave a ⭐ on this repository 😁
