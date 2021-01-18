@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -8,6 +10,17 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("release") {
+            val keystorePropertiesFile = project.file("signing.properties")
+            val keystoreProperties = Properties()
+            keystoreProperties.load(keystorePropertiesFile.inputStream())
+            storeFile = File(keystorePropertiesFile.parentFile, keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+        }
+    }
     compileSdkVersion(Apps.compileSdk)
     buildToolsVersion = Apps.buildToolsVersion
 
@@ -35,6 +48,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     buildFeatures {
