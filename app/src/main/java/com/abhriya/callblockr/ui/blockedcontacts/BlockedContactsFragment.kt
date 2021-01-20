@@ -111,7 +111,7 @@ class BlockedContactsFragment : Fragment(),
             if (systemPermissionUtil.getMissingPermissionsArray(it).isNotEmpty()) {
                 if (!isPermissionDeniedBefore) {
                     isPermissionDeniedBefore = true
-                    obtainPermission()
+
                 }
             } else {
                 binding.permissionRequiredLayout.permissionRequiredViewGroup.gone()
@@ -129,6 +129,7 @@ class BlockedContactsFragment : Fragment(),
                 getListOfRequiredPermissions()
             )
         ).run {
+            this
             requestPermissions(
                 this,
                 BLOCKED_CONTACTS_FRAGMENT_PERMISSION_REQUEST_VALUE
@@ -219,7 +220,6 @@ class BlockedContactsFragment : Fragment(),
             mutableListOf(
                 Manifest.permission.CALL_PHONE,
                 Manifest.permission.READ_PHONE_STATE
-//                Manifest.permission.READ_CALL_LOG
             )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             requiredPermissions.add(Manifest.permission.ANSWER_PHONE_CALLS)

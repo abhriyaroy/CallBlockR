@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Build
 import android.telecom.TelecomManager
 import android.telephony.TelephonyManager
+import android.util.Log
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import com.abhriya.commons.util.stringRes
@@ -13,6 +14,8 @@ import com.abhriya.datasource.local.LocalDataSource
 import com.android.internal.telephony.ITelephony
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
+
 
 interface PhoneReceiver {
     fun onPhoneStateChange(
@@ -70,14 +73,36 @@ class PhoneReceiverImpl(
         onNotificationClickIntent: Intent
     ) {
         if (!ALREADY_ON_CALL) {
-            val endedCallSuccessFully =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    endCallOnApi28AndAbove(context)
-                } else {
-                    endCallOnApiPre28(context)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                try {
+                    val telecomManager = Objects.requireNonNull(
+                        context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
+                    )
+                    if (telecomManagerEndCall(telecomManager)) {
+                        Log.i(this.javaClass.name, "endCall() ended call using TelecomManager")
+                    } else {
+                        Log.w(this.javaClass.name,"endCall() TelecomManager returned false")
+                    }
+                } catch (e: Exception) {
+                    Log.w(this.javaClass.name, "endCall() error while ending call with TelecomManager", e)
                 }
-            if (!endedCallSuccessFully) {
-                // Handle accordingly
+            } else {
+                try {
+                    val tm = Objects.requireNonNull(
+                        context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+                    )
+                    val m = tm.javaClass.getDeclaredMethod(ITELEPHONY_METHOD)
+                    m.isAccessible = true
+                    val telephony =
+                        Objects.requireNonNull(m.invoke(tm) as ITelephony)
+                    if (telephony.endCall()) {
+                        Log.i(this.javaClass.name,"endCall() ended call using ITelephony")
+                    } else {
+                        Log.w(this.javaClass.name,"endCall() ITelephony returned false")
+                    }
+                } catch (e: Exception) {
+                    Log.w(this.javaClass.name, "endCall() error while ending call with ITelephony", e)
+                }
             }
         }
         val notificationBodyIdentifier: String? =
@@ -90,34 +115,13 @@ class PhoneReceiverImpl(
         )
     }
 
-    @SuppressLint("MissingPermission")
+    // no choice
+    @SuppressLint("MissingPermission") // maybe shouldn't
     @RequiresApi(Build.VERSION_CODES.P)
-    private fun endCallOnApi28AndAbove(context: Context): Boolean {
-        val telecomManager =
-            context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
-        return try {
-            telecomManager.endCall()
-            true
-        } catch (e: Exception) {
-            false
-        }
+    private fun telecomManagerEndCall(telecomManager: TelecomManager): Boolean {
+        return telecomManager.endCall()
     }
 
-    @SuppressLint("SoonBlockedPrivateApi")
-    private fun endCallOnApiPre28(context: Context): Boolean {
-        val tm =
-            context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        return try {
-            val m =
-                tm.javaClass.getDeclaredMethod(ITELEPHONY_METHOD)
-            m.isAccessible = true
-            val telephony: ITelephony = m.invoke(tm) as ITelephony
-            telephony.endCall()
-            true
-        } catch (e: Exception) {
-            false
-        }
-    }
 
     companion object {
         private var ALREADY_ON_CALL = false
