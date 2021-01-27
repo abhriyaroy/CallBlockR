@@ -26,16 +26,16 @@ It implements:-
 
 ## UI Samples
 <p align="center">
-  <img src="readme/Callblockr_blockedcontacts.jpg" alt="Explore Wallpapers" width=425 height=325 hspace="2">
-  <img src="readme/Callblockr_blocknumbermanually.jpg" alt="Explore Wallpapers" width=425 height=325 hspace="2">
+  <img src="readme/Callblockr_blockedcontacts.jpg" alt="Explore Wallpapers" width=410 height=310 hspace="2">
+  <img src="readme/Callblockr_blocknumbermanually.jpg" alt="Explore Wallpapers" width=410 height=310 hspace="2">
 </p> 
 <p align="center">
-  <img src="readme/Callblockr_calllog.jpg" alt="Explore Wallpapers" width=425 height=325 hspace="2">
-  <img src="readme/Callblockr_allcontacts.jpg" alt="Explore Wallpapers" width=425 height=325 hspace="2">
+  <img src="readme/Callblockr_calllog.jpg" alt="Explore Wallpapers" width=410 height=310 hspace="2">
+  <img src="readme/Callblockr_allcontacts.jpg" alt="Explore Wallpapers" width=410 height=310 hspace="2">
 </p>
 <p align="center">
-  <img src="readme/Callblockr_searchcontact.jpg" alt="Explore Wallpapers" width=425 height=325 hspace="2">
-  <img src="readme/Callblockr_notification.jpg" alt="Explore Wallpapers" width=425 height=325 hspace="2">
+  <img src="readme/Callblockr_searchcontact.jpg" alt="Explore Wallpapers" width=410 height=310 hspace="2">
+  <img src="readme/Callblockr_notification.jpg" alt="Explore Wallpapers" width=410 height=310 hspace="2">
 </p>
 
 ## Features
@@ -47,8 +47,9 @@ Using CallBlockR you can
 
 
 ## Architecture
-
-
+<p align="center">
+  <img src="readme/architecture_flowchart.png" alt="Architecture" hspace="2">
+</p>
 
 ## Installation
 This project should work right away after cloning.
