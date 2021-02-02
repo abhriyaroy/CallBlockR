@@ -46,7 +46,7 @@ class NotificationsProviderImpl(private val systemPermissionUtil: SystemPermissi
             val channel = NotificationChannel(
                 NOTIFICATION_ID,
                 context.stringRes(R.string.app_name),
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_MIN
             )
             channel.description = NOTIFICATION_CHANNEL_DESCRIPTION
             notificationManager.createNotificationChannel(channel)
@@ -135,7 +135,7 @@ class NotificationsProviderImpl(private val systemPermissionUtil: SystemPermissi
     private fun getListOfRequiredPermissions(): List<String> {
         val requiredPermissions: MutableList<String> =
             mutableListOf(
-                Manifest.permission.CALL_PHONE,
+//                Manifest.permission.CALL_PHONE,
                 Manifest.permission.READ_PHONE_STATE
 //                Manifest.permission.READ_CALL_LOG
             )

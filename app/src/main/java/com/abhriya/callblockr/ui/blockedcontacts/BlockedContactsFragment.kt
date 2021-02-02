@@ -218,7 +218,7 @@ class BlockedContactsFragment : Fragment(),
     private fun getListOfRequiredPermissions(): List<String> {
         val requiredPermissions: MutableList<String> =
             mutableListOf(
-                Manifest.permission.CALL_PHONE,
+//                Manifest.permission.CALL_PHONE,
                 Manifest.permission.READ_PHONE_STATE
             )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
