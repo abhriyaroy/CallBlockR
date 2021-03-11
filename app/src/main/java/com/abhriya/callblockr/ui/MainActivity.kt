@@ -51,10 +51,10 @@ class MainActivity : AppCompatActivity() {
         val adapter = FragmentPagerItemAdapter(
             supportFragmentManager, FragmentPagerItems.with(this)
                 .add(R.string.blocked_contacts_fragment_name, BlockedContactsFragment::class.java)
-                .add(
-                    R.string.call_log_fragment_name,
-                    CallLogFragment::class.java
-                )
+//                .add(
+//                    R.string.call_log_fragment_name,
+//                    CallLogFragment::class.java
+//                )
                 .add(
                     R.string.unblocked_contacts_fragment_name,
                     ContactListFragment::class.java

@@ -4,9 +4,9 @@
         drawable="@drawable/ic_blocked"
         text="@string/blocked" />
 
-    <tab
-        drawable="@drawable/ic_phone_call"
-        text="@string/call_log_fragment_name" />
+<!--    <tab-->
+<!--        drawable="@drawable/ic_phone_call"-->
+<!--        text="@string/call_log_fragment_name" />-->
 
     <tab
         drawable="@drawable/ic_contact_book"

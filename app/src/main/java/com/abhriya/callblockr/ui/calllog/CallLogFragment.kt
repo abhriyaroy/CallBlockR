@@ -179,7 +179,8 @@ class CallLogFragment : Fragment(),
     }
 
     private fun getListOfRequiredPermissions(): List<String> {
-        return mutableListOf(Manifest.permission.READ_CALL_LOG)
+//        return mutableListOf(Manifest.permission.READ_CALL_LOG)
+        return mutableListOf()
     }
 
     private fun showGrantPermissionLayout() {
